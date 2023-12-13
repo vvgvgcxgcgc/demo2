@@ -1,4 +1,4 @@
-package Domain;
+package com.example.demo.Domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,21 +14,20 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name ="Order")
+@Table(name ="Orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "OrderId")
     private Long id;
     private LocalDateTime time;
+    private Integer paybycash;
+    private Integer orderstatus;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "UserId", referencedColumnName = "UserId")
+    private User  usr ;
 
-    private Integer Paybycash;
-    private Integer Orderstatus;
-    @ManyToOne
-    @JoinColumn(name = "UserId")
-    private User  user ;
-
-    @OneToMany(mappedBy = "order")
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "od")
     private List<Product_Order> order_productList;
 
 

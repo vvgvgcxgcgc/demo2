@@ -1,4 +1,4 @@
-package Domain;
+package com.example.demo.Domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name ="Menu")
 public class Menu {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MenuId")
     private Long id;
     private Integer Menustatus;
@@ -24,8 +24,8 @@ public class Menu {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Menu_Product ",
-            joinColumns = { @JoinColumn(name = "MenuId") },
-            inverseJoinColumns = { @JoinColumn(name = "ProductId") }
+            joinColumns = { @JoinColumn(name = "MenuId",referencedColumnName = "MenuId") },
+            inverseJoinColumns = { @JoinColumn(name = "ProductId",referencedColumnName = "ProductId") }
     )
     private List<Product> productList;
 

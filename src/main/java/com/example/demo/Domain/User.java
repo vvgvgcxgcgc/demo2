@@ -1,11 +1,10 @@
-package Domain;
+package com.example.demo.Domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.List;
 
@@ -17,22 +16,24 @@ import java.util.List;
 @Table(name ="User")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
     private Long id;
 
     private String Fullname;
     private String Phonenumber;
-    private String Username;
+    private String username;
     private String Password;
     private Integer Checkuser;
     private Integer Userpoint;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "usr")
     private List<Order>  orders;
     @ElementCollection
     private List<String> addresses;
     @ManyToMany(mappedBy = "userList")
     private List<Voucher> voucherList;
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "user")
+    private List<Feedback> fb;
 
 
 

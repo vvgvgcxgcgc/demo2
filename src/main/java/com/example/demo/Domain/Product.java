@@ -1,4 +1,4 @@
-package Domain;
+package com.example.demo.Domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +26,9 @@ public class Product {
     private String Info;
     @ManyToMany(mappedBy = "productList")
     private List<Menu> menuList;
-    @OneToMany(mappedBy = "product")
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "pro")
     private List<Product_Order> product_orderList;
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "product")
+    private List<Feedback> fb;
+
 }

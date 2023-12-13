@@ -1,4 +1,4 @@
-package Domain;
+package com.example.demo.Domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 @Table(name ="Product_Order")
 public class Product_Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POId")
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "ProductId",referencedColumnName = "ProductId")
+    private Product pro;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "OrderId",referencedColumnName = "OrderId")
+    private Order od;
 
     private Integer amount;
 

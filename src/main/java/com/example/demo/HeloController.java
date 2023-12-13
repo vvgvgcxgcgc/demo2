@@ -1,2 +1,12 @@
-package com.example.demo;public class HeloController {
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HeloController {
+    @GetMapping(path = "/hello")
+    public String Hello(){
+        return "Hello Huy";
+    }
 }
