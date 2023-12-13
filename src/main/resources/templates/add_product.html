@@ -1,31 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Add Product Form</title>
+    <title>Add Product</title>
     <link rel="stylesheet" type="text/css" href="add_product.css">
-    <script src="script.js"></script>
 </head>
 
 <body>
+
     <div class="container">
         <div class="form-wrapper">
             <h2>Add Product</h2>
-            <form action="addProduct" method="POST" enctype="multipart/form-data">
-                <label for="product_name">Product Name:</label>
-                <input type="text" id="product_name" name="product_name" required><br><br>
+            <form th:action="@{}" method="post"
+                th:object="${}">
 
-                <label for="price">Price:</label>
-                <input type="text" id="price" name="price" required><br><br>
+                <div class="product-image">
+                    <div class="imglabel" id="imglabel">Product Image:</div>
 
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" required></textarea><br><br>
-                
-                <label for="image">Add Image:</label>
-                <input type="file" id="image" name="image" required><br><br>
+                    <img src="" width="300" height=auto alt="Product Image" id="imgg">
+                </div>
 
-                <input type="submit" value="Add Product">
-                <input type="reset" value="Reset">
+                <div class="product-details">
+                    <div class="form-group">
+                        <label class="inputLabel" for="product_name">Product Name:</label>
+                        <input type="text" id="product_name" name="productName" th:field="*{}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="text" id="price" name="price" th:field="*{}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" th:field="*{}" required></textarea>
+                    </div>
+
+                    <div class="replaceimg-group">
+                        <label for="image">Add image:</label>
+                        <input type="file" id="image" name="image">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" formaction="@{}" class="btn btn-secondary">Cancel</button>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
