@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent;
+}
+
+.container {
+    width: 600px;
+    padding: 50px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    display: ruby;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-block;
+    border-color: #4CAF50;
+}
+
+input[type="reset"] {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: inline-block;
+    border-color: #4CAF50;
+}
