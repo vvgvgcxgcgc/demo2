@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/" >
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
@@ -31,14 +31,13 @@
                             <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Đăng nhập
                             </button>
+                            <div class="text-center">
+                                <a class="small" href="/forgot-password">Quên mật khẩu?</a>
+                            </div>
+                            <div class="text-center">
+                                <p class="small">Chưa có tài khoản? <a href="register.html">Đăng kí ngay!</a></p>
+                            </div>
                         </form>
-                        <hr>
-                        <div class="text-center">
-                            <a class="small" href="/forgot-password">Quên mật khẩu?</a>
-                        </div>
-                        <div class="text-center">
-                            <a class="small" href="/login">Chưa có tài khoản? Đăng kí ngay!</a>
-                        </div>
                     </div>
                 </div>
             </div>
