@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "https://www.thymeleaf.org/" >
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
@@ -16,28 +16,29 @@
                             <h1 class="h4 text-gray-900 mb-4">Đăng nhập</h1>
                         </div>
 <!--                        Tên đăng nhập hoặc mật khẩu không đúng-->
-                        <div th:if = "${}">
-                            <p class = "alert alert-danger" th:text = "${}"></p>
+                        <div th:if = "${ErrorPass}">
+                            <p class = "alert alert-danger" th:text = "${ErrorPass}"></p>
                         </div>
-                        <form th:action="@{/}" th:object = "${}" method="post">
+                        <form th:action="@{/login}" th:object = "${userdt}" method="post">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" th:field = "*{}" id="username"
+                                <input type="text" class="form-control form-control-user" th:field = "*{Username}" id="username"
                                        placeholder="Tên đăng nhập" name="username" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-user" th:field="*{}" id="password"
-                                       placeholder="Mật khẩu" name="password" required>
+                                <input type="password" class="form-control form-control-user" th:field="*{Password}" id="password"
+                                       placeholder="Mật khẩu" pattern=".{6,}" name="password" title="Mật khẩu phải ít nhất 6 ký tự" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">
                                 Đăng nhập
                             </button>
-                            <div class="text-center">
-                                <a class="small" href="/forgot-password">Quên mật khẩu?</a>
-                            </div>
-                            <div class="text-center">
-                                <p class="small">Chưa có tài khoản? <a href="register.html">Đăng kí ngay!</a></p>
-                            </div>
                         </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="/forgot-password">Quên mật khẩu?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="/register">Chưa có tài khoản? Đăng kí ngay!</a>
+                        </div>
                     </div>
                 </div>
             </div>

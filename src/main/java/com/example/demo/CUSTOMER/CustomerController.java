@@ -56,6 +56,31 @@ public class CustomerController {
         return "register";
 
     }
+    @GetMapping("/login")
+    public String ShowLogin(Model model){
+        Userdt userdt = Userdt.builder().build();
+        model.addAttribute("userdt",userdt);
+        return "login";
+    }
+    @PostMapping("/login")
+    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
+                          BindingResult result,
+                          Model model ){
+        if(result.hasErrors()){
+            model.addAttribute("userdt",userdt);
+            return "register";
+        }
+        String username = userdt.getUsername();
+        User user = userser.findByUsername(username);
+        if(user == null){
+            model.addAttribute("userdt",userdt);
+            model.addAttribute("ErrorPass","username is not registered");
+            return "login";
+        }
+        return "redirect:/home";
+
+
+    }
 
 
 }
