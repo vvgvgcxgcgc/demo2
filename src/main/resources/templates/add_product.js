@@ -9,5 +9,5 @@ function validateForm() {
 }
 
 function goBack() {
-    window.location.href = "list.html";
+    window.location.href = "list_product.html";
 }
