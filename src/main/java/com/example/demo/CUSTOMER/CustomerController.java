@@ -21,6 +21,11 @@ import static java.lang.Math.log;
 public class CustomerController {
     private final Userser userser;
 
+    @GetMapping("/homepage")
+    public String showHomePage(Model model){
+        return "homepage";
+    }
+
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         Userdt userdt = Userdt.builder().build();
