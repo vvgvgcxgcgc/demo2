@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,11 @@ public class CustomerController {
     @GetMapping("/homepage")
     public String showHomePage(Model model){
         return "homepage";
+    }
+
+    @GetMapping("/checkout")
+    public String showCheckOut(Model model){
+        return "checkout";
     }
 
     @GetMapping("/register")
