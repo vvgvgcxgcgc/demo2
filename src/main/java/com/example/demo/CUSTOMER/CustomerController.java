@@ -20,7 +20,10 @@ import static java.lang.Math.log;
 
 public class CustomerController {
     private final Userser userser;
-
+   @GetMapping("/add_product")
+   public String add(){
+       return "add_product";
+   }
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         Userdt userdt = Userdt.builder().build();
