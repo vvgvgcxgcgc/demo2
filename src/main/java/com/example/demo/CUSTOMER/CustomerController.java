@@ -21,6 +21,20 @@ import static java.lang.Math.log;
 
 public class CustomerController {
     private final Userser userser;
+    @GetMapping("/contact")
+    public String showContact(Model model){
+        return "contact";
+    }
+
+    @GetMapping("shoping-cart")
+    public String showShoppingCart(Model model){
+        return "shoping-cart";
+    }
+
+    @GetMapping("shop-grid")
+    public String showShopGrid(Model model){
+        return "shop-grid";
+    }
 
     @GetMapping("/homepage")
     public String showHomePage(Model model){
