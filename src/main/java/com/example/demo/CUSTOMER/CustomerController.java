@@ -27,6 +27,11 @@ public class CustomerController {
         return "homepage";
     }
 
+    @GetMapping("shop-details")
+    public String showShopDetails(Model model){
+        return "shop-details";
+    }
+
     @GetMapping("/checkout")
     public String showCheckOut(Model model){
         return "checkout";
