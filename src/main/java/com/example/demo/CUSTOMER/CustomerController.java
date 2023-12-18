@@ -39,6 +39,7 @@ public class CustomerController {
     public String showAdminOrders(Model model){
         return "admin-orders";
     }
+
     @GetMapping("/admin-product-result")
     public String showAdminProductResult(Model model){
         return "admin-product-result";
@@ -51,6 +52,10 @@ public class CustomerController {
     @GetMapping("/admin-update-product")
     public String showAdminUpdateProduct(Model model){
         return "admin-update-product";
+    }
+    @GetMapping("/admin-dashboard")
+    public String showAdminDashboard(Model model){
+        return "admin-dashboard";
     }
 
     @GetMapping("/contact")
