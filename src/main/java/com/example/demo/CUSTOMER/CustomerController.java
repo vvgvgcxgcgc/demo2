@@ -21,17 +21,49 @@ import static java.lang.Math.log;
 
 public class CustomerController {
     private final Userser userser;
+    @GetMapping("/admin-add-product")
+    public String showAdminAddProduct(Model model){
+        return "admin-add-product";
+    }
+
+    @GetMapping("/admin-categories")
+    public String showAdminCategories(Model model){
+        return "admin-categories";
+    }
+
+    @GetMapping("/admin-forgot-password")
+    public String showAdminForgotPassword(Model model){
+        return "admin-forgot-password";
+    }
+    @GetMapping("/admin-orders")
+    public String showAdminOrders(Model model){
+        return "admin-orders";
+    }
+    @GetMapping("/admin-product-result")
+    public String showAdminProductResult(Model model){
+        return "admin-product-result";
+    }
+    @GetMapping("/admin-products")
+    public String showAdminProducts(Model model){
+        return "admin-products";
+    }
+
+    @GetMapping("/admin-update-product")
+    public String showAdminUpdateProduct(Model model){
+        return "admin-update-product";
+    }
+
     @GetMapping("/contact")
     public String showContact(Model model){
         return "contact";
     }
 
-    @GetMapping("shoping-cart")
+    @GetMapping("/shoping-cart")
     public String showShoppingCart(Model model){
         return "shoping-cart";
     }
 
-    @GetMapping("shop-grid")
+    @GetMapping("/shop-grid")
     public String showShopGrid(Model model){
         return "shop-grid";
     }
@@ -41,7 +73,7 @@ public class CustomerController {
         return "homepage";
     }
 
-    @GetMapping("shop-details")
+    @GetMapping("/shop-details")
     public String showShopDetails(Model model){
         return "shop-details";
     }
