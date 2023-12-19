@@ -21,10 +21,10 @@ import static java.lang.Math.log;
 
 public class CustomerController {
     private final Userser userser;
-    @GetMapping("/admin-add-product")
-    public String showAdminAddProduct(Model model){
-        return "admin-add-product";
-    }
+//    @GetMapping("/admin-add-product")
+//    public String showAdminAddProduct(Model model){
+//        return "admin-add-product";
+//    }
 
     @GetMapping("/admin-categories")
     public String showAdminCategories(Model model){
@@ -44,10 +44,10 @@ public class CustomerController {
     public String showAdminProductResult(Model model){
         return "admin-product-result";
     }
-    @GetMapping("/admin-products")
-    public String showAdminProducts(Model model){
-        return "admin-products";
-    }
+//    @GetMapping("/admin-products")
+//    public String showAdminProducts(Model model){
+//        return "admin-products";
+//    }
 
     @GetMapping("/admin-update-product")
     public String showAdminUpdateProduct(Model model){

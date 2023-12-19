@@ -24,6 +24,8 @@ public class Product {
     private Long Price;
     @Column(name ="ProductInfo")
     private String Info;
+    private Boolean deleted = false;
+    private String Image;
     @ManyToMany(mappedBy = "productList")
     private List<Menu> menuList;
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "pro")

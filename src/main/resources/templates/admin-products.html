@@ -58,9 +58,9 @@
                         <tbody>
                         <tr th:each = "product : ${products}">
                             <th scope="row" th:text = "${product.name}"></th>
-                            <td th:text = "${product.category.name}"></td>
-                            <td th:text = "${product.costPrice}"></td>
-                            <td th:text = "${product.currentQuantity}"></td>
+                            <td text = "Food"></td>
+                            <td th:text = "${product.Price}"></td>
+<!--                            <td th:text = "${product.currentQuantity}"></td>-->
                             <td>
                                 <img class = "my-product-image" style="height: 40px; width: 40px;" alt=""
                                      th:src="'data:image/jpeg;base64,' + ${product.image}">
@@ -78,20 +78,20 @@
 
 
                     <!--Pagination  -->
-                    <nav aria-label="...">
-                        <ul class="pagination" >
-                            <li th:if= "${currentPage != 0}" class="page-item ">
-                                <a th:href = "@{'/admin-products/' + ${currentPage - 1}}" class="page-link">Previous</a>
-                            </li >
-                            <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">
-                                <a th:href = "@{'/admin-products/' + ${i - 1}}" class="page-link" href="#">
-				     <span th:text = "${i}">
-				     </span></a></li>
-                            <li th:if = "${currentPage + 1 != totalPages}" class="page-item">
-                                <a th:href = "@{'/admin-products/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+<!--                    <nav aria-label="...">-->
+<!--                        <ul class="pagination" >-->
+<!--                            <li th:if= "${currentPage != 0}" class="page-item ">-->
+<!--                                <a th:href = "@{'/admin-products/' + ${currentPage - 1}}" class="page-link">Previous</a>-->
+<!--                            </li >-->
+<!--                            <li th:each = "i : ${#numbers.sequence(1, totalPages)}" th:classappend = "${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
+<!--                                <a th:href = "@{'/admin-products/' + ${i - 1}}" class="page-link" href="#">-->
+<!--				     <span th:text = "${i}">-->
+<!--				     </span></a></li>-->
+<!--                            <li th:if = "${currentPage + 1 != totalPages}" class="page-item">-->
+<!--                                <a th:href = "@{'/admin-products/' + ${currentPage + 1}}" class="page-link" href="#">Next</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </nav>-->
                     <!--Pagination  -->
                 </div>
                 <!-- /.container-fluid -->

@@ -27,11 +27,18 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form class="form-horizontal" th:action="@{/save-product}" method="post" th:object = "${productDto}"
+                    <form class="form-horizontal" th:action="@{/save-product}" method="post" th:object = "${productDt}"
                         enctype="multipart/form-data">
                         <fieldset>
                             <!-- Form Name -->
                             <legend>ADD NEW PRODUCT</legend>
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="price">ID</label>
+                                <div class="col-md-4">
+                                    <input id="id" name="id" th:field = "*{id}" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
                             <!-- Text input-->
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="product_name">PRODUCT NAME</label>
@@ -42,39 +49,25 @@
 
                             <!-- Select Basic -->
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="product_categories">PRODUCT CATEGORY</label>
-                                <div class="col-md-4">
-                                    <select id="product_categories" th:field = "*{category}" name="product_categories" class="form-control">
-                                        <option th:value = "null">-SELECT-</option>
-                                        <option th:each = "category : ${categories}"
-                                                th:value = "${category.id}"
-                                                th:text = "${category.name}">
-                                        </option>
-                                    </select>
-                                </div>
+
                             </div>
 
                             <!-- Text input-->
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="description">PRODUCT DESCRIPTION</label>
                                 <div class="col-md-4">
-                                    <input id="description" th:field = "*{description}" name="description" class="form-control input-md" required="" type="text">
+                                    <input id="description" th:field = "*{info}" name="description" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 
                             <!-- Text input-->
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="available_quantity">AVAILABLE QUANTITY</label>
-                                <div class="col-md-4">
-                                    <input id="available_quantity" th:field = "*{currentQuantity}" name="available_quantity" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
+
 
                             <!-- Text input-->
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="price">PRICE</label>
                                 <div class="col-md-4">
-                                    <input id="price" name="price" th:field = "*{costPrice}" class="form-control input-md" required="" type="text">
+                                    <input id="price" name="price" th:field = "*{price}" class="form-control input-md" required="" type="number">
                                 </div>
                             </div>
                             <!-- Text input-->
@@ -84,7 +77,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="image">PRODUCT IMAGE</label>
                                         <div class="col-md-4">
-                                            <input id="image" name="imageProduct" class="input-file" type="file">
+                                            <input id="image" name="imageProduct"th:field = "*{image}" class="input-file" type="file">
                                         </div>
                                     </div>
                                 </div>
