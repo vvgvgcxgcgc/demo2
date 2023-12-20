@@ -48,4 +48,12 @@ public class ProductServiceImp implements ProductService {
     public String getProductImageById(String productId){
         return productRepos.findProductImageById(productId);
     }
+    @Override
+    public void deleteById(String id) {
+        Product product = productRepos.getById(id);
+        product.setDeleted(true);
+
+        productRepos.save(product);
+    }
+
 }

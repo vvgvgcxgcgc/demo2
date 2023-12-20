@@ -13,4 +13,5 @@ public interface ProductService {
     public List<Product> getAllProducts();
     public Product save(MultipartFile imageProduct, Productdt productdt) throws IOException;
     public String getProductImageById(String productId);
+    public void deleteById(String id);
 }

@@ -28,13 +28,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <div class="input-group" style="width: 30%; margin-bottom: 20px;">
-                        <form th:action = "@{/search-products/0}" method = "get">
-                            <input type="text" class="form-control rounded" placeholder="Search" name = "keyword" aria-label="Search"
-                                   aria-describedby="search-addon" />
-                            <button type="submit" class="btn btn-outline-primary">search</button>
-                        </form>
-                    </div>
+<!--                    <div class="input-group" style="width: 30%; margin-bottom: 20px;">-->
+<!--                        <form th:action = "@{/search-products/0}" method = "get">-->
+<!--                            <input type="text" class="form-control rounded" placeholder="Search" name = "keyword" aria-label="Search"-->
+<!--                                   aria-describedby="search-addon" />-->
+<!--                            <button type="submit" class="btn btn-outline-primary">search</button>-->
+<!--                        </form>-->
+<!--                    </div>-->
                     <a th:href="@{/admin-add-product}" class = "btn btn-primary">Add Product</a>
                     <p th:if="${size == 0} ">No Products</p>
                     <div th:if = "${success}" class = "text-center alert alert-success">

@@ -69,5 +69,17 @@ public class AdminController {
         return "redirect:/admin-products";
 
     }
+    @RequestMapping(value = "/delete-product", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String deletedProduct(String id, RedirectAttributes redirectAttributes) {
+        try {
+
+            productService.deleteById(id);
+            redirectAttributes.addFlashAttribute("success", "Deleted successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Deleted failed!");
+        }
+        return "redirect:/admin-products";
+    }
 
 }
