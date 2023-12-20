@@ -35,21 +35,45 @@
 <!--                            <button type="submit" class="btn btn-outline-primary">search</button>-->
 <!--                        </form>-->
 <!--                    </div>-->
-                    <a th:href="@{/admin-add-product}" class = "btn btn-primary">Add Product</a>
+
                     <p th:if="${size == 0} ">No Products</p>
-                    <div th:if = "${success}" class = "text-center alert alert-success">
+                    <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
                         <p th:text = "${success}"></p>
                     </div>
-                    <div th:if = "${error}" class="text-center alert alert-danger">
+                    <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
                         <p th:text = "${error}"></p>
                     </div>
+
+                    <script>
+                        const successMessage = document.getElementById("successMessage");
+                        const errorMessage = document.getElementById("errorMessage");
+
+                        if (successMessage) {
+                            setTimeout(function () {
+                                successMessage.classList.add("fade-out");
+                                setTimeout(function () {
+                                    successMessage.style.display = "none";
+                                }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                        }
+
+                        if (errorMessage) {
+                            setTimeout(function () {
+                                errorMessage.classList.add("fade-out");
+                                setTimeout(function () {
+                                    errorMessage.style.display = "none";
+                                }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                        }
+                    </script>
+
+                    <a th:href="@{/admin-add-product}" class = "btn btn-primary">Add Product</a>
+
                     <table class="table table-bordered" th:if = "${size > 0}">
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
-                            <th scope="col">Category</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Quantity</th>
                             <th scope="col">Image</th>
                             <th scope="col">Update</th>
                             <th scope="col">Action</th>
@@ -58,7 +82,6 @@
                         <tbody>
                         <tr th:each = "product : ${products}">
                             <th scope="row" th:text = "${product.name}"></th>
-                            <td text = "Food"></td>
                             <td th:text = "${product.price}"></td>
 <!--                            <td th:text = "${product.currentQuantity}"></td>-->
                             <td>
@@ -70,7 +93,7 @@
                                 <a th:if="${product.deleted} == true" th:href="@{/enable-product(id = ${product.id})}"
                                    class="btn btn-primary">Enable</a>
                                 <a th:if="${product.deleted} == false" th:href="@{/delete-product(id = ${product.id})}"
-                                   class=" btn btn-danger">Delete</a>
+                                   class=" btn btn-danger">Disable</a>
                             </td>
                         </tr>
                         </tbody>
