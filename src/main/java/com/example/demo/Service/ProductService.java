@@ -12,6 +12,9 @@ import java.util.List;
 public interface ProductService {
     public List<Product> getAllProducts();
     public Product save(MultipartFile imageProduct, Productdt productdt) throws IOException;
+    public Product update(MultipartFile imageProduct, Productdt productdt);
     public String getProductImageById(String productId);
     public void deleteById(String id);
+    public void enableById(String id);
+    public Productdt getById(String id);
 }

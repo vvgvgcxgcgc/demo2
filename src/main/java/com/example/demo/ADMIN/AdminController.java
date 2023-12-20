@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,5 +82,41 @@ public class AdminController {
         }
         return "redirect:/admin-products";
     }
+    @RequestMapping(value = "/enable-product", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String enabledProduct(String id, RedirectAttributes redirectAttributes) {
+        try {
+
+            productService.enableById(id);
+            redirectAttributes.addFlashAttribute("success", "Enabled successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Enabled failed!");
+        }
+        return "redirect:/admin-products";
+    }
+    @GetMapping("/admin-update-product/{id}")
+    public String updateProductForm(@PathVariable("id") String id, Model model) {
+
+        Productdt productdt = productService.getById(id);
+        model.addAttribute("title", "UPDATE Product");
+
+        model.addAttribute("productDt", productdt);
+        return "admin-update-product";
+    }
+    @PostMapping("/admin-update-product/{id}")
+    public String updateProduct(@ModelAttribute("productDt") Productdt productdt,
+                                @RequestParam("imageProduct") MultipartFile imageProduct,
+                                RedirectAttributes redirectAttributes) {
+        try {
+
+            productService.update(imageProduct, productdt);
+            redirectAttributes.addFlashAttribute("success", "Update successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Error server, please try again!");
+        }
+        return "redirect:/admin-products";
+    }
+
 
 }
