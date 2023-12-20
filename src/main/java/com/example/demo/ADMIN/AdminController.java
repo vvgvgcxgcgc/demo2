@@ -5,12 +5,20 @@ import com.example.demo.Service.ProductService;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.rmi.server.LogStream.log;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,6 +44,7 @@ public class AdminController {
         model.addAttribute("size", productdts.size());
         return "admin-products";
     }
+
     @GetMapping("/admin-add-product")
     public String addProductPage(Model model) {
 
@@ -43,6 +52,22 @@ public class AdminController {
 
         model.addAttribute("productDt", new Productdt());
         return "admin-add-product";
+    }
+    @PostMapping("/save-product")
+    public String Saveproduct(@ModelAttribute("productDt") Productdt product,
+                            @RequestParam("imageProduct") MultipartFile imageProduct,
+                             RedirectAttributes redirectAttributes){
+        try {
+            System.out.println(product.getId());
+            
+            productService.save(imageProduct, product);
+            redirectAttributes.addFlashAttribute("success", "Add new product successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Failed to add new product!");
+        }
+        return "redirect:/admin-products";
+
     }
 
 }

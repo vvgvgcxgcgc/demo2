@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name ="Product")
 public class Product {
+
     @Id
     @Column(name ="ProductId")
     private String id;
@@ -25,6 +27,8 @@ public class Product {
     @Column(name ="ProductInfo")
     private String Info;
     private Boolean deleted = false;
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     private String Image;
     @ManyToMany(mappedBy = "productList")
     private List<Menu> menuList;

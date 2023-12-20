@@ -59,11 +59,12 @@
                         <tr th:each = "product : ${products}">
                             <th scope="row" th:text = "${product.name}"></th>
                             <td text = "Food"></td>
-                            <td th:text = "${product.Price}"></td>
+                            <td th:text = "${product.price}"></td>
 <!--                            <td th:text = "${product.currentQuantity}"></td>-->
                             <td>
-                                <img class = "my-product-image" style="height: 40px; width: 40px;" alt=""
-                                     th:src="'data:image/jpeg;base64,' + ${product.image}">
+                                <img class = "my-product-image" style="height: 40px; width: 40px"
+                                     th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
+                                ">
                             </td>
                             <td><a th:href="@{/admin-update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a></td>
                             <td>
