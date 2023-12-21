@@ -1,7 +1,10 @@
 package com.example.demo.CUSTOMER;
+import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
+import com.example.demo.Service.ProductService;
 import com.example.demo.Service.Userser;
 import com.example.demo.Service.Userserimp;
+import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.log;
 
 @Controller
@@ -21,72 +27,73 @@ import static java.lang.Math.log;
 
 public class CustomerController {
     private final Userser userser;
+    private final ProductService productService;
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
 //    }
 
-    @GetMapping("/admin-categories")
-    public String showAdminCategories(Model model){
-        return "admin-categories";
-    }
-
-    @GetMapping("/admin-forgot-password")
-    public String showAdminForgotPassword(Model model){
-        return "admin-forgot-password";
-    }
-    @GetMapping("/admin-orders")
-    public String showAdminOrders(Model model){
-        return "admin-orders";
-    }
-
-    @GetMapping("/admin-product-result")
-    public String showAdminProductResult(Model model){
-        return "admin-product-result";
-    }
-//    @GetMapping("/admin-products")
-//    public String showAdminProducts(Model model){
-//        return "admin-products";
+//    @GetMapping("/admin-categories")
+//    public String showAdminCategories(Model model){
+//        return "admin-categories";
 //    }
-
-    @GetMapping("/admin-update-product")
-    public String showAdminUpdateProduct(Model model){
-        return "admin-update-product";
-    }
-    @GetMapping("/admin-dashboard")
-    public String showAdminDashboard(Model model){
-        return "admin-dashboard";
-    }
-
-    @GetMapping("/contact")
-    public String showContact(Model model){
-        return "contact";
-    }
-
-    @GetMapping("/shoping-cart")
-    public String showShoppingCart(Model model){
-        return "shoping-cart";
-    }
-
-    @GetMapping("/shop-grid")
-    public String showShopGrid(Model model){
-        return "shop-grid";
-    }
-
-    @GetMapping("/homepage")
-    public String showHomePage(Model model){
-        return "homepage";
-    }
-
-    @GetMapping("/shop-details")
-    public String showShopDetails(Model model){
-        return "shop-details";
-    }
-
-    @GetMapping("/checkout")
-    public String showCheckOut(Model model){
-        return "checkout";
-    }
+//
+//    @GetMapping("/admin-forgot-password")
+//    public String showAdminForgotPassword(Model model){
+//        return "admin-forgot-password";
+//    }
+//    @GetMapping("/admin-orders")
+//    public String showAdminOrders(Model model){
+//        return "admin-orders";
+//    }
+//
+//    @GetMapping("/admin-product-result")
+//    public String showAdminProductResult(Model model){
+//        return "admin-product-result";
+//    }
+////    @GetMapping("/admin-products")
+////    public String showAdminProducts(Model model){
+////        return "admin-products";
+////    }
+//
+//    @GetMapping("/admin-update-product")
+//    public String showAdminUpdateProduct(Model model){
+//        return "admin-update-product";
+//    }
+//    @GetMapping("/admin-dashboard")
+//    public String showAdminDashboard(Model model){
+//        return "admin-dashboard";
+//    }
+//
+//    @GetMapping("/contact")
+//    public String showContact(Model model){
+//        return "contact";
+//    }
+//
+//    @GetMapping("/shoping-cart")
+//    public String showShoppingCart(Model model){
+//        return "shoping-cart";
+//    }
+//
+//    @GetMapping("/shop-grid")
+//    public String showShopGrid(Model model){
+//        return "shop-grid";
+//    }
+//
+//    @GetMapping("/homepage")
+//    public String showHomePage(Model model){
+//        return "homepage";
+//    }
+//
+//    @GetMapping("/shop-details")
+//    public String showShopDetails(Model model){
+//        return "shop-details";
+//    }
+//
+//    @GetMapping("/checkout")
+//    public String showCheckOut(Model model){
+//        return "checkout";
+//    }
 
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
@@ -146,6 +153,24 @@ public class CustomerController {
         }
         return "redirect:/home";
 
+    }
+    @GetMapping("/homepage")
+    public String Viewhomepage(Model model){
+        List<Product> products = productService.getAllProducts();
+        List<Productdt> productdts = new ArrayList<>();
+        for(Product p:products ){
+            Productdt productdt = Productdt.builder()
+                    .id(p.getId())
+                    .name(p.getName())
+                    .price(p.getPrice())
+                    .info(p.getInfo())
+                    .deleted(p.getDeleted())
+                    .image(p.getImage())
+                    .build();
+            productdts.add(productdt);
+        }
+        model.addAttribute("products", productdts);
+        return "homepage";
 
     }
 
