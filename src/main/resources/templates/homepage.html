@@ -56,30 +56,65 @@
             <div class="col-lg-12">
                 <div class="section-title">
                     <h2>Today's Menu</h2>
+
                 </div>
             </div>
         </div>
 
-<!--    Truyen vao day    -->
-        <div class="row featured__filter" th:each = "product : ${products}" th:if="${product.deleted} == false">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" >
-                        <img class = "my-product-image" style="height: 80px; width: 80px"
-                             th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
-                        <ul class="featured__item__pic__hover">
-                        <!--    Nut them vao gio hang    -->
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <h6 th:text = "${product.name}"></h6>
-                        <h6 th:text = "${product.info}"></h6>
-                        <h5 th:text = "${product.price}"></h5>
-                    </div>
+        <!--    Truyen vao day    -->
+        <div class="row featured__filter">
+            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">
+                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
+                    <!--                                Text báo thêm thành công-->
+                    <p th:text = "${success}"></p>
                 </div>
+                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
+                    <!--                                Text báo thêm thất bại-->
+                    <p th:text = "${error}"></p>
+                </div>
+
+                <script>
+                    const successMessage = document.getElementById("successMessage");
+                    const errorMessage = document.getElementById("errorMessage");
+
+                    if (successMessage) {
+                        setTimeout(function () {
+                            successMessage.classList.add("fade-out");
+                            setTimeout(function () {
+                                successMessage.style.display = "none";
+                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                    }
+
+                    if (errorMessage) {
+                        setTimeout(function () {
+                            errorMessage.classList.add("fade-out");
+                            setTimeout(function () {
+                                errorMessage.style.display = "none";
+                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                    }
+                </script>
+                <!--                            Action add to cart cu Huy sửa vào đây-->
+                <form th:action="@{/}" method="post">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg">
+                            <img class = "my-product-image" style="height: 100%; width: 100%"
+                                 th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
+                            <ul class="featured__item__pic__hover">
+                                <!--    Nut them vao gio hang    -->
+                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6 th:text = "${product.name}"></h6>
+                            <h6 th:text = "${product.info}"></h6>
+                            <h5 th:text = "${product.price}"></h5>
+                        </div>
+                    </div>
+                </form>
             </div>
-<!--            -->
+
 
 <!--        <div class="row featured__filter">-->
 <!--            <div class="col-lg-3 col-md-4 col-sm-6">-->
