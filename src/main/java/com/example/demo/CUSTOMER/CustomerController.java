@@ -25,10 +25,13 @@ public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
 
-    @GetMapping("/INFO_TEST")
-    public String showInfoTest(Model model){
-        return "INFO_TEST";
+    @GetMapping("/my-account")
+    public String showMyAccount(Model model){
+        Userdt userdt = Userdt.builder().build();
+        model.addAttribute("userdt",userdt);
+        return "my-account";
     }
+
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
@@ -66,29 +69,24 @@ public class CustomerController {
 //        return "admin-dashboard";
 //    }
 //
-//    @GetMapping("/contact")
-//    public String showContact(Model model){
-//        return "contact";
-//    }
-//
-//    @GetMapping("/shoping-cart")
-//    public String showShoppingCart(Model model){
-//        return "shoping-cart";
-//    }
-//
-//    @GetMapping("/shop-grid")
-//    public String showShopGrid(Model model){
-//        return "shop-grid";
-//    }
+    @GetMapping("/contact")
+    public String showContact(Model model){
+        return "contact";
+    }
+
+    @GetMapping("/shoping-cart")
+    public String showShoppingCart(Model model){
+        return "shoping-cart";
+    }
+
+    @GetMapping("/shop-grid")
+    public String showShopGrid(Model model){
+        return "shop-grid";
+    }
 //
 //    @GetMapping("/homepage")
 //    public String showHomePage(Model model){
 //        return "homepage";
-//    }
-//
-//    @GetMapping("/shop-details")
-//    public String showShopDetails(Model model){
-//        return "shop-details";
 //    }
 //
 //    @GetMapping("/checkout")

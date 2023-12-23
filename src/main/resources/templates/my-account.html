@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <div th:replace="~{fragments::head}"></div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<style>
+    /*body {*/
+    /*    background: #f5f5f5;*/
+    /*    margin-top: 20px;*/
+    /*}*/
+
+    .form-label {
+        font-size: large;
+        display: inline-block;
+        font-weight: lighter;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .ui-w-80 {
+        width : 250px !important;
+        height: auto;
+    }
+
+    .btn-default {
+        border-color: rgba(24, 28, 33, 0.1);
+        background  : rgba(0, 0, 0, 0);
+        color       : #4E5155;
+    }
+
+    label.btn {
+        margin-bottom: 0;
+    }
+
+    .btn-outline-primary {
+        border-color: #26B4FF;
+        background  : transparent;
+        color       : #26B4FF;
+    }
+
+    .btn {
+        cursor: pointer;
+        margin-right: 20px;
+        font-size: large;
+    }
+
+    .text-light {
+        color: #babbbc !important;
+    }
+
+    .card {
+        background-clip: padding-box;
+        box-shadow     : 0 1px 4px rgba(24, 28, 33, 0.012);
+    }
+
+    .row-bordered {
+        overflow: hidden;
+    }
+
+    .account-settings-fileinput {
+        position  : absolute;
+        visibility: hidden;
+        width     : 1px;
+        height    : 1px;
+        opacity   : 0;
+    }
+
+    .account-settings-links .list-group-item.active {
+        font-size: large;
+        font-weight: bold !important;
+    }
+
+    html:not(.dark-style) .account-settings-links .list-group-item.active {
+        font-size: large;
+        background: transparent !important;
+    }
+
+    .account-settings-multiselect~.select2-container {
+        width: 100% !important;
+    }
+
+    .light-style .account-settings-links .list-group-item {
+        font-size: large;
+        padding     : 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+
+    .light-style .account-settings-links .list-group-item.active {
+        font-size: large;
+        color: #4e5155 !important;
+    }
+
+    .material-style .account-settings-links .list-group-item {
+        font-size: large;
+        padding     : 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+
+    .material-style .account-settings-links .list-group-item.active {
+        color: #4e5155 !important;
+        font-size: large;
+    }
+
+    .dark-style .account-settings-links .list-group-item {
+        font-size: large;
+        padding     : 0.85rem 1.5rem;
+        border-color: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    .dark-style .account-settings-links .list-group-item.active {
+        font-size: large;
+        color: #fff !important;
+    }
+
+    .light-style .account-settings-links .list-group-item.active {
+        font-size: large;
+        color: #4E5155 !important;
+    }
+
+    .light-style .account-settings-links .list-group-item {
+        font-size: large;
+        padding     : 0.85rem 1.5rem;
+        border-color: rgba(24, 28, 33, 0.03) !important;
+    }
+</style>
+
+
+<body>
+<div th:replace="~{fragments::header}"></div>
+
+<div class="container light-style flex-grow-1 container-p-y">
+    <h4 class="font-weight-bold py-3 mb-4">
+        My Profile
+    </h4>
+
+
+    <div class="card overflow-hidden">
+        <div class="row no-gutters row-bordered row-border-light">
+            <div class="col-md-3 pt-0">
+                <div class="list-group list-group-flush account-settings-links">
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#acc-info">Personal Information</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#acc-change">Set Profile</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#view-orders">View Orders</a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade active show" id="acc-info">
+                        <div class="card-body media align-items-center">
+                            <img alt="" src="img/183295492_3941339135919180_421190352277477618_n.jpg" class="d-block ui-w-80">
+                            <!-- add th:src="" -->
+                        </div>
+                        <hr class="border-light m-0">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label" th:text="'Full Name: ' + 'Tu'"></label>
+<!--                                <label class="form-label" th:text="'Full Name: ' + ${...}" th:field="${...}"></label>-->
+                                <!-- add th:field="" -->
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" th:text="'Phone Number: ' + '+84 255 964 898'"></label>
+<!--                                <label class="form-label" th:text="'Phone Number: ' + ${...}" th:field="${...}"></label>-->
+                                <!-- add th:field="" -->
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" th:text="'Address: ' + '66 Ngo 191 Minh Khai'"></label>
+<!--                                <label class="form-label" th:text="'Address: ' + ${...}" th:field="${...}"></label>-->
+                                <!-- add th:field="" -->
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" th:text="'Point earned: ' + '1000'"></label>
+<!--                                <label class="form-label" th:text="'Point earned: ' + ${...}" th:field="${...}"></label>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="acc-change">
+                        <div class="card-body media align-items-center">
+                            <img id="previewImg" src="img/183295492_3941339135919180_421190352277477618_n.jpg" alt="" class="d-block ui-w-80" width="200px" height="200px">
+                            <!-- add th:src="" -->
+                            <div class="media-body ml-4">
+                                <label class="btn btn-outline-primary">
+                                    Upload new photo
+                                    <input id="inputImg" type="file" class="account-settings-fileinput">
+                                </label>
+                                <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                            </div>
+                            <script>
+                                const inputElement = document.getElementById("inputImg");
+                                const previewElement = document.getElementById("previewImg");
+
+                                inputElement.addEventListener("change", function (event) {
+                                    const file = event.target.files[0];
+                                    const reader = new FileReader();
+
+                                    reader.onload = function (e) {
+                                        previewElement.src = e.target.result;
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                });
+                            </script>
+                        </div>
+                        <hr class="border-light m-0">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" value="">
+                                <!-- add th:field="" -->
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone number</label>
+                                <input type="text" class="form-control mb-1" value="">
+                                <!-- add th:field="" -->
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" value="">
+                                <!-- add th:field="" -->
+                            </div>
+                        </div>
+
+                        <div class="text-right mt-3" style="padding-bottom: 30px">
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-default">Cancel</button>
+                            <!-- add th:action -->
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="account-change-password">
+                        <div class="card-body pb-2">
+                            <div class="form-group">
+                                <label class="form-label">Current password</label>
+                                <input type="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <labelclass="form-label">New password</label>
+                                <input type="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Repeat new password</label>
+                                <input type="password" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="view-orders">
+                        <div class="card-body pb-2">
+                            <label class="form-label">Your Orders</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col" style="font-size: large;">Name</th>
+                                    <th scope="col" style="font-size: large;">Price</th>
+                                    <th scope="col" style="font-size: large;">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody style="font-size: large;">
+<!--                                <tr th:each = "product : ${products}">-->
+<!--                                    <th scope="row" th:text = "${product.name}"></th>-->
+<!--                                    <td th:text = "${product.price}"></td>-->
+<!--                                    &lt;!&ndash;                            <td th:text = "${product.currentQuantity}"></td>&ndash;&gt;-->
+<!--                                    <td>-->
+<!--                                        <img class = "my-product-image" style="height: 40px; width: 40px"-->
+<!--                                             th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">-->
+<!--                                    </td>-->
+<!--                                    <td><a th:href="@{/admin-update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a></td>-->
+<!--                                    <td>-->
+<!--                                        <a th:if="${product.deleted} == true" th:href="@{/enable-product(id = ${product.id})}"-->
+<!--                                           class="btn btn-primary">Enable</a>-->
+<!--                                        <a th:if="${product.deleted} == false" th:href="@{/delete-product(id = ${product.id})}"-->
+<!--                                           class=" btn btn-danger">Disable</a>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+<!-- Footer Section-->
+<div th:replace="~{fragments::footer}"></div>
+
+
+<!--<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script type="text/javascript"></script>-->
+
+<!-- Js Plugins -->
+<div th:replace="~{fragments::JS-import}"></div>
+</body>
+
+</html>
