@@ -3,14 +3,12 @@ import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
 import com.example.demo.Service.ProductService;
 import com.example.demo.Service.Userser;
-import com.example.demo.Service.Userserimp;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.log;
-
 @Controller
 @RequiredArgsConstructor
 @Log
@@ -28,6 +24,11 @@ import static java.lang.Math.log;
 public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
+
+    @GetMapping("/INFO_TEST")
+    public String showInfoTest(Model model){
+        return "INFO_TEST";
+    }
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
