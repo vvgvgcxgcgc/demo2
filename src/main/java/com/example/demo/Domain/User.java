@@ -18,14 +18,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserId")
-    private Long id;
+    private long id;
 
     private String Fullname;
     private String Phonenumber;
     private String username;
     private String Password;
-    private Integer Checkuser;
-    private Integer Userpoint;
+    private int Checkuser;
+    private int Userpoint;
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "usr")
     private List<Order>  orders;
     @ElementCollection

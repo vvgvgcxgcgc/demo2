@@ -9,6 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +31,11 @@ import static java.rmi.server.LogStream.log;
 public class AdminController {
     private final ProductService productService;
     @GetMapping("/admin-products")
-    public String showAdminProducts(Model model){
+    public String showAdminProducts(Model model ,Principal principal){
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
         for(Product p:products ){

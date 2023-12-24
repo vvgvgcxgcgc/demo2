@@ -23,13 +23,13 @@
                         <div th:if = "${ErrorPass}">
                             <p class = "alert alert-danger" th:text = "${ErrorPass}"></p>
                         </div>
-                        <form th:action="@{/login}" th:object = "${userdt}" method="post">
+                        <form th:action="@{/do-login}"  method="post">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" th:field = "*{Username}" id="username"
+                                <input type="text" class="form-control form-control-user"  id="username"
                                        placeholder="Tên đăng nhập" name="username" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control form-control-user" th:field="*{Password}" id="password"
+                                <input type="password" class="form-control form-control-user"  id="password"
                                        placeholder="Mật khẩu" pattern=".{6,}" name="password" title="Mật khẩu phải ít nhất 6 ký tự" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block">

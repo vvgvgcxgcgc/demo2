@@ -25,7 +25,8 @@ public class Userserimp implements Userser{
                 .username(userdt.getUsername())
                 .Password(userdt.getPassword())
                 .Phonenumber(userdt.getPhonenumber())
-                .Checkuser(1)
+                .Checkuser(2)
+                .Userpoint(0)
                 .addresses(new ArrayList<>())
                 .build();
         user.getAddresses().add(userdt.getAddress());
