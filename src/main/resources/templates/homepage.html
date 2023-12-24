@@ -63,91 +63,102 @@
 
         <!--    Truyen vao day    -->
         <div class="row featured__filter">
-            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">
-                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
-                    <!--                                Text báo thêm thành công-->
-                    <p th:text = "${success}"></p>
-                </div>
-                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
-                    <!--                                Text báo thêm thất bại-->
-                    <p th:text = "${error}"></p>
-                </div>
+<!--            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">-->
+<!--                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">-->
+<!--                    &lt;!&ndash;                                Text báo thêm thành công&ndash;&gt;-->
+<!--                    <p th:text = "${success}"></p>-->
+<!--                </div>-->
+<!--                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">-->
+<!--                    &lt;!&ndash;                                Text báo thêm thất bại&ndash;&gt;-->
+<!--                    <p th:text = "${error}"></p>-->
+<!--                </div>-->
 
-                <script>
-                    const successMessage = document.getElementById("successMessage");
-                    const errorMessage = document.getElementById("errorMessage");
+<!--                <script>-->
+<!--                    const successMessage = document.getElementById("successMessage");-->
+<!--                    const errorMessage = document.getElementById("errorMessage");-->
 
-                    if (successMessage) {
-                        setTimeout(function () {
-                            successMessage.classList.add("fade-out");
-                            setTimeout(function () {
-                                successMessage.style.display = "none";
-                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
-                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
-                    }
+<!--                    if (successMessage) {-->
+<!--                        setTimeout(function () {-->
+<!--                            successMessage.classList.add("fade-out");-->
+<!--                            setTimeout(function () {-->
+<!--                                successMessage.style.display = "none";-->
+<!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
+<!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
+<!--                    }-->
 
-                    if (errorMessage) {
-                        setTimeout(function () {
-                            errorMessage.classList.add("fade-out");
-                            setTimeout(function () {
-                                errorMessage.style.display = "none";
-                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
-                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
-                    }
-                </script>
-                <!--                            Action add to cart cu Huy sửa vào đây-->
-                <form th:action="@{/}" method="post">
+<!--                    if (errorMessage) {-->
+<!--                        setTimeout(function () {-->
+<!--                            errorMessage.classList.add("fade-out");-->
+<!--                            setTimeout(function () {-->
+<!--                                errorMessage.style.display = "none";-->
+<!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
+<!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
+<!--                    }-->
+<!--                </script>-->
+
+<!--                <form th:action="@{/}" method="post">-->
+                <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${products}" th:if="${product.deleted} == false">
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg">
-                            <img class = "my-product-image" style="height: 100%; width: 100%"
-                                 th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
+                            <img class="my-product-image" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
                             <ul class="featured__item__pic__hover">
-                                <!--    Nut them vao gio hang    -->
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><button type="submit" onclick="addToCart(event)">Add to cart</button></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6 th:text = "${product.name}"></h6>
-                            <h6 th:text = "${product.info}"></h6>
-                            <h5 th:text = "${product.price} + 'đ'"></h5>
+                            <input class="product-id" type="hidden" th:value="${product.id}">
+                            <h6 class="product-name" th:text="${product.name}"></h6>
+                            <h6 th:text="${product.info}"></h6>
+                            <h5 class="product-price" th:text="${product.price}"></h5>
                         </div>
                     </div>
-                </form>
+                </div>
+<!--                </form>-->
+
+                <script>
+
+                    console.log("lmao");
+
+                    function addToCart(event) {
+                        event.preventDefault();
+
+                        let productElement = event.target.closest('.featured__item');
+                        let productId = productElement.querySelector('.product-id').value;
+                        let productImg = productElement.querySelector('.my-product-image').getAttribute('src');
+                        let productName = productElement.querySelector('.product-name').innerText;
+                        let productPrice = productElement.querySelector('.product-price').innerText;
+
+                        let newProduct = {
+                            id: productId,
+                            image: productImg,
+                            name: productName,
+                            price: productPrice
+                        };
+
+                        // Lấy danh sách sản phẩm từ localStorage (nếu có)
+                        let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+                        let existingProduct = productsInCart.find(product => product.id === newProduct.id);
+
+                        if (existingProduct) {
+                            // Nếu sản phẩm đã tồn tại, cập nhật thông tin của nó
+                            existingProduct.image = newProduct.image;
+                            existingProduct.name = newProduct.name;
+                            existingProduct.price = newProduct.price;
+                        } else {
+                            // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
+                            productsInCart.push(newProduct);
+                        }
+
+                        // Lưu danh sách sản phẩm mới vào localStorage
+                        localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+                    }
+                </script>
+
             </div>
 
 
-<!--        <div class="row featured__filter">-->
-<!--            <div class="col-lg-3 col-md-4 col-sm-6">-->
-<!--                <div class="featured__item">-->
-<!--                    <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-2.jpg">-->
-<!--                        <ul class="featured__item__pic__hover">-->
-<!--                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                    <div class="featured__item__text">-->
-<!--                        <h6>Crab Pool Security</h6>-->
-<!--                        <h6>adasdasdasdasdasdasdasdádasdadasdasdasdasdasdasdawdwadawdawdddddddddddădawdawdawdadwudiuyqwuhqowdowdijawodjiaiojaoihdioawoidaiowhiohaiowhdiohwdohawidhihwohfoawhifhaowhfoahwifiahwiwndodhoaowhnwdoaowjdos</h6>-->
-<!--                        <h5>$30.00</h5>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-lg-3 col-md-4 col-sm-6">-->
-<!--                <div class="featured__item">-->
-<!--                    <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">-->
-<!--                        <ul class="featured__item__pic__hover">-->
-<!--                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                    <div class="featured__item__text">-->
-<!--                        <h6><a href="#">Crab Pool Security</a></h6>-->
-<!--                        <h5>$30.00</h5>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
         </div>
-    </div>
 </section>
 
 <!-- Banner Begin -->
