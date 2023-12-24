@@ -11,10 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import org.springframework.boot.Banner;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +28,6 @@ import static java.lang.Math.log;
 public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
-    private final BCryptPasswordEncoder passwordEncoder;
-
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
@@ -125,7 +119,6 @@ public class CustomerController {
             return "register";
         }
         if(userdt.getPassword().equals(userdt.getRepeatPassword())){
-            userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
             userser.save(userdt);
             model.addAttribute("success", "Register successfully!");
 
@@ -139,30 +132,30 @@ public class CustomerController {
     }
     @GetMapping("/login")
     public String ShowLogin(Model model){
-
+        Userdt userdt = Userdt.builder().build();
+        model.addAttribute("userdt",userdt);
         return "login";
     }
-//    @PostMapping("/login")
-//    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
-//                          BindingResult result,
-//                          Model model ){
-//        if(result.hasErrors()){
-//            model.addAttribute("userdt",userdt);
-//            return "register";
-//        }
-//        String username = userdt.getUsername();
-//        User user = userser.findByUsername(username);
-//        if(user == null){
-//            model.addAttribute("userdt",userdt);
-//            model.addAttribute("ErrorPass","username is not registered");
-//            return "login";
-//        }
-//        return "redirect:/admin-products";
-//
-//    }
+    @PostMapping("/login")
+    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
+                          BindingResult result,
+                          Model model ){
+        if(result.hasErrors()){
+            model.addAttribute("userdt",userdt);
+            return "register";
+        }
+        String username = userdt.getUsername();
+        User user = userser.findByUsername(username);
+        if(user == null){
+            model.addAttribute("userdt",userdt);
+            model.addAttribute("ErrorPass","username is not registered");
+            return "login";
+        }
+        return "redirect:/home";
+
+    }
     @GetMapping("/homepage")
     public String Viewhomepage(Model model){
-
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
         for(Product p:products ){
