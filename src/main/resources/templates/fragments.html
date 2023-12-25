@@ -64,7 +64,23 @@
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li>Cart <a th:href="@{/shoping-cart}"><i class="fa fa-shopping-cart"></i> <span>3</span></a></li>
+                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>
+<!--                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span id="cartItemCount">0</span></a></li>-->
+
+<!--                <script>-->
+<!--                    // Lấy danh sách sản phẩm từ localStorage-->
+<!--                    let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];-->
+
+<!--                    // Lấy phần tử span dựa trên id-->
+<!--                    let cartItemCount = document.getElementById('cartItemCount');-->
+
+<!--                    if (productsInCart) {-->
+<!--                        // Cập nhật số lượng sản phẩm trong span-->
+<!--                        console.log(productsInCart.length)-->
+<!--                        cartItemCount.textContent = String(productsInCart.length);-->
+<!--                    }-->
+<!--                </script>-->
+
             </ul>
         </div>
         <div class="humberger__menu__widget">
@@ -153,7 +169,22 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li>Cart <a th:href="@{/shoping-cart}"><i class="fa fa-shopping-cart"></i> <span>3</span></a></li>
+                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>
+<!--                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span id="cartItemCountt">0</span></a></li>-->
+
+<!--                            <script>-->
+<!--                                // Lấy danh sách sản phẩm từ localStorage-->
+<!--                                let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];-->
+
+<!--                                // Lấy phần tử span dựa trên id-->
+<!--                                let cartItemCount = document.getElementById('cartItemCountt');-->
+
+<!--                                if (productsInCart) {-->
+<!--                                    // Cập nhật số lượng sản phẩm trong span-->
+<!--                                    console.log(productsInCart.length)-->
+<!--                                    cartItemCount.textContent = String(productsInCart.length);-->
+<!--                                }-->
+<!--                            </script>-->
                         </ul>
                     </div>
                 </div>
