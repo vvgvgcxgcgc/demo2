@@ -102,7 +102,7 @@
                         <div class="featured__item__pic set-bg">
                             <img class="my-product-image" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
                             <ul class="featured__item__pic__hover">
-                                <li><button type="submit" onclick="addToCart(event)">Add to cart</button></li>
+                                <li><button class="site-btn" type="submit" onclick="addToCart(event)">Add to cart</button></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
@@ -132,7 +132,8 @@
                             id: productId,
                             image: productImg,
                             name: productName,
-                            price: productPrice
+                            price: productPrice,
+                            quantity: 1
                         };
 
                         // Lấy danh sách sản phẩm từ localStorage (nếu có)
@@ -142,11 +143,14 @@
 
                         if (existingProduct) {
                             // Nếu sản phẩm đã tồn tại, cập nhật thông tin của nó
-                            existingProduct.image = newProduct.image;
-                            existingProduct.name = newProduct.name;
-                            existingProduct.price = newProduct.price;
+                            alert("Sản phẩm "+productName+" đã có trong giỏ hàng!");
+                            // existingProduct.image = newProduct.image;
+                            // existingProduct.name = newProduct.name;
+                            // existingProduct.price = newProduct.price;
+                            // existingProduct.quantity += 1;
                         } else {
                             // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
+                            alert("Sản phẩm "+productName+" đã được thêm vào giỏ hàng!");
                             productsInCart.push(newProduct);
                         }
 

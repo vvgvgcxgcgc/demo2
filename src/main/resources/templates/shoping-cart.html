@@ -40,6 +40,7 @@
                                 <tr>
                                     <th class="shoping__product">Products</th>
                                     <th>Price</th>
+                                    <th>Quantity</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -64,39 +65,77 @@
                                         <img src="${product.image}" alt="" width='80px' height='80px'>
                                         <h5>${product.name}</h5>
                                     </td>
-                                    <td>${product.price}đ</td>
+                                    <td class="shoping__cart__price">${product.price}đ</td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <span class="dec qtybtn">-</span>
+                                                <input type="text" id="quantity_${index}" value="${product.quantity}">
+                                                <span class="inc qtybtn">+</span>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td class="shoping__cart__item__close">
-                                        <button onclick="removeProduct(${index})">Remove</button>
+                                        <button class="site-btn-remove" onclick="removeProduct(${index})">Remove</button>
                                     </td>
                                 `;
 
                               // Thêm phần tử vào thẻ tbody
                               cartItems.appendChild(tr);
 
-                            // lastFoodItem.parentNode.insertBefore(newFoodItem, lastFoodItem.nextSibling);
+                            let decButton = tr.querySelector('.dec');
+                            let incButton = tr.querySelector('.inc');
+
+                            decButton.addEventListener('click', function() {
+                                let input = tr.querySelector('input');
+                                let currentValue = parseInt(input.value);
+                                if (currentValue > 1) {
+                                    input.value = String(currentValue - 1);
+                                    updateQuantity(index, input.value);
+                                }
+                            });
+
+                            incButton.addEventListener('click', function() {
+                                let input = tr.querySelector('input');
+                                let currentValue = parseInt(input.value);
+                                input.value = String(currentValue + 1);
+                                updateQuantity(index, input.value);
+                            });
+
+                            // Thêm listener cho trường input
+                            let quantityInput = document.getElementById(`quantity_${index}`);
+                            quantityInput.addEventListener('change', function(event) {
+                                let newValue = event.target.value;
+                                updateQuantity(index, newValue);
+                            });
+
                         });
 
+                        // Cập nhật số lượng sản phẩm khi người dùng thay đổi giá trị trong trường input
+                        function updateQuantity(index, value) {
+                            productsInCart[index].quantity = value; // Cập nhật giá trị số lượng trong mảng productsInCart
+                            localStorage.setItem('productsInCart', JSON.stringify(productsInCart)); // Cập nhật lại localStorage
+                        }
 
-                        // List cartProductId để lưu ID sản phẩm
-                        let cartProductsId = [];
-
-                        // Lặp qua mảng productsInCart và trích xuất ID sản phẩm
+                        // List để lưu map: id-quantity
+                        let id_quantity = {};
                         productsInCart.forEach(function(product) {
-                            cartProductsId.push(product.id);
+                            id_quantity[product.id] = product.quantity;
                         });
 
                         // Xóa sản phẩm khỏi danh sách
                         function removeProduct(index) {
                             productsInCart.splice(index, 1); // Xóa sản phẩm tại vị trí index trong mảng productList
                             localStorage.setItem('productsInCart', JSON.stringify(productsInCart)); // Cập nhật lại localStorage
-                            // location.reload(); // Tải lại trang để cập nhật giao diện
+                            location.reload(); // Tải lại trang để cập nhật giao diện
                         }
                     </script>
 
                     <script>
                         // In danh sách ID sản phẩm
-                        console.log(cartProductsId);
-                        console.log("lmao");
+                        Object.entries(id_quantity).forEach(function([productId, quantity]) {
+                            console.log(`Product ID: ${productId}, Quantity: ${quantity}`);
+                        });
                     </script>
 
                 </div>
@@ -111,11 +150,11 @@
                 <div class="col-lg-6">
                     <div class="shoping__continue">
                         <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your coupon code">
-                                <button type="submit" class="site-btn">APPLY COUPON</button>
-                            </form>
+<!--                            <h5>Discount Codes</h5>-->
+<!--                            <form action="#">-->
+<!--                                <input type="text" placeholder="Enter your coupon code">-->
+<!--                                <button type="submit" class="site-btn">APPLY COUPON</button>-->
+<!--                            </form>-->
                         </div>
                     </div>
                 </div>
@@ -125,7 +164,7 @@
                         <ul>
                             <li>Total <span id="totalPrice"></span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="/shoping-cart" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
 
@@ -136,7 +175,7 @@
                     // Tính tổng giá trị sản phẩm
                     let total = (0);
                     productsInCart.forEach(function(product) {
-                        total += parseInt(product.price);
+                        total += parseInt(product.price)*parseInt(product.quantity);
                     });
 
                     // Lấy phần tử span dựa trên id
