@@ -104,6 +104,7 @@ public class CustomerController {
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         Userdt userdt = Userdt.builder().build();
+
         model.addAttribute("userdt",userdt);
         return "register"; // Đây là tên của file HTML Thymeleaf (không cần phần mở rộng .html)
     }
@@ -125,6 +126,7 @@ public class CustomerController {
         }
         if(userdt.getPassword().equals(userdt.getRepeatPassword())){
             userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
+            userdt.setAddresses(new ArrayList<String>());
             userdt.getAddresses().add(address);
             userser.save(userdt);
             model.addAttribute("success", "Register successfully!");
@@ -219,6 +221,10 @@ public class CustomerController {
         }
         return "redirect:/my-account";
 
+    }
+    @GetMapping("/shoping-cart")
+    public String viewShopingcart(){
+        return "shoping-cart";
     }
 
 

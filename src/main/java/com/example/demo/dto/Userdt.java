@@ -26,6 +26,7 @@ public class Userdt {
     @Size(min =6 ,message = "Password must contain 6 characters ")
     private String Password;
     private String repeatPassword;
+
     private List<String> addresses;
     private String avatar;
     private int Userpoint;
