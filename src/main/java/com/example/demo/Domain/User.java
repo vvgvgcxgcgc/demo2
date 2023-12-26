@@ -1,6 +1,7 @@
 package com.example.demo.Domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +23,17 @@ public class User {
 
     private String Fullname;
     private String Phonenumber;
+    @Column(unique = true) // Đánh dấu trường này là duy nhất
+    @NotNull // Đánh dấu trường này không được để trống
     private String username;
+    @NotNull // Đánh dấu trường này không được để trống
     private String Password;
-    private int Checkuser;
-    private int Userpoint;
+    @NotNull // Đánh dấu trường này không được để trống
+    private int Checkuser = 1;
+    private int Userpoint =0;
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String avatar;
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "usr")
     private List<Order>  orders;
     @ElementCollection

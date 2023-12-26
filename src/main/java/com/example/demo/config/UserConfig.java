@@ -66,7 +66,7 @@ public class UserConfig {
                 .formLogin(login ->
                         login.loginPage("/login")
                                 .loginProcessingUrl("/do-login")
-                                .defaultSuccessUrl("/admin-products", true)
+                                .defaultSuccessUrl("/homepage", true)
                                 .permitAll()
                 )
                 .logout(logout ->

@@ -11,13 +11,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 import org.springframework.boot.Banner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import static java.lang.Math.log;
 
@@ -28,6 +33,7 @@ import static java.lang.Math.log;
 public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
+    private final BCryptPasswordEncoder passwordEncoder;
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
@@ -105,7 +111,6 @@ public class CustomerController {
     public String addNewAdmin(@Valid @ModelAttribute("userdt") Userdt userdt,
                               BindingResult result,
                               Model model) {
-        log.info(userdt.getAddress());
         if(result.hasErrors()){
           model.addAttribute("userdt",userdt);
           return "register";
@@ -119,6 +124,7 @@ public class CustomerController {
             return "register";
         }
         if(userdt.getPassword().equals(userdt.getRepeatPassword())){
+            userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
             userser.save(userdt);
             model.addAttribute("success", "Register successfully!");
 
@@ -136,24 +142,24 @@ public class CustomerController {
         model.addAttribute("userdt",userdt);
         return "login";
     }
-    @PostMapping("/login")
-    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
-                          BindingResult result,
-                          Model model ){
-        if(result.hasErrors()){
-            model.addAttribute("userdt",userdt);
-            return "register";
-        }
-        String username = userdt.getUsername();
-        User user = userser.findByUsername(username);
-        if(user == null){
-            model.addAttribute("userdt",userdt);
-            model.addAttribute("ErrorPass","username is not registered");
-            return "login";
-        }
-        return "redirect:/home";
-
-    }
+//    @PostMapping("/login")
+//    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
+//                          BindingResult result,
+//                          Model model ){
+//        if(result.hasErrors()){
+//            model.addAttribute("userdt",userdt);
+//            return "register";
+//        }
+//        String username = userdt.getUsername();
+//        User user = userser.findByUsername(username);
+//        if(user == null){
+//            model.addAttribute("userdt",userdt);
+//            model.addAttribute("ErrorPass","username is not registered");
+//            return "login";
+//        }
+//        return "redirect:/home";
+//
+//    }
     @GetMapping("/homepage")
     public String Viewhomepage(Model model){
         List<Product> products = productService.getAllProducts();
@@ -171,6 +177,46 @@ public class CustomerController {
         }
         model.addAttribute("products", productdts);
         return "homepage";
+
+    }
+    @GetMapping("/my-account")
+    public String profile(Model model, Principal principal) {
+        if(principal == null||principal.getName().equals("adminonly")) {
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        User user = userser.findByUsername(username);
+
+        Userdt customer = Userdt.builder()
+                .Username(user.getUsername())
+                .addresses(user.getAddresses())
+                .avatar(user.getAvatar())
+                .Fullname(user.getFullname())
+                .id(user.getId())
+                .Userpoint(user.getUserpoint())
+                .Phonenumber(user.getPhonenumber())
+                .build();
+        model.addAttribute("user", customer);
+        return "my-account";
+
+    }
+    @PostMapping("/update-profile")
+    public String updateprofile( @ModelAttribute("user") Userdt userdt,Principal principal,
+                                @RequestParam("imageUser") MultipartFile imageUser,RedirectAttributes redirectAttributes){
+        if(principal == null||principal.getName().equals("adminonly")) {
+            return "redirect:/login";
+        }
+
+        try {
+             userdt.setUsername(principal.getName());
+            userser.Update(imageUser, userdt);
+
+            redirectAttributes.addFlashAttribute("success", "Update successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Error server, please try again!");
+        }
+        return "redirect:/my-account";
 
     }
 
