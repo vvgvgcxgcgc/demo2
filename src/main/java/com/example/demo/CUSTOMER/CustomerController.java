@@ -108,7 +108,7 @@ public class CustomerController {
         return "register"; // Đây là tên của file HTML Thymeleaf (không cần phần mở rộng .html)
     }
     @PostMapping("/register-new")
-    public String addNewAdmin(@Valid @ModelAttribute("userdt") Userdt userdt,
+    public String addNewAdmin(@Valid @ModelAttribute("userdt") Userdt userdt,@RequestParam("address") String address,
                               BindingResult result,
                               Model model) {
         if(result.hasErrors()){
@@ -125,6 +125,7 @@ public class CustomerController {
         }
         if(userdt.getPassword().equals(userdt.getRepeatPassword())){
             userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
+            userdt.getAddresses().add(address);
             userser.save(userdt);
             model.addAttribute("success", "Register successfully!");
 
