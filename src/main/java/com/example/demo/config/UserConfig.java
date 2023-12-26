@@ -59,7 +59,7 @@ public class UserConfig {
                         author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product").hasAuthority("ADMIN")
 
-                                .requestMatchers("/homepage", "/register", "/register-new").permitAll()
+                                .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart").permitAll()
                                 .anyRequest().authenticated()
 
                 )
