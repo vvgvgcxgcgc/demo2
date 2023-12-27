@@ -56,10 +56,12 @@ public class UserConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( author ->
-                        author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product").hasAuthority("ADMIN")
+                            author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                  .requestMatchers("/img/**").permitAll()
+                                  .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product").hasAuthority("ADMIN")
+                                  .requestMatchers("/my-account").hasAuthority("CUSTOMER")
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart").permitAll()
 
-                                .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart").permitAll()
                                 .anyRequest().authenticated()
 
                 )
