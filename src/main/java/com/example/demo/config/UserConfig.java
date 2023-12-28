@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.Demo2Application;
 import com.example.demo.Respories.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -23,10 +25,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 public class UserConfig {
 
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserConfigService();
     }
+
 
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
@@ -40,6 +44,8 @@ public class UserConfig {
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 
 
     @Bean
@@ -60,7 +66,7 @@ public class UserConfig {
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout", "/shoping-cart-fetch").permitAll()
 
                                 .anyRequest().authenticated()
 
