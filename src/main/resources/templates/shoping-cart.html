@@ -118,10 +118,10 @@
                         }
 
                         // List để lưu map: id-quantity
-                        let id_quantity = {};
-                        productsInCart.forEach(function(product) {
-                            id_quantity[product.id] = product.quantity;
-                        });
+                        // let id_quantity = {};
+                        // productsInCart.forEach(function(product) {
+                        //     id_quantity[product.id] = product.quantity;
+                        // });
 
                         // Xóa sản phẩm khỏi danh sách
                         function removeProduct(index) {
@@ -131,12 +131,12 @@
                         }
                     </script>
 
-                    <script>
-                        // In danh sách ID sản phẩm
-                        Object.entries(id_quantity).forEach(function([productId, quantity]) {
-                            console.log(`Product ID: ${productId}, Quantity: ${quantity}`);
-                        });
-                    </script>
+<!--                    <script>-->
+<!--                        // In danh sách ID sản phẩm-->
+<!--                        Object.entries(id_quantity).forEach(function([productId, quantity]) {-->
+<!--                            console.log(`Product ID: ${productId}, Quantity: ${quantity}`);-->
+<!--                        });-->
+<!--                    </script>-->
 
                 </div>
             </div>
@@ -164,7 +164,9 @@
                         <ul>
                             <li>Total <span id="totalPrice"></span></li>
                         </ul>
-                        <a href="/shoping-cart" class="primary-btn">PROCEED TO CHECKOUT</a>
+<!--                        <a th:href="@{/checkout}">-->
+                        <a th:href="@{/checkout}"  class="primary-btn">PROCEED TO CHECKOUT</a>
+<!--                        </a>-->
                     </div>
                 </div>
 
@@ -183,8 +185,44 @@
 
                     // Cập nhật nội dung của thẻ span với tổng giá trị
                     totalPriceElement.textContent = total + 'đ';
+                    localStorage.setItem('subtotal', totalPriceElement.textContent);
+                    //console.log(total)
 
-                    console.log(total)
+                    let id_quantity = {};
+                    productsInCart.forEach(function(product) {
+                        id_quantity[product.id] = product.quantity;
+                    });
+
+                    // const checkoutBtn = document.getElementById('checkoutBtn');
+                    //
+                    // checkoutBtn.addEventListener('click', function(event) {
+                    //     event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
+                    //
+                    //     // Gửi yêu cầu Fetch khi click vào button
+                    //     fetch('/...', {
+                    //         method: 'POST',
+                    //         headers: {
+                    //             'Content-Type': 'application/json'
+                    //         },
+                    //         body: JSON.stringify(id_quantity) // Dữ liệu gửi đi
+                    //     })
+                    //         .then(response => {
+                    //             // Xử lý phản hồi từ máy chủ
+                    //             if (response.ok) {
+                    //                 return response.json();
+                    //             }
+                    //             throw new Error('Request failed!');
+                    //         })
+                    //         .then(data => {
+                    //             // Xử lý dữ liệu trả về từ máy chủ
+                    //             console.log(data);
+                    //         })
+                    //         .catch(error => {
+                    //             // Xử lý lỗi
+                    //             console.error(error);
+                    //         });
+                    // });
+
                 </script>
 
             </div>

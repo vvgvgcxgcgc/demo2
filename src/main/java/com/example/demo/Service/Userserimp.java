@@ -61,6 +61,7 @@ public class Userserimp implements Userser{
         }
         user.setFullname(userdt.getFullname());
         user.setPhonenumber(userdt.getPhonenumber());
+        user.setAddresses(userdt.getAddresses());
 
         return userRepo.save(user);
     }

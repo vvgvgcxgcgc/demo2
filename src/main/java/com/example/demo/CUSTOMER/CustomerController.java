@@ -96,10 +96,24 @@ public class CustomerController {
 //        return "shop-details";
 //    }
 //
-//    @GetMapping("/checkout")
-//    public String showCheckOut(Model model){
-//        return "checkout";
-//    }
+    @GetMapping("/checkoutREG")
+    public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        String username = principal.getName();
+        User user = userser.findByUsername(username);
+
+        Userdt customer = Userdt.builder()
+                .Username(user.getUsername())
+                .addresses(user.getAddresses())
+                .avatar(user.getAvatar())
+                .Fullname(user.getFullname())
+                .id(user.getId())
+                .Userpoint(user.getUserpoint())
+                .Phonenumber(user.getPhonenumber())
+                .build();
+        model.addAttribute("user", customer);
+
+        return "checkoutREG";
+    }
 
     @GetMapping("/register")
     public String showRegisterPage(Model model) {

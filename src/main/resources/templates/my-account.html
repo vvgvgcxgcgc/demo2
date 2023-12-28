@@ -145,6 +145,29 @@
         <p th:text = "${error}"></p>
     </div>
 
+    <script>
+        const successMessage = document.getElementById("successMessage");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (successMessage) {
+            setTimeout(function () {
+                successMessage.classList.add("fade-out");
+                setTimeout(function () {
+                    successMessage.style.display = "none";
+                }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+        }
+
+        if (errorMessage) {
+            setTimeout(function () {
+                errorMessage.classList.add("fade-out");
+                setTimeout(function () {
+                    errorMessage.style.display = "none";
+                }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+        }
+    </script>
+
     <h4 class="font-weight-bold py-3 mb-4">
         My Profile
     </h4>
@@ -160,7 +183,7 @@
                 </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-15">
                 <div class="tab-content">
 
                     <div class="tab-pane fade active show" id="acc-info">
@@ -184,7 +207,7 @@
                             </div>
                             <div class="form-group">
 
-                                <label class="form-label" th:text="'Default Address: ' + ${user.addresses.getFirst()}" th:field="${user.addresses.getFirst()}"></label>
+                                <label class="form-label" th:text="'Default Address: ' + ${user.addresses.iterator().next()}" th:field="${user.addresses.iterator().next()}"></label>
 
                             </div>
                             <div class="form-group">
@@ -192,10 +215,12 @@
                                 <label class="form-label" th:text="'Point earned: ' + ${user.Userpoint}" th:field="${user.Userpoint}"></label>
 
                             </div>
+
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="acc-change"  >
-                          <form th:action="@{/update-profile}"   method="post" enctype="multipart/form-data">
+                          <form id="yourForm" th:action="@{/update-profile}"   method="post" enctype="multipart/form-data">
 
                             <div class="card-body media align-items-center">
 
@@ -229,40 +254,53 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label">Full Name</label>
-
                                     <input th:field = "${user.Fullname}" class="form-control" required="" type="text">
-
                                 </div>
+
                                 <div class="form-group">
                                     <label class="form-label">Phone number</label>
-
                                     <input th:field = "${user.Phonenumber}" class="form-control" required="" type="text">
-
-
                                 </div>
 
-    <!--                            <form>-->
-    <!--                                <h3>Choose default address: </h3>-->
-    <!--                                <ul>-->
-    <!--                                    <li>-->
-    <!--                                        <label th:each = "address : ${user.addresses}">-->
-    <!--                                            <input type="radio" name="address" value="address1" th:field = "*{address}">-->
-    <!--                                        </label>-->
-    <!--                                    </li>-->
-    <!--                                </ul>-->
-    <!--                                &lt;!&ndash; Hidden input field để lưu địa chỉ mặc định&ndash;&gt;-->
-    <!--                                <input type="hidden" th:field="${address}" id="addressField">-->
-    <!--                            </form>-->
+                                <label class="form-label">Choose default address:</label>
+                                <ul style="list-style-type: none;">
+                                    <li th:each="address : ${user.addresses}">
+                                        <label>
+                                            <input type="radio" name="address" th:value=" ${address}" th:text="' ' + ${address}"
+                                                   th:checked="${address == user.addresses.iterator().next()}">
+                                        </label>
+                                    </li>
+                                </ul>
 
-    <!--                            <script>-->
-    <!--                                function updateAddressField(radio) {-->
-    <!--                                    // Lấy giá trị địa chỉ từ radiobutton được chọn-->
-    <!--                                    var selectedAddress = radio.value;-->
+                                <!-- Hidden input field để lưu địa chỉ mặc định-->
+                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />
 
-    <!--                                    // Gán giá trị địa chỉ vào hidden input field-->
-    <!--                                    document.getElementById("addressField").value = selectedAddress;-->
-    <!--                                }-->
-    <!--                            </script>-->
+                                <script>
+                                    document.getElementById("yourForm").addEventListener("submit", function() {
+                                        const radioButtons = document.querySelectorAll('input[type="radio"][name="address"]');
+                                        let selectedAddress = "";
+
+                                        // Duyệt qua từng radio button
+                                        radioButtons.forEach(function(radioButton) {
+                                            if (radioButton.checked) {
+                                                selectedAddress = radioButton.value; // Lấy giá trị của radio button được chọn
+                                            }
+                                        });
+
+                                        // Loại bỏ selectedAddress khỏi user.addresses và thêm vào đầu user.addresses
+                                        const userAddressesInput = document.getElementById("userAddresses");
+                                        const userAddressesArray = userAddressesInput.value.split(",");
+                                        const addressIndex = userAddressesArray.indexOf(selectedAddress);
+
+                                        if (addressIndex !== -1) {
+                                            userAddressesArray.splice(addressIndex, 1);
+                                            userAddressesArray.unshift(selectedAddress);
+                                            document.getElementById("userAddresses").value = userAddressesArray.join(",");
+                                        }
+
+                                    });
+                                </script>
+
                                 <div class="text-right mt-3" style="padding-bottom: 30px">
                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                     <a href="/my-account" class="btn btn-default">Cancel</a>

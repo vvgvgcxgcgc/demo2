@@ -59,8 +59,8 @@ public class UserConfig {
                             author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product").hasAuthority("ADMIN")
-                                  .requestMatchers("/my-account").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart").permitAll()
+                                  .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout").permitAll()
 
                                 .anyRequest().authenticated()
 

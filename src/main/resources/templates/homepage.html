@@ -117,7 +117,7 @@
 
                 <script>
 
-                    console.log("lmao");
+                    // console.log("lmao");
 
                     function addToCart(event) {
                         event.preventDefault();
@@ -142,12 +142,7 @@
                         let existingProduct = productsInCart.find(product => product.id === newProduct.id);
 
                         if (existingProduct) {
-                            // Nếu sản phẩm đã tồn tại, cập nhật thông tin của nó
                             alert("Sản phẩm "+productName+" đã có trong giỏ hàng!");
-                            // existingProduct.image = newProduct.image;
-                            // existingProduct.name = newProduct.name;
-                            // existingProduct.price = newProduct.price;
-                            // existingProduct.quantity += 1;
                         } else {
                             // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
                             alert("Sản phẩm "+productName+" đã được thêm vào giỏ hàng!");
