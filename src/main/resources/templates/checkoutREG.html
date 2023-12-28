@@ -115,16 +115,26 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="checkout__order">
                                 <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                <div class="checkout__order__products">
+                                    <span>Products</span>
+                                    <span>Price</span> <!-- Thêm cột Price -->
+                                    <span>Quantity</span> <!-- Thêm cột Quantity -->
+                                </div>
                                 <ul id="productList"></ul>
-                                <div class="checkout__order__subtotal">Subtotal <span id="subtotal"></span></div>
+                                <div class="checkout__order__subtotal">Subtotal
+                                    <span id="subtotal"></span>
+                                </div>
+                                <div class="checkout__order__subtotal">Shipping Fee
+                                    <span id="shipping fee">15,000đ</span>
+                                </div>
                                 <div class="checkout__order__total">Total <span id="total"></span></div>
 
+
                                 <div class="checkout__input__checkbox">
-                                    <label for="paypal">
+                                    <label for="paybycash">
                                         Cash on delivery
-    <!--                                        <input type="checkbox" id="paypal">-->
-    <!--                                        <span class="checkmark"></span>-->
+                                        <input type="checkbox" id="paybycash">
+                                        <span class="checkmark"></span>
                                     </label>
                                 </div>
                                 <button type="submit" class="site-btn" id="place-order-btn">PLACE ORDER</button>
@@ -138,30 +148,54 @@
     <!-- Checkout Section End -->
     <script>
 
-        let total = 0;
+        // let total = 0;
+        // // Lấy danh sách sản phẩm từ localStorage
+        // let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+        // // Lấy thẻ ul từ mã HTML
+        // let productList = document.getElementById('productList');
+        // let id_quantity = {};
+        //
+        // // Hiển thị danh sách sản phẩm
+        // productsInCart.forEach(function(product, index) {
+        //     // Tạo phần tử li mới
+        //     let li = document.createElement('li');
+        //     let totall = parseInt(product.price)*parseInt(product.quantity);
+        //     total += totall;
+        //     li.innerHTML = `${product.name} <span>${totall}</span>`;
+        //     id_quantity[product.id] = product.quantity;
+        //     // Thêm phần tử li vào thẻ ul
+        //     productList.appendChild(li);
+        // });
+        //
+        // document.getElementById('total').textContent = total;
+        // document.getElementById('subtotal').textContent = total;
+
         // Lấy danh sách sản phẩm từ localStorage
         let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
         // Lấy thẻ ul từ mã HTML
         let productList = document.getElementById('productList');
-        let id_quantity = {};
-
+        // Lấy dữ liệu từ localStorage
+        let id_quantity = localStorage.getItem('id_quantity');
+        let total = 0;
         // Hiển thị danh sách sản phẩm
         productsInCart.forEach(function(product, index) {
             // Tạo phần tử li mới
             let li = document.createElement('li');
-            let totall = parseInt(product.price)*parseInt(product.quantity);
-            total += totall;
-            li.innerHTML = `${product.name} <span>${totall}</span>`;
-            id_quantity[product.id] = product.quantity;
+            li.innerHTML = `<span>${product.name}</span><span>${product.price}</span><span>${product.quantity}</span>`;
             // Thêm phần tử li vào thẻ ul
+            let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
+            total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
             productList.appendChild(li);
         });
 
-        document.getElementById('total').textContent = total;
-        document.getElementById('subtotal').textContent = total;
+        let total1 = total;
+        // document.getElementById('total').textContent = total;
+        // document.getElementById('subtotal').textContent = total;
+        // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
+        document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
 
-        document.getElementById('total').textContent = total;
-        document.getElementById('subtotal').textContent = total;
+
 
         const checkoutBtn = document.getElementById('place-order-btn');
 

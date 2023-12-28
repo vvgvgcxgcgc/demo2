@@ -109,7 +109,7 @@
                             <input class="product-id" type="hidden" th:value="${product.id}">
                             <h6 class="product-name" th:text="${product.name}"></h6>
                             <h6 th:text="${product.info}"></h6>
-                            <h5 class="product-price" th:text="${product.price}"></h5>
+                            <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + 'đ'}"></h5>
                         </div>
                     </div>
                 </div>

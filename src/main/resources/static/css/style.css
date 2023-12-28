@@ -2255,12 +2255,27 @@ ol {
 	color: #1c1c1c;
 	font-weight: 700;
 	margin-bottom: 10px;
+	display: flex;
 }
 
 .checkout__order .checkout__order__products span {
-	float: right;
+	float: left;
+	flex: 1;
+}
+.checkout__order .checkout__order__products span:nth-child(1) {
+	order: 1; /* Đặt "Products" về vị trí đầu tiên */
+	text-align: left;
 }
 
+.checkout__order .checkout__order__products span:nth-child(2) {
+	order: 3; /* Đặt "Price" về vị trí thứ ba */
+	text-align: right;
+}
+
+.checkout__order .checkout__order__products span:nth-child(3) {
+	order: 2; /* Đặt "Quantity" về vị trí thứ hai */
+	text-align: center;
+}
 .checkout__order ul {
 	margin-bottom: 12px;
 }
@@ -2270,13 +2285,26 @@ ol {
 	color: #6f6f6f;
 	line-height: 40px;
 	list-style: none;
+	display: flex;
 }
 
 .checkout__order ul li span {
 	font-weight: 700;
-	float: right;
+	float: left;
+	flex: 1;
 }
-
+.checkout__order ul li span:nth-child(1) {
+	order: 1;
+	text-align: left;
+}
+.checkout__order ul li span:nth-child(2) {
+	order: 3;
+	text-align: right;
+}
+.checkout__order ul li span:nth-child(3) {
+	order: 2;
+	text-align: center;
+}
 .checkout__order .checkout__order__subtotal {
 	font-size: 18px;
 	color: #1c1c1c;
@@ -2316,7 +2344,6 @@ ol {
 	width: 100%;
 	margin-top: 10px;
 }
-
 /*---------------------
   Blog
 -----------------------*/

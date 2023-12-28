@@ -65,7 +65,7 @@
                                         <img src="${product.image}" alt="" width='80px' height='80px'>
                                         <h5>${product.name}</h5>
                                     </td>
-                                    <td class="shoping__cart__price">${product.price}đ</td>
+                                    <td class="shoping__cart__price">${product.price}</td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
@@ -177,14 +177,22 @@
                     // Tính tổng giá trị sản phẩm
                     let total = (0);
                     productsInCart.forEach(function(product) {
-                        total += parseInt(product.price)*parseInt(product.quantity);
+                        let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
+
+                        total += parseFloat(priceWithoutCommas)*parseInt(product.quantity);
                     });
 
+                    // // Lấy phần tử span dựa trên id
+                    // let totalPriceElement = document.getElementById('totalPrice');
+                    //
+                    // // Cập nhật nội dung của thẻ span với tổng giá trị
+                    // totalPriceElement.textContent = total + 'đ';
                     // Lấy phần tử span dựa trên id
                     let totalPriceElement = document.getElementById('totalPrice');
 
                     // Cập nhật nội dung của thẻ span với tổng giá trị
-                    totalPriceElement.textContent = total + 'đ';
+                    totalPriceElement.textContent = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+
                     localStorage.setItem('subtotal', totalPriceElement.textContent);
                     //console.log(total)
 

@@ -34,6 +34,10 @@ public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
     private final BCryptPasswordEncoder passwordEncoder;
+    @GetMapping("/checkout")
+    public String showCheckout(Model model){
+        return "checkout";
+    }
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
@@ -96,6 +100,7 @@ public class CustomerController {
 //        return "shop-details";
 //    }
 //
+
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
         String username = principal.getName();
