@@ -85,6 +85,70 @@
         </div>
     </section>
     <!-- Checkout Section End -->
+    <script>
+
+        let total = 0;
+        // Lấy danh sách sản phẩm từ localStorage
+        let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+        // Lấy thẻ ul từ mã HTML
+        let productList = document.getElementById('productList');
+        let id_quantity = {};
+
+        // Hiển thị danh sách sản phẩm
+        productsInCart.forEach(function(product, index) {
+            // Tạo phần tử li mới
+            let li = document.createElement('li');
+            let totall = parseInt(product.price)*parseInt(product.quantity);
+            total += totall;
+            li.innerHTML = `${product.name} <span>${totall}</span>`;
+            id_quantity[product.id] = product.quantity;
+            // Thêm phần tử li vào thẻ ul
+            productList.appendChild(li);
+        });
+
+        document.getElementById('total').textContent = total;
+        document.getElementById('subtotal').textContent = total;
+
+        const checkoutBtn = document.getElementById('place-order-btn');
+
+        checkoutBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
+
+            // Gửi yêu cầu Fetch khi click vào button
+
+            const data = {
+                name: document.getElementById('inputName').textContent,
+                phoneNum: document.getElementById('inputPhone').textContent,
+                address: document.getElementById('inputAddress').textContent,
+                id_quantity: id_quantity,
+                totalPrice: total
+            };
+
+            fetch('/...', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // Dữ liệu gửi đi
+            })
+                .then(response => {
+                    // Xử lý phản hồi từ máy chủ
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Request failed!');
+                })
+                .then(data => {
+                    // Xử lý dữ liệu trả về từ máy chủ
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Xử lý lỗi
+                    console.error(error);
+                });
+        });
+
+    </script>
 
     <!-- Footer Section-->
     <div th:replace="~{fragments::footer}"></div>
