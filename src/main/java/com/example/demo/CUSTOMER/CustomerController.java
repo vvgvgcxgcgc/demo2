@@ -242,9 +242,17 @@ public class CustomerController {
 
     }
     @GetMapping("/shoping-cart")
-    public String viewShopingcart(){
-        return "shoping-cart";
+    public String viewShopingcart(Principal principal){
+        if(principal == null||principal.getName().equals("adminonly")) {
+            return "0";
+        }
+        else return "1";
+
+
     }
+
+
+
 
 
 }
