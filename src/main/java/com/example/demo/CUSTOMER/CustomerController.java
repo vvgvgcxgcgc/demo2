@@ -34,6 +34,7 @@ public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
     private final BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping("/checkout")
     public String showCheckout(Model model){
         return "checkout";
@@ -75,15 +76,15 @@ public class CustomerController {
 //        return "admin-dashboard";
 //    }
 //
-//    @GetMapping("/contact")
-//    public String showContact(Model model){
-//        return "contact";
-//    }
+    @GetMapping("/contact")
+    public String showContact(Model model){
+        return "contact";
+    }
 //
-//    @GetMapping("/shoping-cart")
-//    public String showShoppingCart(Model model){
-//        return "shoping-cart";
-//    }
+    @GetMapping("/shoping-cart")
+    public String showShoppingCart(Model model){
+        return "shoping-cart";
+    }
 //
 //    @GetMapping("/shop-grid")
 //    public String showShopGrid(Model model){
@@ -241,14 +242,12 @@ public class CustomerController {
         return "redirect:/my-account";
 
     }
-    @GetMapping("/shoping-cart")
+    @GetMapping("/shoping-cart-fetch")
     public String viewShopingcart(Principal principal){
         if(principal == null||principal.getName().equals("adminonly")) {
             return "0";
         }
         else return "1";
-
-
     }
 
 

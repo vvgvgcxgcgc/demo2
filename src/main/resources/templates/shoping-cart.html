@@ -4,6 +4,25 @@
 <head>
     <title>Cơm Anh Bảy</title>
     <div th:replace="~{fragments::head}"></div>
+
+    <script>
+        function handleResponse(response) {
+            var value = response.trim(); // Xóa khoảng trắng dư thừa nếu có
+            var myVariable = value === "1" ? "Registered User" : "Unregistered User";
+            // Gán giá trị vào biến myVariable dựa trên giá trị nhận được
+            console.log(myVariable); // In giá trị của myVariable vào console
+        }
+
+        fetch('/shoping-cart-fetch')
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(data) {
+                handleResponse(data);
+            });
+
+    </script>
+
 </head>
 
 <body>
