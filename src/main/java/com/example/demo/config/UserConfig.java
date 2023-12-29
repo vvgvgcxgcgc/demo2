@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -81,7 +82,12 @@ public class UserConfig {
                         logout.invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .logoutSuccessUrl("/login?logout")
+                                .logoutSuccessHandler((request, response, authentication) -> {
+                                    // Xóa thông tin principal sau khi đăng xuất thành công
+                                    SecurityContextHolder.clearContext();
+                                    response.sendRedirect("/homepage");
+                                })
+                                .logoutSuccessUrl("/homepage")
                                 .permitAll()
                 )
                 .authenticationManager(authenticationManager)

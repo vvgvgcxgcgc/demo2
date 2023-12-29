@@ -35,7 +35,12 @@ public class CustomerController {
     private final ProductService productService;
     private final BCryptPasswordEncoder passwordEncoder;
     @GetMapping("/checkout")
-    public String showCheckout(Model model){
+    public String showCheckout(Model model, Principal principal){
+        if(principal== null) model.addAttribute("display",true);
+        else{
+            model.addAttribute("display",false);
+            model.addAttribute("checkadmin",true);
+        }
         return "checkout";
     }
 //    @GetMapping("/admin-add-product")
@@ -103,6 +108,8 @@ public class CustomerController {
 
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        model.addAttribute("display",false);
+        model.addAttribute("checkadmin",false);
         String username = principal.getName();
         User user = userser.findByUsername(username);
 
@@ -159,9 +166,19 @@ public class CustomerController {
 
     }
     @GetMapping("/login")
-    public String ShowLogin(Model model){
+    public String ShowLogin(Model model, Principal principal){
+        if(principal== null) {model.addAttribute("display",true);}
+        else{
+            model.addAttribute("display",false);
+            if(principal.getName().equals("adminonly"))
+                model.addAttribute("checkadmin",true);
+            else
+                model.addAttribute("checkadmin",false);
+
+        }
         Userdt userdt = Userdt.builder().build();
         model.addAttribute("userdt",userdt);
+
         return "login";
     }
 //    @PostMapping("/login")
@@ -183,7 +200,16 @@ public class CustomerController {
 //
 //    }
     @GetMapping("/homepage")
-    public String Viewhomepage(Model model){
+    public String Viewhomepage(Model model, Principal principal){
+        if(principal== null) {model.addAttribute("display",true);}
+        else{
+            model.addAttribute("display",false);
+            if(principal.getName().equals("adminonly"))
+                model.addAttribute("checkadmin",true);
+            else
+                model.addAttribute("checkadmin",false);
+
+        }
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
         for(Product p:products ){
@@ -203,9 +229,16 @@ public class CustomerController {
     }
     @GetMapping("/my-account")
     public String profile(Model model, Principal principal) {
+
         if(principal == null||principal.getName().equals("adminonly")) {
             return "redirect:/login";
         }
+
+        model.addAttribute("display",false);
+
+        model.addAttribute("checkadmin",false);
+
+
         String username = principal.getName();
         User user = userser.findByUsername(username);
 
@@ -244,13 +277,22 @@ public class CustomerController {
     @GetMapping("/shoping-cart")
     public String showShoppingCart(Model model, Principal principal){
         if(principal == null||principal.getName().equals("adminonly")) {
+            if(principal== null) model.addAttribute("display",true);
+            else {
+                model.addAttribute("display",false);
+                model.addAttribute("checkadmin",true);
+
+            }
             model.addAttribute("displayElement",false);
         }
         else {
+            model.addAttribute("display",false);
+            model.addAttribute("checkadmin",false);
             model.addAttribute("displayElement",true);
         }
 
         return "shoping-cart";
     }
+
 }
 

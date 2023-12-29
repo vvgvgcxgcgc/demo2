@@ -138,7 +138,7 @@
                                 <a href="#"><i class="fa fa-facebook-f"></i></a>
                             </div>
 <!--                            Truong hop chua dang nhap-->
-                            <div th:if="${principal == null}">
+                            <div th:if="${display}">
                                 <div class="header__top__right__auth" style='padding-right: 10px'>
                                     <a th:href="@{/register}"><i class="fa fa-user"></i> Register</a>
                                 </div>
@@ -147,21 +147,21 @@
                                 </div>
                             </div>
 <!--                            Truong hop dang nhap roi-->
-<!--                            <div th:if="${principal != null}">-->
-<!--                                <div th:if="${principal.getUsername() == 'adminonly'}">-->
-<!--                                    <div class="header__top__right__auth" style='padding-right: 10px'>-->
-<!--                                        <a th:href="@{/admin-dashboard}"><i class="fa fa-database"></i> Admin Management</a>-->
-<!--                                    </div>-->
-<!--                                    <div class="header__top__right__auth">-->
-<!--                                        <a th:href="@{/}"><i class="fa fa-user"></i> Logout</a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div th:unless="${principal.getUsername() == 'adminonly'}">-->
-<!--                                    <div class="header__top__right__auth">-->
-<!--                                        <a th:href="@{/}"><i class="fa fa-user"></i> Logout</a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div th:unless="${display}">
+                                <div th:if="${checkadmin}">
+                                    <div class="header__top__right__auth" style='padding-right: 10px'>
+                                        <a th:href="@{/admin-dashboard}"><i class="fa fa-database"></i> Admin Management</a>
+                                    </div>
+                                    <div class="header__top__right__auth">
+                                        <a th:href="@{/logout}"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
+                                </div>
+                                <div th:unless="${checkadmin}">
+                                    <div class="header__top__right__auth">
+                                        <a th:href="@{/logout}"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

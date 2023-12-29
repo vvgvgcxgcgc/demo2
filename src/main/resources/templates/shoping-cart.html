@@ -10,7 +10,7 @@
 
 <body>
     <!-- Header section-->
-    <div th:replace="~{fragments::header}"></div>
+    <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin})}"></div>
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">

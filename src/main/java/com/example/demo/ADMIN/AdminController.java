@@ -30,6 +30,10 @@ import static java.rmi.server.LogStream.log;
 @Log
 public class AdminController {
     private final ProductService productService;
+    @GetMapping("/admin-dashboard")
+    public String dasboard(){
+        return "admin-dashboard";
+    }
     @GetMapping("/admin-products")
     public String showAdminProducts(Model model ,Principal principal){
         if (principal == null) {
