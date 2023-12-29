@@ -252,14 +252,5 @@ public class CustomerController {
 
         return "shoping-cart";
     }
-
-
-
-
-
-
-
-
-
 }
 
