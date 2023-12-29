@@ -166,20 +166,21 @@ public class CustomerController {
 
     }
     @GetMapping("/login")
-    public String ShowLogin(Model model, Principal principal){
-        if(principal== null) {model.addAttribute("display",true);}
+    public String ShowLogin(Model model, Principal principal,RedirectAttributes redirectAttributes){
+        if(principal== null) {model.addAttribute("display",true);
+            Userdt userdt = Userdt.builder().build();
+            model.addAttribute("userdt",userdt);
+
+            return "login";}
         else{
-            model.addAttribute("display",false);
-            if(principal.getName().equals("adminonly"))
-                model.addAttribute("checkadmin",true);
-            else
-                model.addAttribute("checkadmin",false);
+
+            redirectAttributes.addFlashAttribute("error","You must log out first");
+            return "redirect:/homepage";
+
+
 
         }
-        Userdt userdt = Userdt.builder().build();
-        model.addAttribute("userdt",userdt);
 
-        return "login";
     }
 //    @PostMapping("/login")
 //    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,

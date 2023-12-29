@@ -9,7 +9,23 @@
 <body>
 <!-- Header section -->
 <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin})}"></div>
+<div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
+    <p th:text = "${error}"></p>
+</div>
 
+<script>
+
+    const errorMessage = document.getElementById("errorMessage");
+
+    if (errorMessage) {
+        setTimeout(function () {
+            errorMessage.classList.add("fade-out");
+            setTimeout(function () {
+                errorMessage.style.display = "none";
+            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+    }
+</script>
 <!-- Hero section -->
 <div th:replace="~{fragments::hero}"></div>
 
