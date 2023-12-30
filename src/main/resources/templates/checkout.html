@@ -73,8 +73,8 @@
                                 <div class="checkout__order__subtotal">Subtotal
                                     <span id="subtotal"></span>
                                 </div>
-                                <div class="checkout__order__subtotal">Shipping Fee
-                                    <span id="shipping fee">15,000đ</span>
+                                <div class="checkout__order__xsubtotal" style="padding-bottom: 10px;">Shipping Fee
+                                    <span id="shipping fee" style="float: right"></span>
                                 </div>
                                 <div class="checkout__order__total">Total <span id="total"></span></div>
 
@@ -107,7 +107,9 @@
         productsInCart.forEach(function(product, index) {
             // Tạo phần tử li mới
             let li = document.createElement('li');
-            li.innerHTML = `<span>${product.name}</span><span>${product.price}</span><span>${product.quantity}</span>`;
+            let pricee = parseInt((product.price).replace(/,/g, ''));
+            let priceStr = pricee.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+            li.innerHTML = `<span>${product.name}</span><span>${priceStr}</span><span>${product.quantity}</span>`;
             id_quantity[product.id] = product.quantity;
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
@@ -139,7 +141,7 @@
         // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
         document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-
+        document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
 
         const checkoutBtn = document.getElementById('place-order-btn');
 
