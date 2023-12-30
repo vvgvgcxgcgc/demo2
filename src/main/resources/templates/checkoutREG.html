@@ -177,7 +177,7 @@
             let pricee = parseInt((product.price).replace(/,/g, ''));
             let priceStr = pricee.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
             li.innerHTML = `<span>${product.name}</span><span>${priceStr}</span><span>${product.quantity}</span>`;
-            id_quantity[product.id] = product.quantity;
+            id_quantity[product.id] = parseInt(product.quantity);
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
             total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
