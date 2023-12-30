@@ -41,7 +41,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Name</p>
-                                        <input id="inputName" type="text" text="">
+                                        <input id="inputName" type="text" text="" required="required">
                                     </div>
                                 </div>
                             </div>
@@ -50,14 +50,14 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone number</p>
-                                        <input id="inputPhone" type="text" text="">
+                                        <input id="inputPhone" type="text" text="" required="required">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="checkout__input">
                                 <p>Address</p>
-                                <input id="inputAddress" type="text" text="">
+                                <input id="inputAddress" type="text" text="" required="required">
                             </div>
 
                         </div>
@@ -86,7 +86,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button id="place-order-btn" type="submit" class="site-btn">PLACE ORDER</button>
+                                <a th:href="@{#}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
                             </div>
                         </div>
                     </div>
@@ -101,13 +101,14 @@
         // Lấy thẻ ul từ mã HTML
         let productList = document.getElementById('productList');
         // Lấy dữ liệu từ localStorage
-        let id_quantity = localStorage.getItem('id_quantity');
+        let id_quantity = {};
         let total = 0;
         // Hiển thị danh sách sản phẩm
         productsInCart.forEach(function(product, index) {
             // Tạo phần tử li mới
             let li = document.createElement('li');
             li.innerHTML = `<span>${product.name}</span><span>${product.price}</span><span>${product.quantity}</span>`;
+            id_quantity[product.id] = product.quantity;
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
             total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
@@ -143,17 +144,19 @@
         const checkoutBtn = document.getElementById('place-order-btn');
 
         checkoutBtn.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
+            // event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
 
             // Gửi yêu cầu Fetch khi click vào button
 
             const data = {
-                name: document.getElementById('inputName').textContent,
-                phoneNum: document.getElementById('inputPhone').textContent,
-                address: document.getElementById('inputAddress').textContent,
+                name: document.getElementById('inputName').value,
+                phoneNum: document.getElementById('inputPhone').value,
+                address: document.getElementById('inputAddress').value,
                 id_quantity: id_quantity,
-                totalPrice: total
+                totalPrice: total + 15000
             };
+
+            console.log(data);
 
             fetch('/...', {
                 method: 'POST',
@@ -165,7 +168,7 @@
                 .then(response => {
                     // Xử lý phản hồi từ máy chủ
                     if (response.ok) {
-                        return response.json();
+                        return response;
                     }
                     throw new Error('Request failed!');
                 })

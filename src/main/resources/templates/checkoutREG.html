@@ -58,56 +58,49 @@
 
                             <div class="checkout__input">
                                 <p>Address</p>
+
+                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />
+
                                 <select name="addresses" id="addressesSelect" onchange="handleAddressChange()">
-                                    <option th:each="address : ${user.addresses}" th:value="${address}" th:text="${address}"></option>
-                                    <option value="addAddr">+ Add new address</option>
                                 </select>
+
                                 <br><br>
                                 <div id="newAddressContainer" style="display: none;">
                                     <label for="newAddress">New address:</label>
-                                    <input type="text" id="newAddress">
-                                    <button type="submit" onclick="addNewAddress()" class="site-btn-addr">Confirm</button>
-                                    <button onclick="cancelAddNewAddress()" class="site-btn-remove-addr">Cancel</button>
+                                    <input type="text" id="newAddress" required="required">
+<!--                                    <button onclick="addNewAddress()" class="site-btn-addr">Confirm</button>-->
+<!--                                    <button onclick="cancelAddNewAddress()" class="site-btn-remove-addr">Cancel</button>-->
                                 </div>
-
-                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />
 
                             </div>
 
                             <script>
+                                let listAddr = document.getElementById("userAddresses").value;
+                                let addressesSelect = document.getElementById("addressesSelect");
+
+                                // Tạo các option từ listAddr
+                                let addresses = listAddr.split(","); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
+
+                                addresses.forEach(function(address) {
+                                    let option = document.createElement("option");
+                                    option.value = address;
+                                    option.text = address;
+                                    addressesSelect.appendChild(option);
+                                });
+
+                                // Thêm option cuối cùng
+                                let addNewAddressOption = document.createElement("option");
+                                addNewAddressOption.value = "addAddr";
+                                addNewAddressOption.text = "+ Add new address";
+                                addressesSelect.appendChild(addNewAddressOption);
+
                                 function handleAddressChange() {
                                     var selectedValue = document.getElementById("addressesSelect").value;
-                                    console.log(document.getElementById("addressesSelect").options[document.getElementById("addressesSelect").selectedIndex].textContent);
                                     if (selectedValue === "addAddr") {
                                         document.getElementById("newAddressContainer").style.display = "block";
                                     } else {
                                         document.getElementById("newAddressContainer").style.display = "none";
                                     }
-                                }
-
-                                function addNewAddress() {
-                                    const newAddressInput = document.getElementById("newAddress");
-                                    const newAddressValue = newAddressInput.value;
-                                    const userAddressesInput = document.getElementById("userAddresses");
-                                    const userAddressesArray = userAddressesInput.value.split(",");
-
-                                    if (newAddressValue.trim() !== "" ){
-                                        if (!userAddressesArray.includes(newAddressValue)) {
-                                            userAddressesArray.push(newAddressValue);
-                                            document.getElementById("userAddresses").value = userAddressesArray.join(",");
-                                        }
-                                        const selectElement = document.querySelector('select[name="addresses"]');
-                                        const optionElement = selectElement.querySelector('option[value=newAddressValue]');
-                                        optionElement.selected = true;
-
-                                        newAddressInput.value = "";
-                                        document.getElementById("newAddressContainer").style.display = "none";
-                                    }
-                                }
-
-                                function cancelAddNewAddress() {
-                                    document.getElementById("newAddress").value = "";
-                                    document.getElementById("newAddressContainer").style.display = "none";
                                 }
                             </script>
                         </div>
@@ -137,7 +130,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <button type="submit" class="site-btn" id="place-order-btn">PLACE ORDER</button>
+                                <a th:href="@{#}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
                             </div>
                         </div>
                     </div>
@@ -153,7 +146,7 @@
         // let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
         // // Lấy thẻ ul từ mã HTML
         // let productList = document.getElementById('productList');
-        // let id_quantity = {};
+        let id_quantity = {};
         //
         // // Hiển thị danh sách sản phẩm
         // productsInCart.forEach(function(product, index) {
@@ -175,13 +168,14 @@
         // Lấy thẻ ul từ mã HTML
         let productList = document.getElementById('productList');
         // Lấy dữ liệu từ localStorage
-        let id_quantity = localStorage.getItem('id_quantity');
+        // let id_quantity = localStorage.getItem('id_quantity');
         let total = 0;
         // Hiển thị danh sách sản phẩm
         productsInCart.forEach(function(product, index) {
             // Tạo phần tử li mới
             let li = document.createElement('li');
             li.innerHTML = `<span>${product.name}</span><span>${product.price}</span><span>${product.quantity}</span>`;
+            id_quantity[product.id] = product.quantity;
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
             total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
@@ -195,7 +189,7 @@
         document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
 
-
+        let addr = "";
 
         const checkoutBtn = document.getElementById('place-order-btn');
 
@@ -203,14 +197,25 @@
             event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
 
             // Gửi yêu cầu Fetch khi click vào button
+            if (document.getElementById("addressesSelect").value === "addAddr") {
+                if (document.getElementById("newAddress").value.trim() !== "") {
+                    addr = document.getElementById("newAddress").value;
+                } else {
+                    alert("You haven't provided your address!");
+                }
+            } else {
+                addr = document.getElementById("addressesSelect").options[document.getElementById("addressesSelect").selectedIndex].textContent;
+            }
 
             const data = {
-                name: document.getElementById('inputName').textContent,
-                phoneNum: document.getElementById('inputPhone').textContent,
-                address: document.getElementById("addressesSelect").options[document.getElementById("addressesSelect").selectedIndex].textContent,
+                name: document.getElementById('inputName').value,
+                phoneNum: document.getElementById('inputPhone').value,
+                address: addr,
                 id_quantity: id_quantity,
-                totalPrice: total
+                totalPrice: total + 15000
             };
+
+            console.log(data);
 
             fetch('/...', {
                 method: 'POST',
@@ -222,17 +227,17 @@
                 .then(response => {
                     // Xử lý phản hồi từ máy chủ
                     if (response.ok) {
-                        return response.json();
+                        return response;
                     }
                     throw new Error('Request failed!');
                 })
                 .then(data => {
                     // Xử lý dữ liệu trả về từ máy chủ
-                    console.log(data);
+                    // console.log(data);
                 })
                 .catch(error => {
                     // Xử lý lỗi
-                    console.error(error);
+                    // console.error(error);
                 });
         });
 
