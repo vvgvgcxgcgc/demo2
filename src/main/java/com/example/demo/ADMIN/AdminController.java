@@ -30,6 +30,17 @@ import static java.rmi.server.LogStream.log;
 @Log
 public class AdminController {
     private final ProductService productService;
+
+    @GetMapping("/admin-orders-pending")
+    public String showAdminOrdersPending(Model model){
+        return "admin-orders-pending";
+    }
+
+    @GetMapping("/admin-orders-completed")
+    public String showAdminOrdersCompleted(Model model){
+        return "admin-orders-completed";
+    }
+
     @GetMapping("/admin-dashboard")
     public String dasboard(){
         return "admin-dashboard";

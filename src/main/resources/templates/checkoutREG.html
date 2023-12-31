@@ -130,7 +130,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <a th:href="@{#}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
+                                <a type="submit" th:href="@{/homepage}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
                             </div>
                         </div>
                     </div>
@@ -197,13 +197,14 @@
         const checkoutBtn = document.getElementById('place-order-btn');
 
         checkoutBtn.addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
+            // event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
 
             // Gửi yêu cầu Fetch khi click vào button
             if (document.getElementById("addressesSelect").value === "addAddr") {
                 if (document.getElementById("newAddress").value.trim() !== "") {
                     addr = document.getElementById("newAddress").value;
                 } else {
+                    event.preventDefault();
                     alert("You haven't provided your address!");
                 }
             } else {
@@ -211,6 +212,7 @@
             }
 
             const data = {
+                orderDate: getCurrentTime(),
                 name: document.getElementById('inputName').value,
                 phoneNum: document.getElementById('inputPhone').value,
                 address: addr,
@@ -242,8 +244,19 @@
                     // Xử lý lỗi
                     // console.error(error);
                 });
-        });
 
+        });
+        function getCurrentTime() {
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = String(date.getMonth() + 1).padStart(2, '0');
+            let day = String(date.getDate()).padStart(2, '0');
+            let hours = String(date.getHours()).padStart(2, '0');
+            let minutes = String(date.getMinutes()).padStart(2, '0');
+            let seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return (year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+        }
     </script>
 
     <!-- Footer Section-->

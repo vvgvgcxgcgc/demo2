@@ -67,8 +67,8 @@
          data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Custom Components:</h6>
-        <a class="collapse-item active" th:href="@{/categories}">Manage Category</a>
-        <a class="collapse-item" th:href = "@{/products/0}">Manage Product</a>
+<!--        <a class="collapse-item active" th:href="@{/categories}">Manage Category</a>-->
+        <a class="collapse-item" th:href = "@{/admin-products/0}">Manage Product</a>
       </div>
     </div>
   </li>
@@ -84,7 +84,8 @@
          data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Custom Utilities:</h6>
-        <a class="collapse-item" th:href="@{/orders}">Orders</a>
+        <a class="collapse-item" th:href="@{/admin-orders}">Awaiting orders</a>
+        <a class="collapse-item" th:href="@{/admin-orders}">Completed orders</a>
       </div>
     </div>
   </li>

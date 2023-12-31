@@ -334,30 +334,109 @@
                             <label class="form-label">Your Orders</label>
                             <table class="table table-bordered">
                                 <thead>
-                                <tr>
-                                    <th scope="col" style="font-size: large;">Name</th>
-                                    <th scope="col" style="font-size: large;">Price</th>
-                                    <th scope="col" style="font-size: large;">Status</th>
-                                </tr>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Order Date</th>
+                                        <th>Total Price</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
+                                        <th>Products</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order : ${orders}" th:if="${order.usr.id == user.id} and ${order.status == 1}">
+                                        <td>
+                                            <p th:text="${order.time}"></p>
+                                        </td>
+                                        <td>
+                                            <p style="color: red" th:text="${order.totalPrice}"></p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${order.usr.name}"></p>
+                                        </td>
+                                        <td style="width: 115px;">
+                                            <p th:text="${order.usr.phone}"></p>
+                                        </td>
+                                        <td style="width: 300px;">
+                                            <p th:text="${order.usr.address.iterator().next()}"></p>
+                                        </td>
+                                        <td>
+                                            <!--                            List <pair<pair<id,name>,quantity>-->
+                                            <div th:each="pair : ${order.order_productList}">
+                                                <p th:text="${pair.getValue()} + 'x' + ${pair.getKey().getValue()} + ' (' + ${pair.getKey().getKey()} + ')'"></p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p>Pending Approval</p>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/cancel-order(id = ${order.id})}"
+                                               class="btn btn-primary"><img class='fa fa-window-close' alt='' src=''>Cancel</a>
+                                        </td>
+                                    </tr>
+
+                                    <tr th:each="order : ${orders}" th:if="${order.usr.id == user.id} and ${order.status == 2 or order.status == 3 or order.status == 4}">
+                                        <td>
+                                            <p th:text="${order.time}"></p>
+                                        </td>
+                                        <td>
+                                            <p style="color: red" th:text="${order.totalPrice}"></p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${order.usr.name}"></p>
+                                        </td>
+                                        <td style="width: 115px;">
+                                            <p th:text="${order.usr.phone}"></p>
+                                        </td>
+                                        <td style="width: 300px;">
+                                            <p th:text="${order.usr.address.iterator().next()}"></p>
+                                        </td>
+                                        <td>
+                                            <!--                            List <pair<pair<id,name>,quantity>-->
+                                            <div th:each="pair : ${order.order_productList}">
+                                                <p th:text="${pair.getValue()} + 'x' + ${pair.getKey().getValue()} + ' (' + ${pair.getKey().getKey()} + ')'"></p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p th:text="${order.status}"></p>
+                                        </td>
+                                        <td>
+                                            <p></p>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                    <script>
+                                        function sortOrdersByDate() {
+                                            var orderGroups = document.querySelectorAll('tr[th:each="order : ${orders}"]');
+
+                                            orderGroups.forEach(function(group) {
+                                                var orders = Array.from(group.parentNode.children);
+                                                var sortedOrders = orders.slice(1).sort(function(a, b) {
+                                                    var dateA = new Date(a.querySelector('p').textContent);
+                                                    var dateB = new Date(b.querySelector('p').textContent);
+                                                    return dateA - dateB;
+                                                });
+
+                                                sortedOrders.forEach(function(order) {
+                                                    group.parentNode.appendChild(order);
+                                                });
+                                            });
+                                        }
+
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            sortOrdersByDate();
+                                        });
+                                    </script>
+
+                                </table>
+
                                 </thead>
-                                <tbody style="font-size: large;">
-<!--                                <tr th:each = "product : ${products}">-->
-<!--                                    <th scope="row" th:text = "${product.name}"></th>-->
-<!--                                    <td th:text = "${product.price}"></td>-->
-<!--                                    &lt;!&ndash;                            <td th:text = "${product.currentQuantity}"></td>&ndash;&gt;-->
-<!--                                    <td>-->
-<!--                                        <img class = "my-product-image" style="height: 40px; width: 40px"-->
-<!--                                             th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">-->
-<!--                                    </td>-->
-<!--                                    <td><a th:href="@{/admin-update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a></td>-->
-<!--                                    <td>-->
-<!--                                        <a th:if="${product.deleted} == true" th:href="@{/enable-product(id = ${product.id})}"-->
-<!--                                           class="btn btn-primary">Enable</a>-->
-<!--                                        <a th:if="${product.deleted} == false" th:href="@{/delete-product(id = ${product.id})}"-->
-<!--                                           class=" btn btn-danger">Disable</a>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-                                </tbody>
                             </table>
                         </div>
                     </div>

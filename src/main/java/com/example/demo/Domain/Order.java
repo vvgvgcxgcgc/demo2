@@ -29,7 +29,4 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "od")
     private List<Product_Order> order_productList;
-
-
-
 }
