@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -21,8 +22,12 @@ public class Order {
     @Column(name = "OrderId")
     private Long id;
     private LocalDateTime time;
-    private Integer paybycash;
-    private Integer orderstatus;
+    private int paybycash =1;
+    private int orderstatus = 0;
+    private  String unregister_name;
+    private String  unregister_phonenumber;
+    private String unregister_address;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "UserId", referencedColumnName = "UserId")
     private User  usr ;

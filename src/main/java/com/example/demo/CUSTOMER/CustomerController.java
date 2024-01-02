@@ -4,6 +4,7 @@ import com.example.demo.Domain.User;
 import com.example.demo.Service.ProductService;
 import com.example.demo.Service.Userser;
 import com.example.demo.Service.Userserimp;
+import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
@@ -294,6 +295,15 @@ public class CustomerController {
 
         return "shoping-cart";
     }
+//    @PostMapping("/fetch")
+//    public String handleDataCheckout(@RequestBody Orderdt checkoutData) {
+//        // Xử lý dữ liệu được gửi từ client thông qua @RequestBody và CheckoutData
+//        // Ví dụ: In ra thông tin nhận được từ client
+//        System.out.println(checkoutData.getName());
+//
+//        // Thực hiện các xử lý khác với dữ liệu nhận được
+//        return "redirect:/hompage";
+//    }
 
 }
 

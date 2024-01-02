@@ -49,6 +49,8 @@ public class UserConfig {
 
 
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder
@@ -61,13 +63,14 @@ public class UserConfig {
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( author ->
                             author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/#").permitAll()
 
                                 .anyRequest().authenticated()
 
@@ -94,6 +97,7 @@ public class UserConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
+
         ;
         return http.build();
     }

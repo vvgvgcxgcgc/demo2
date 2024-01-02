@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p class="required-field">Name</p>
+                                        <p>Name</p>
                                         <input id="inputName" type="text" text="" required="required">
                                     </div>
                                 </div>
@@ -49,24 +49,16 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p class="required-field">Phone number</p>
+                                        <p>Phone number</p>
                                         <input id="inputPhone" type="text" text="" required="required">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="checkout__input">
-                                <p class="required-field">Address</p>
+                                <p>Address</p>
                                 <input id="inputAddress" type="text" text="" required="required">
                             </div>
-
-                            <style>
-                                .required-field::after {
-                                    content: "*";
-                                    color: red;
-                                    margin-right: 2px;
-                                }
-                            </style>
 
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -94,7 +86,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <a type="submit" th:href="@{/homepage}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
+                                <a th:href="@{#}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
                             </div>
                         </div>
                     </div>
