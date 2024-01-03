@@ -33,15 +33,15 @@
         <div class="container">
             <div class="checkout__form">
                 <h4>Billing Details</h4>
-                <form action="#">
-<!--                <form id="yourForm" th:action="@{/}"   method="post" enctype="multipart/form-data">-->
+<!--                <form action="#">-->
+                <form id="yourForm" th:action="@{/save-order}" th:object="${order}" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Name</p>
-                                        <input id="inputName" type="text" text="" required="required">
+                                        <input id="inputName" th:field="*{order.name}" type="text" text="" required="required">
                                     </div>
                                 </div>
                             </div>
@@ -50,15 +50,20 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Phone number</p>
-                                        <input id="inputPhone" type="text" text="" required="required">
+                                        <input id="inputPhone" th:field="*{order.phonenumber}" type="text" text="" required="required">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="checkout__input">
                                 <p>Address</p>
-                                <input id="inputAddress" type="text" text="" required="required">
+                                <input id="inputAddress" th:field="*{order.address}" type="text" text="" required="required">
                             </div>
+
+                            <input type="text" id="input_totalPrice" th:field="*{order.totalPrice}" name="totalP" text="" required="required">
+
+                            <input type="hidden" id="input_id" name="input_id" text="" required="required">
+                            <input type="hidden" id="input_quantity" name="input_quantity" text="" required="required">
 
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -86,7 +91,7 @@
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <a th:href="@{#}" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</a>
+                                <button type="submit" id="place-order-btn" class="site-btn-checkout">PLACE ORDER</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +106,8 @@
         // Lấy thẻ ul từ mã HTML
         let productList = document.getElementById('productList');
         // Lấy dữ liệu từ localStorage
-        let id_quantity = {};
+        let inputID = [];
+        let inputQuan = [];
         let total = 0;
         // Hiển thị danh sách sản phẩm
         productsInCart.forEach(function(product, index) {
@@ -110,12 +116,17 @@
             let pricee = parseInt((product.price).replace(/,/g, ''));
             let priceStr = pricee.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
             li.innerHTML = `<span>${product.name}</span><span>${priceStr}</span><span>${product.quantity}</span>`;
-            id_quantity[product.id] = parseInt(product.quantity);
+
+            inputID.push(product.id);
+            inputQuan.push(product.quantity);
+
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
             total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
             productList.appendChild(li);
         });
+
+        // console.log(id_name_quantity);
 
 //        let total = 0;
 //        // Lấy danh sách sản phẩm từ localStorage
@@ -142,6 +153,9 @@
         document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        document.getElementById("input_totalPrice").value = total1 + 15000;
+        document.getElementById("input_id").value = inputID;
+        document.getElementById("input_quantity").value = inputQuan;
 
         const checkoutBtn = document.getElementById('place-order-btn');
 
@@ -158,38 +172,38 @@
 
             // Gửi yêu cầu Fetch khi click vào button
 
-            const data = {
-                name: document.getElementById('inputName').value,
-                phoneNum: document.getElementById('inputPhone').value,
-                address: document.getElementById('inputAddress').value,
-                id_quantity: id_quantity,
-                totalPrice: total + 15000
-            };
-
-            console.log(data);
-
-            fetch('/...', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data) // Dữ liệu gửi đi
-            })
-                .then(response => {
-                    // Xử lý phản hồi từ máy chủ
-                    if (response.ok) {
-                        return response;
-                    }
-                    throw new Error('Request failed!');
-                })
-                .then(data => {
-                    // Xử lý dữ liệu trả về từ máy chủ
-                    console.log(data);
-                })
-                .catch(error => {
-                    // Xử lý lỗi
-                    console.error(error);
-                });
+            // const data = {
+            //     name: document.getElementById('inputName').value,
+            //     phoneNum: document.getElementById('inputPhone').value,
+            //     address: document.getElementById('inputAddress').value,
+            //     id_quantity: id_quantity,
+            //     totalPrice: total + 15000
+            // };
+            //
+            // console.log(data);
+            //
+            // fetch('/...', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(data) // Dữ liệu gửi đi
+            // })
+            //     .then(response => {
+            //         // Xử lý phản hồi từ máy chủ
+            //         if (response.ok) {
+            //             return response;
+            //         }
+            //         throw new Error('Request failed!');
+            //     })
+            //     .then(data => {
+            //         // Xử lý dữ liệu trả về từ máy chủ
+            //         console.log(data);
+            //     })
+            //     .catch(error => {
+            //         // Xử lý lỗi
+            //         console.error(error);
+            //     });
         });
 
     </script>

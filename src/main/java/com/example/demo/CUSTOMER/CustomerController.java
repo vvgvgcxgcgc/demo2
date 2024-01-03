@@ -44,6 +44,15 @@ public class CustomerController {
         }
         return "checkout";
     }
+
+@PostMapping("/save-order")
+public String saveorder(@RequestParam("input_id") List<String> id,
+                        @RequestParam("input_quantity") List<Integer> quantity){
+        System.out.println(id);
+        System.out.println(quantity);
+        return "redirect:/homepage";
+}
+
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
 //        return "admin-add-product";
