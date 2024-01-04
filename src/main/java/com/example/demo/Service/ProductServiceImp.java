@@ -105,4 +105,9 @@ public class ProductServiceImp implements ProductService {
         return p1;
     }
 
+    @Override
+    public Product getProductById(String id) {
+        return productRepos.getReferenceById(id);
+    }
+
 }

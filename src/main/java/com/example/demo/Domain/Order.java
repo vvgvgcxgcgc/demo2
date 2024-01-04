@@ -27,6 +27,7 @@ public class Order {
     private  String unregister_name;
     private String  unregister_phonenumber;
     private String unregister_address;
+    private long total;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "UserId", referencedColumnName = "UserId")

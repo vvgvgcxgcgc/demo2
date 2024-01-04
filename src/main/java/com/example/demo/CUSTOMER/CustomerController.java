@@ -1,6 +1,8 @@
 package com.example.demo.CUSTOMER;
+import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
+import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
 import com.example.demo.Service.Userser;
 import com.example.demo.Service.Userserimp;
@@ -34,6 +36,7 @@ import static java.lang.Math.log;
 public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
+    private final OrderService orderService;
     private final BCryptPasswordEncoder passwordEncoder;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
@@ -42,16 +45,11 @@ public class CustomerController {
             model.addAttribute("display",false);
             model.addAttribute("checkadmin",true);
         }
+        model.addAttribute("order",new Orderdt());
         return "checkout";
     }
 
-@PostMapping("/save-order")
-public String saveorder(@RequestParam("input_id") List<String> id,
-                        @RequestParam("input_quantity") List<Integer> quantity){
-        System.out.println(id);
-        System.out.println(quantity);
-        return "redirect:/homepage";
-}
+
 
 //    @GetMapping("/admin-add-product")
 //    public String showAdminAddProduct(Model model){
@@ -303,6 +301,17 @@ public String saveorder(@RequestParam("input_id") List<String> id,
         }
 
         return "shoping-cart";
+    }
+    @PostMapping("/place-order")
+    public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
+                             @RequestParam("input_quantity")List<Integer> quantitylist){
+       Order order= orderService.save(orderdt);
+       System.out.println( productlist.size());
+       for(int i=0;i<productlist.size();i++){
+           orderService.save_productOrder(order.getId(),productlist.get(i),quantitylist.get(i));
+       }
+
+        return "redirect:/homepage";
     }
 //    @PostMapping("/fetch")
 //    public String handleDataCheckout(@RequestBody Orderdt checkoutData) {

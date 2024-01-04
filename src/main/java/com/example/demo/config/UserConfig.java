@@ -70,7 +70,7 @@ public class UserConfig {
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/save-order", "/#").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order").permitAll()
 
                                 .anyRequest().authenticated()
 

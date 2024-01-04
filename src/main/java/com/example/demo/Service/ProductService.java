@@ -17,4 +17,5 @@ public interface ProductService {
     public void deleteById(String id);
     public void enableById(String id);
     public Productdt getById(String id);
+    public Product getProductById(String id);
 }
