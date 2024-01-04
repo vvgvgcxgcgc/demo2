@@ -35,7 +35,7 @@
             <div class="checkout__form">
                 <h4>Billing Details</h4>
 <!--                <form action="#">-->
-                <form id="yourForm" th:action="@{/save-order}" th:object="${order}" method="post" enctype="multipart/form-data">
+                <form id="yourForm" th:action="@{/place-order}" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="row">
@@ -69,7 +69,7 @@
                                 <br><br>
                                 <div id="newAddressContainer" style="display: none;">
                                     <label for="newAddress">New address:</label>
-                                    <input type="text" id="newAddress" required="required">
+                                    <input type="text" id="newAddress">
 <!--                                    <button onclick="addNewAddress()" class="site-btn-addr">Confirm</button>-->
 <!--                                    <button onclick="cancelAddNewAddress()" class="site-btn-remove-addr">Cancel</button>-->
                                 </div>
@@ -86,7 +86,7 @@
                                 let addressesSelect = document.getElementById("addressesSelect");
 
                                 // Tạo các option từ listAddr
-                                let addresses = listAddr.split(","); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
+                                let addresses = listAddr.replace(/\[|\]/g, "").split(","); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
 
                                 addresses.forEach(function(address) {
                                     let option = document.createElement("option");
@@ -147,27 +147,6 @@
     <!-- Checkout Section End -->
     <script>
 
-        // let total = 0;
-        // // Lấy danh sách sản phẩm từ localStorage
-        // let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
-        // // Lấy thẻ ul từ mã HTML
-        // let productList = document.getElementById('productList');
-        //
-        // // Hiển thị danh sách sản phẩm
-        // productsInCart.forEach(function(product, index) {
-        //     // Tạo phần tử li mới
-        //     let li = document.createElement('li');
-        //     let totall = parseInt(product.price)*parseInt(product.quantity);
-        //     total += totall;
-        //     li.innerHTML = `${product.name} <span>${totall}</span>`;
-        //     id_quantity[product.id] = product.quantity;
-        //     // Thêm phần tử li vào thẻ ul
-        //     productList.appendChild(li);
-        // });
-        //
-        // document.getElementById('total').textContent = total;
-        // document.getElementById('subtotal').textContent = total;
-
         // Lấy danh sách sản phẩm từ localStorage
         let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
         // Lấy thẻ ul từ mã HTML
@@ -216,48 +195,16 @@
             if (document.getElementById("addressesSelect").value === "addAddr") {
                 if (document.getElementById("newAddress").value.trim() !== "") {
                     addr = document.getElementById("newAddress").value;
+                    var newOption = document.createElement("option");
+                    newOption.value = addr;
+                    newOption.text = addr;
+                    document.getElementById("addressesSelect").add(newOption);
+                    document.getElementById("addressesSelect").value = addr;
                 } else {
                     event.preventDefault();
                     alert("You haven't provided your address!");
                 }
             }
-            // } else {
-            //     addr = document.getElementById("addressesSelect").options[document.getElementById("addressesSelect").selectedIndex].textContent;
-            // }
-            //
-            // const data = {
-            //     orderDate: getCurrentTime(),
-            //     name: document.getElementById('inputName').value,
-            //     phonenumber: document.getElementById('inputPhone').value,
-            //     address: addr,
-            //     id_quantity: id_quantity,
-            //     totalPrice: total + 15000
-            // };
-            //
-            // console.log(data);
-            //
-            // fetch('/...', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(data) // Dữ liệu gửi đi
-            // })
-            //     .then(response => {
-            //         // Xử lý phản hồi từ máy chủ
-            //         if (response.ok) {
-            //             return response;
-            //         }
-            //         throw new Error('Request failed!');
-            //     })
-            //     .then(data => {
-            //         // Xử lý dữ liệu trả về từ máy chủ
-            //         // console.log(data);
-            //     })
-            //     .catch(error => {
-            //         // Xử lý lỗi
-            //         // console.error(error);
-            //     });
 
         });
         function getCurrentTime() {

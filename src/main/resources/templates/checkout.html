@@ -60,7 +60,7 @@
                                 <input id="inputAddress" th:field="*{order.address}" type="text" text="" required="required">
                             </div>
 
-                            <input type="text" id="input_totalPrice" th:field="*{order.totalPrice}" name="totalP" text="" required="required">
+                            <input type="hidden" id="input_totalPrice" th:field="*{order.totalPrice}" name="totalPrice" text="" required="required">
 
                             <input type="hidden" id="input_id" name="input_id" text="" required="required">
                             <input type="hidden" id="input_quantity" name="input_quantity" text="" required="required">
@@ -106,7 +106,8 @@
         // Lấy thẻ ul từ mã HTML
         let productList = document.getElementById('productList');
         // Lấy dữ liệu từ localStorage
-        let id_quantity = {};
+        let input_id = []
+        let input_quan = []
         let total = 0;
         // Hiển thị danh sách sản phẩm
         productsInCart.forEach(function(product, index) {
@@ -115,38 +116,24 @@
             let pricee = parseInt((product.price).replace(/,/g, ''));
             let priceStr = pricee.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
             li.innerHTML = `<span>${product.name}</span><span>${priceStr}</span><span>${product.quantity}</span>`;
-            id_quantity[product.id] = parseInt(product.quantity);
+
+            input_id.push(product.id);
+            input_quan.push(product.quantity);
+
             // Thêm phần tử li vào thẻ ul
             let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
             total += parseFloat(priceWithoutCommas) * parseInt(product.quantity);
             productList.appendChild(li);
         });
 
-//        let total = 0;
-//        // Lấy danh sách sản phẩm từ localStorage
-//        let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
-//        // Lấy thẻ ul từ mã HTML
-//        let productList = document.getElementById('productList');
-//        let id_quantity = {};
-//
-//        // Hiển thị danh sách sản phẩm
-//        productsInCart.forEach(function(product, index) {
-//            // Tạo phần tử li mới
-//            let li = document.createElement('li');
-//            let totall = parseInt(product.price)*parseInt(product.quantity);
-//            total += totall;
-//            li.innerHTML = `${product.name} <span>${totall}</span>`;
-//            id_quantity[product.id] = product.quantity;
-//            // Thêm phần tử li vào thẻ ul
-//            productList.appendChild(li);
-//        });
         let total1 = total;
-        // document.getElementById('total').textContent = total;
-        // document.getElementById('subtotal').textContent = total;
-        // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
+
         document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        document.getElementById("input_totalPrice").value = total1 + 15000
+        document.getElementById("input_id").value = input_id;
+        document.getElementById("input_quantity").value = input_quan;
 
         const checkoutBtn = document.getElementById('place-order-btn');
 
@@ -159,42 +146,6 @@
                 event.preventDefault(); // Ngăn chặn việc submit
                 alert("Please fill out the required fields!");
             }
-            // event.preventDefault(); // Ngăn chặn hành vi mặc định khi click vào button
-
-            // Gửi yêu cầu Fetch khi click vào button
-
-            const data = {
-                name: document.getElementById('inputName').value,
-                phoneNum: document.getElementById('inputPhone').value,
-                address: document.getElementById('inputAddress').value,
-                id_quantity: id_quantity,
-                totalPrice: total + 15000
-            };
-
-            console.log(data);
-
-            fetch('/...', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data) // Dữ liệu gửi đi
-            })
-                .then(response => {
-                    // Xử lý phản hồi từ máy chủ
-                    if (response.ok) {
-                        return response;
-                    }
-                    throw new Error('Request failed!');
-                })
-                .then(data => {
-                    // Xử lý dữ liệu trả về từ máy chủ
-                    console.log(data);
-                })
-                .catch(error => {
-                    // Xử lý lỗi
-                    console.error(error);
-                });
         });
 
     </script>

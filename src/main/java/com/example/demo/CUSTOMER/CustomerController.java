@@ -50,17 +50,6 @@ public class CustomerController {
     }
 
 
-
-//    @GetMapping("/admin-add-product")
-//    public String showAdminAddProduct(Model model){
-//        return "admin-add-product";
-//    }
-
-//    @GetMapping("/admin-categories")
-//    public String showAdminCategories(Model model){
-//        return "admin-categories";
-//    }
-//
 //    @GetMapping("/admin-forgot-password")
 //    public String showAdminForgotPassword(Model model){
 //        return "admin-forgot-password";
@@ -69,50 +58,10 @@ public class CustomerController {
 //    public String showAdminOrders(Model model){
 //        return "admin-orders";
 //    }
-//
-//    @GetMapping("/admin-product-result")
-//    public String showAdminProductResult(Model model){
-//        return "admin-product-result";
-//    }
-////    @GetMapping("/admin-products")
-////    public String showAdminProducts(Model model){
-////        return "admin-products";
-////    }
-//
-//    @GetMapping("/admin-update-product")
-//    public String showAdminUpdateProduct(Model model){
-//        return "admin-update-product";
-//    }
-//    @GetMapping("/admin-dashboard")
-//    public String showAdminDashboard(Model model){
-//        return "admin-dashboard";
-//    }
-//
 //    @GetMapping("/contact")
 //    public String showContact(Model model){
 //        return "contact";
 //    }
-//
-//    @GetMapping("/shoping-cart")
-//    public String showShoppingCart(Model model){
-//        return "shoping-cart";
-//    }
-//
-//    @GetMapping("/shop-grid")
-//    public String showShopGrid(Model model){
-//        return "shop-grid";
-//    }
-//
-//    @GetMapping("/homepage")
-//    public String showHomePage(Model model){
-//        return "homepage";
-//    }
-//
-//    @GetMapping("/shop-details")
-//    public String showShopDetails(Model model){
-//        return "shop-details";
-//    }
-//
 
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
@@ -131,6 +80,8 @@ public class CustomerController {
                 .Phonenumber(user.getPhonenumber())
                 .build();
         model.addAttribute("user", customer);
+
+        model.addAttribute("order",new Orderdt());
 
         return "checkoutREG";
     }
@@ -306,12 +257,13 @@ public class CustomerController {
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                              @RequestParam("input_quantity")List<Integer> quantitylist){
        Order order= orderService.save(orderdt);
-       System.out.println( productlist.size());
-       for(int i=0;i<productlist.size();i++){
+       System.out.println("------------------Product list size: " + productlist.size());
+       for(int i=0; i<productlist.size(); i++){
            orderService.save_productOrder(order.getId(),productlist.get(i),quantitylist.get(i));
        }
+       System.out.println("------------------Total: " + order.getTotal());
 
-        return "redirect:/homepage";
+       return "redirect:/homepage";
     }
 //    @PostMapping("/fetch")
 //    public String handleDataCheckout(@RequestBody Orderdt checkoutData) {
