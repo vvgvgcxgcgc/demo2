@@ -255,25 +255,30 @@ public class CustomerController {
     }
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
-                             @RequestParam("input_quantity")List<Integer> quantitylist){
-       Order order= orderService.save(orderdt);
-       System.out.println("------------------Product list size: " + productlist.size());
-       for(int i=0; i<productlist.size(); i++){
-           orderService.save_productOrder(order.getId(),productlist.get(i),quantitylist.get(i));
+                             @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
+       if(principal== null || principal.getName()=="adminonly") {
+           Order order = orderService.save(orderdt);
+           for (int i = 0; i < productlist.size(); i++) {
+               orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
+           }
        }
-       System.out.println("------------------Total: " + order.getTotal());
 
        return "redirect:/homepage";
     }
-//    @PostMapping("/fetch")
-//    public String handleDataCheckout(@RequestBody Orderdt checkoutData) {
-//        // Xử lý dữ liệu được gửi từ client thông qua @RequestBody và CheckoutData
-//        // Ví dụ: In ra thông tin nhận được từ client
-//        System.out.println(checkoutData.getName());
-//
-//        // Thực hiện các xử lý khác với dữ liệu nhận được
-//        return "redirect:/hompage";
-//    }
+    @PostMapping("/place-orderREG")
+    public String placeorderREG(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
+                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
+
+        Order order = orderService.save1(orderdt,principal.getName());
+        for (int i = 0; i < productlist.size(); i++) {
+            orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
+        }
+
+
+        return "redirect:/homepage";
+    }
+
+
 
 }
 

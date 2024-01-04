@@ -18,6 +18,5 @@ public class Orderdt {
     private String  phonenumber;
     private String address;
     private Integer totalPrice;
-    private List<Pair<Pair<String, String>, Integer>> id_name_quantity;
 
 }

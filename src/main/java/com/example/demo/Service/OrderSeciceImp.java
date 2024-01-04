@@ -3,6 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.Product_Order;
+import com.example.demo.Domain.User;
 import com.example.demo.Respories.OrderRepos;
 import com.example.demo.Respories.Product_OrderRepos;
 import com.example.demo.dto.Orderdt;
@@ -20,6 +21,7 @@ public class OrderSeciceImp implements OrderService {
     private final ProductService productService;
     private final OrderRepos orderRepos;
     private final Product_OrderRepos productOrderRepos;
+    private final Userser userser;
 
 
 
@@ -52,6 +54,22 @@ public class OrderSeciceImp implements OrderService {
     }
 
     @Override
+    public Order save1(Orderdt orderdt, String username) {
+        User user = userser.findByUsername(username);
+        Order order = Order.builder()
+                .usr(user)
+                .orderstatus(1)
+                .unregister_name(user.getFullname())
+                .unregister_phonenumber(user.getPhonenumber())
+                .order_productList(new ArrayList<>())
+                .time(LocalDateTime.now())
+                .total(orderdt.getTotalPrice())
+                .unregister_address(orderdt.getAddress())
+                .build();
+        return orderRepos.save(order);
+    }
+
+    @Override
     public Product_Order save_productOrder(Long Orderid, String Productid, Integer quantity) {
         Order order = orderRepos.getReferenceById(Orderid);
         Product product = productService.getProductById(Productid);
@@ -61,5 +79,10 @@ public class OrderSeciceImp implements OrderService {
                 .amount(quantity)
                 .build();
         return productOrderRepos.save(productOrder);
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepos.findAll();
     }
 }

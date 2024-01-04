@@ -1,6 +1,8 @@
 package com.example.demo.ADMIN;
 
+import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
+import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +33,20 @@ import static java.rmi.server.LogStream.log;
 @Log
 public class AdminController {
     private final ProductService productService;
+    private final OrderService orderService;
 
-    @GetMapping("/admin-orders-pending")
-    public String showAdminOrdersPending(Model model){
-        return "admin-orders-pending";
-    }
+//    @GetMapping("/admin-orders-pending")
+//    public String showAdminOrdersPending(Model model){
+//        return "admin-orders-pending";
+//    }
+@GetMapping("/admin-orders-pending")
+public String viewOrderpending(Model model){
+    List<Order> orders = orderService.getAllOrders();
 
+    model.addAttribute("orders",orders);
+    return "/admin-orders-pending";
+
+}
     @GetMapping("/admin-orders-completed")
     public String showAdminOrdersCompleted(Model model){
         return "admin-orders-completed";

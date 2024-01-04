@@ -9,10 +9,13 @@ import java.util.List;
 @Service
 public interface OrderService {
     public Order save(Orderdt orderdt);
+    public Order save1(Orderdt orderdt, String username);
 
 
     // Product_Order save_productOrder(Long Orderid, List<String> Productid, List<Integer> quantity);
     // public Product_Order save_productOrder(Long Orderid, List<String> Productid, List<Integer> quantity);
 
     public Product_Order save_productOrder(Long Orderid, String Productid, Integer quantity);
+    public List<Order> getAllOrders();
+
 }
