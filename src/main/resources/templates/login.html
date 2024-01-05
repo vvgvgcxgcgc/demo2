@@ -2,16 +2,13 @@
 <html lang="en" xmlns:th = "https://www.thymeleaf.org/">
 <head>
     <title>Đăng nhập</title>
-    <div th:replace="~{fragments::head}"></div>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <div th:replace="~{fragments::head}"></div>
 </head>
 <body>
 
 <!--Header section-->
 <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin})}"></div>
-
-
-
         <div class="container">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
@@ -52,5 +49,7 @@
                 </div>
             </div>
         </div>
+
+    <div th:replace="~{fragments::footer}"></div>
     </body>
     </html>

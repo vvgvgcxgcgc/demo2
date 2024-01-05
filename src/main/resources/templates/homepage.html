@@ -79,111 +79,279 @@
 
         <!--    Truyen vao day    -->
         <div class="row featured__filter">
-<!--            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">-->
-<!--                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">-->
-<!--                    &lt;!&ndash;                                Text báo thêm thành công&ndash;&gt;-->
-<!--                    <p th:text = "${success}"></p>-->
-<!--                </div>-->
-<!--                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">-->
-<!--                    &lt;!&ndash;                                Text báo thêm thất bại&ndash;&gt;-->
-<!--                    <p th:text = "${error}"></p>-->
-<!--                </div>-->
+            <!--            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">-->
+            <!--                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">-->
+            <!--                    &lt;!&ndash;                                Text báo thêm thành công&ndash;&gt;-->
+            <!--                    <p th:text = "${success}"></p>-->
+            <!--                </div>-->
+            <!--                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">-->
+            <!--                    &lt;!&ndash;                                Text báo thêm thất bại&ndash;&gt;-->
+            <!--                    <p th:text = "${error}"></p>-->
+            <!--                </div>-->
 
-<!--                <script>-->
-<!--                    const successMessage = document.getElementById("successMessage");-->
-<!--                    const errorMessage = document.getElementById("errorMessage");-->
+            <!--                <script>-->
+            <!--                    const successMessage = document.getElementById("successMessage");-->
+            <!--                    const errorMessage = document.getElementById("errorMessage");-->
 
-<!--                    if (successMessage) {-->
-<!--                        setTimeout(function () {-->
-<!--                            successMessage.classList.add("fade-out");-->
-<!--                            setTimeout(function () {-->
-<!--                                successMessage.style.display = "none";-->
-<!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
-<!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
-<!--                    }-->
+            <!--                    if (successMessage) {-->
+            <!--                        setTimeout(function () {-->
+            <!--                            successMessage.classList.add("fade-out");-->
+            <!--                            setTimeout(function () {-->
+            <!--                                successMessage.style.display = "none";-->
+            <!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
+            <!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
+            <!--                    }-->
 
-<!--                    if (errorMessage) {-->
-<!--                        setTimeout(function () {-->
-<!--                            errorMessage.classList.add("fade-out");-->
-<!--                            setTimeout(function () {-->
-<!--                                errorMessage.style.display = "none";-->
-<!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
-<!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
-<!--                    }-->
-<!--                </script>-->
+            <!--                    if (errorMessage) {-->
+            <!--                        setTimeout(function () {-->
+            <!--                            errorMessage.classList.add("fade-out");-->
+            <!--                            setTimeout(function () {-->
+            <!--                                errorMessage.style.display = "none";-->
+            <!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
+            <!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
+            <!--                    }-->
+            <!--                </script>-->
 
-<!--                <form th:action="@{/}" method="post">-->
-                <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${products}" th:if="${product.deleted} == false">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg">
-                            <img class="my-product-image" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
-                            <ul class="featured__item__pic__hover">
-                                <li><button class="site-btn" type="submit" onclick="addToCart(event)">Add to cart</button></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <input class="product-id" type="hidden" th:value="${product.id}">
-                            <h6 class="product-name" th:text="${product.name}"></h6>
-                            <h6 th:text="${product.info}"></h6>
-                            <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + 'đ'}"></h5>
+            <!--                <form th:action="@{/}" method="post">-->
+            <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${products}" th:if="${product.deleted} == false">
+                <div class="featured__item">
+                    <div class="featured__item__pic set-bg">
+                        <img class="my-product-image" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
+                        <ul class="featured__item__pic__hover">
+                            <li><button class="site-btn" type="submit" onclick="addToCart(event)">Add to cart</button></li>
+                        </ul>
+                    </div>
+                    <div class="featured__item__text">
+                        <input class="product-id" type="hidden" th:value="${product.id}">
+                        <h6 class="product-name" th:text="${product.name}"></h6>
+                        <h6 th:text="${product.info}"></h6>
+                        <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + 'đ'}"></h5>
+                        <button class="feedback-btn" data-product-id="${product.id}" onclick="openFeedbackForm(event)" style="margin-top: 10px;">Feedback</button>
+                    </div>
+                    <div class="feedback-popup" th:unless="${display}" th:id="'feedbackPopup'+ ${product.id}">
+                        <div class="feedback-content">
+                            <span class="close-btn" onclick="closeFeedbackForm(event)">&times;</span>
+                            <h3 id="productName" th:text="${product.name}" style="margin-bottom: 15px;"></h3>
+                            <h5 style="margin-bottom: 10px;">Customers' feedbacks:</h5>
+                            <style>
+                                .scroll-container {
+                                    width: 100%;
+                                    height: 250px;
+                                    overflow: auto;
+                                }
+                            </style>
+                            <div class="scroll-container">
+                                <div th:each="feedback : ${product.feedBackList}">
+                                    <p th:text="${feedback.user.Fullname}"><i class="fa fa-user"></i></p>
+                                    <p th:text="${feedback.message}"></p>
+                                </div>
+                            </div>
+                            <form id="yourForm" th:action="@{/add-feedback}" method="post" enctype="multipart/form-data">
+                                <label th:for="'feedbackMessage' + ${product.name}"><i class="far fa-comments"></i> Add feedback:</label>
+                                <input type="hidden" id="productID" name="productID" th:value="${product.id}" th:field="*{feedback.product_id}" />
+                                <textarea th:id="'feedbackMessage' + ${product.name}" th:field="*{feedback.message}" name="feedbackMessage" required="required"></textarea>
+                                <button type="submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-<!--                </form>-->
-
-                <script>
-
-                    // console.log("lmao");
-
-                    function addToCart(event) {
-                        event.preventDefault();
-
-                        let productElement = event.target.closest('.featured__item');
-                        let productId = productElement.querySelector('.product-id').value;
-                        let productImg = productElement.querySelector('.my-product-image').getAttribute('src');
-                        let productName = productElement.querySelector('.product-name').innerText;
-                        let productPrice = productElement.querySelector('.product-price').innerText;
-
-                        let newProduct = {
-                            id: productId,
-                            image: productImg,
-                            name: productName,
-                            price: productPrice,
-                            quantity: 1
-                        };
-
-                        // Lấy danh sách sản phẩm từ localStorage (nếu có)
-                        let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
-
-                        let existingProduct = productsInCart.find(product => product.id === newProduct.id);
-
-                        if (existingProduct) {
-                            alert("Sản phẩm "+productName+" đã có trong giỏ hàng!");
-                        } else {
-                            // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
-                            alert("Sản phẩm "+productName+" đã được thêm vào giỏ hàng!");
-                            productsInCart.push(newProduct);
-                        }
-
-                        // Lưu danh sách sản phẩm mới vào localStorage
-                        localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
-                    }
-
-                    // // Lấy danh sách từ localStorage hoặc khởi tạo danh sách mới nếu chưa tồn tại
-                    // let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
-                    //
-                    // // Xóa dữ liệu của danh sách
-                    // productsInCart = [];
-                    //
-                    // // Lưu danh sách mới vào localStorage
-                    // localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
-
-                </script>
 
             </div>
-
-
         </div>
+        <script>
+            function openFeedbackForm(event) {
+                event.preventDefault();
+                var productID = getProductID(event.target);
+                // Sử dụng productID để thực hiện các hành động liên quan đến form feedback của sản phẩm tương ứng
+                // alert("ID:" + productID);
+                document.getElementById("feedbackPopup" + productID).style.display = "block";
+                document.getElementById("feedbackMessage").value = "";
+
+            }
+            function closeFeedbackForm(event) {
+                event.preventDefault();
+                var productID = getProductID(event.target);
+                // Sử dụng productID để thực hiện các hành động liên quan đến form feedback của sản phẩm tương ứng
+                document.getElementById("feedbackPopup" + productID).style.display = "none";
+
+            }
+            function getProductID(element) {
+                var parent = element.parentNode;
+                while (parent) {
+                    if (parent.classList.contains('featured__item')) {
+                        var productID = parent.querySelector('.product-id').value;
+                        return productID;
+                    }
+                    parent = parent.parentNode;
+                }
+                return null;
+            }
+
+            // function openFeedbackForm() {
+            //
+            //     document.getElementById("feedbackPopup").style.display = "block";
+            //
+            //     document.getElementById("feedbackMessage").value = "";
+            //
+            // }
+            //
+            // function closeFeedbackForm() {
+            //     document.getElementById("feedbackPopup").style.display = "none";
+            // }
+            //
+            // document.querySelector(".feedback-form").addEventListener("submit", function(event) {
+            //     event.preventDefault();
+            //     var feedbackMessage = document.getElementById("feedbackMessage").value;
+            //
+            //     // Perform any necessary actions with the feedback data (e.g., send it to a server)
+            //
+            //     // Update the "userInfo" element with the updated username and phoneNumber
+            //     var userInfoElement = document.getElementById("userInfo");
+            //     var userInfoText = userInfoElement.textContent;
+            //     var userInfoParts = userInfoText.split(":");
+            //     var updatedUserInfo = userInfoParts[0] + ": " + feedbackMessage;
+            //     userInfoElement.textContent = updatedUserInfo;
+            //
+            //     // Clear the feedback message field
+            //     document.getElementById("feedbackMessage").value = "";
+            // });
+
+        </script>
+        <style>
+            .feedback-btn {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .feedback-btn:hover {
+                background-color: #45a049;
+            }
+
+            .feedback-popup {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .feedback-content {
+                background-color: #fefefe;
+                margin: 10% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 50%;
+            }
+
+            .close-btn {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .close-btn:hover,
+            .close-btn:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .feedback-form label {
+                display: block;
+                margin-top: 10px;
+            }
+
+            .feedback-form input,
+            .feedback-form textarea {
+                width: 100%;
+                padding: 5px;
+                margin-top: 5px;
+            }
+
+            .feedback-form button {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            .feedback-form button {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-top: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+            .feedback-form button:hover {
+                background-color: #45a049;
+            }
+
+            .feedback-form button:active {
+                background-color: #3e8e41;
+            }
+        </style>
+        <!--                </form>-->
+
+        <script>
+
+            // console.log("lmao");
+
+            function addToCart(event) {
+                event.preventDefault();
+
+                let productElement = event.target.closest('.featured__item');
+                let productId = productElement.querySelector('.product-id').value;
+                let productImg = productElement.querySelector('.my-product-image').getAttribute('src');
+                let productName = productElement.querySelector('.product-name').innerText;
+                let productPrice = productElement.querySelector('.product-price').innerText;
+
+                let newProduct = {
+                    id: productId,
+                    image: productImg,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                };
+
+                // Lấy danh sách sản phẩm từ localStorage (nếu có)
+                let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+                let existingProduct = productsInCart.find(product => product.id === newProduct.id);
+
+                if (existingProduct) {
+                    alert("Sản phẩm "+productName+" đã có trong giỏ hàng!");
+                } else {
+                    // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
+                    alert("Sản phẩm "+productName+" đã được thêm vào giỏ hàng!");
+                    productsInCart.push(newProduct);
+                }
+
+                // Lưu danh sách sản phẩm mới vào localStorage
+                localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+            }
+        </script>
+
+    </div>
+
+
+    </div>
 </section>
 
 <!-- Banner Begin -->
