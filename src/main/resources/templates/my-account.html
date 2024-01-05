@@ -339,8 +339,6 @@
                                     <tr>
                                         <th>Order Date</th>
                                         <th>Total Price</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
                                         <th>Address</th>
                                         <th>Products</th>
                                         <th>Status</th>
@@ -348,26 +346,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="order : ${orders}" th:if="${order.usr.id == user.id} and ${order.status == 1}">
+                                    <tr class="order-group" th:each="order : ${orders}" th:if="${order.id_user == user.id} and ${order.orderstatus == 1}">
                                         <td>
                                             <p th:text="${order.time}"></p>
                                         </td>
                                         <td>
-                                            <p style="color: red" th:text="${order.totalPrice}"></p>
-                                        </td>
-                                        <td>
-                                            <p th:text="${order.usr.name}"></p>
-                                        </td>
-                                        <td style="width: 115px;">
-                                            <p th:text="${order.usr.phone}"></p>
+                                            <p style="color: red" th:text="${order.total}"></p>
                                         </td>
                                         <td style="width: 300px;">
-                                            <p th:text="${order.usr.address.iterator().next()}"></p>
+                                            <p th:text="${order.unregister_address}"></p>
                                         </td>
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.getValue()} + 'x' + ${pair.getKey().getValue()} + ' (' + ${pair.getKey().getKey()} + ')'"></p>
+                                                <p th:text="${pair.pro.id} + 'x' + ${pair.pro.Name} + ' (' + ${pair.amount} + ')'"></p>
                                             </div>
                                         </td>
                                         <td>
@@ -379,30 +371,33 @@
                                         </td>
                                     </tr>
 
-                                    <tr th:each="order : ${orders}" th:if="${order.usr.id == user.id} and ${order.status == 2 or order.status == 3 or order.status == 4}">
+                                    <tr class="order-group" th:each="order : ${orders}" th:if="${order.id_user == user.id} and ${order.orderstatus == 2 or order.orderstatus == 3 or order.orderstatus == 4}">
                                         <td>
                                             <p th:text="${order.time}"></p>
                                         </td>
                                         <td>
-                                            <p style="color: red" th:text="${order.totalPrice}"></p>
-                                        </td>
-                                        <td>
-                                            <p th:text="${order.usr.name}"></p>
-                                        </td>
-                                        <td style="width: 115px;">
-                                            <p th:text="${order.usr.phone}"></p>
+                                            <p style="color: red" th:text="${order.total}"></p>
                                         </td>
                                         <td style="width: 300px;">
-                                            <p th:text="${order.usr.address.iterator().next()}"></p>
+                                            <p th:text="${order.unregister_address)}"></p>
                                         </td>
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.getValue()} + 'x' + ${pair.getKey().getValue()} + ' (' + ${pair.getKey().getKey()} + ')'"></p>
+                                                <p th:text="${pair.pro.id} + 'x' + ${pair.pro.Name} + ' (' + ${pair.amount} + ')'"></p>
                                             </div>
                                         </td>
                                         <td>
-                                            <p th:text="${order.status}"></p>
+                                            <p id="sta"></p>
+                                            <script>
+                                                if (order.orderstatus === 2) {
+                                                    document.getElementById("sta").textContent = "Pending delivery"
+                                                } else if (order.orderstatus === 3) {
+                                                    document.getElementById("sta").textContent = "Completed"
+                                                } else if (order.orderstatus === 4) {
+                                                    document.getElementById("sta").textContent = "Cancelled"
+                                                }
+                                            </script>
                                         </td>
                                         <td>
                                             <p></p>
@@ -413,7 +408,7 @@
 
                                     <script>
                                         function sortOrdersByDate() {
-                                            var orderGroups = document.querySelectorAll('tr[th:each="order : ${orders}"]');
+                                            var orderGroups = document.querySelectorAll('.order-group');
 
                                             orderGroups.forEach(function(group) {
                                                 var orders = Array.from(group.parentNode.children);
