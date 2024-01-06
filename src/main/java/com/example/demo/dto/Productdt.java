@@ -20,5 +20,5 @@ public class Productdt {
     private Boolean deleted;
     private String info;
     private  String image;
-    private List<Feedback> feedbackList;
+    private List<Feedback> feedBackList;
 }

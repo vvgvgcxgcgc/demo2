@@ -31,6 +31,7 @@ public class Userdt {
     private String avatar;
     private int Userpoint;
     private List<Order> orders;
+    private int productTimeOrder;
 
 
 

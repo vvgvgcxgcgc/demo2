@@ -10,5 +10,7 @@ public interface Userser {
     User save(Userdt userdt);
     public User findByUsername(String username);
     public User Update(MultipartFile imageUser, Userdt userdt);
+    public int productTimesOrder(Long userid, String productid);
+
 
 }

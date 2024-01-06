@@ -2,8 +2,10 @@ package com.example.demo.ADMIN;
 
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
+import com.example.demo.Service.FeedbackService;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
+import com.example.demo.dto.Feedbackdt;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -36,6 +38,7 @@ import static java.rmi.server.LogStream.log;
 public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
+    private final FeedbackService feedbackService;
 
 //    @GetMapping("/admin-orders-pending")
 //    public String showAdminOrdersPending(Model model){
@@ -209,6 +212,15 @@ public String viewOrderpending(Model model){
             redirectAttributes.addFlashAttribute("error", "Completed failed!");
         }
         return "redirect:/admin-orders-pending";
+    }
+
+    @GetMapping("/admin-feedbacks")
+    public String viewFb(Model model){
+        List<Feedbackdt> feedbackdts = feedbackService.getALLFb();
+        model.addAttribute("feedbacks",feedbackdts);
+        return "/admin-feedbacks";
+
+
     }
 
 

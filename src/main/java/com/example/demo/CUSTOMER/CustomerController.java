@@ -3,10 +3,7 @@ import com.example.demo.Domain.Feedback;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
-import com.example.demo.Service.OrderService;
-import com.example.demo.Service.ProductService;
-import com.example.demo.Service.Userser;
-import com.example.demo.Service.Userserimp;
+import com.example.demo.Service.*;
 import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
@@ -41,6 +38,7 @@ public class CustomerController {
     private final ProductService productService;
     private final OrderService orderService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final FeedbackService feedbackService;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
         if(principal== null) model.addAttribute("display",true);
@@ -182,7 +180,7 @@ public class CustomerController {
                     .price(p.getPrice())
                     .info(p.getInfo())
                     .deleted(p.getDeleted())
-                    .feedbackList(p.getFb())
+                    .feedBackList(p.getFb())
                     .image(p.getImage())
                     .build();
             productdts.add(productdt);
@@ -192,20 +190,25 @@ public class CustomerController {
 
     }
     @PostMapping("/add-feedback")
-    public String addFb(String product_id,@RequestParam("feedbackMessage") String fb, Principal principal, Model model){
+    public String addFb(String product_id,@RequestParam("feedbackMessage") String fb, Principal principal, RedirectAttributes redirectAttributes){
         Product product = productService.getProductById(product_id);
         User user;
-        if(principal!=null && principal.getName().equals("adminonly")){
+        if(principal!=null && !principal.getName().equals("adminonly")){
             user=userser.findByUsername(principal.getName());
+            Feedback feedback = Feedback.builder()
+                    .time(LocalDateTime.now())
+                    .product(product)
+                    .user(user)
+                    .message(fb)
+                    .build();
+            feedbackService.save(feedback);
         }
-        else user = null;
-        Feedback feedback = Feedback.builder()
-                .time(LocalDateTime.now())
-                .product(product)
-                .user(user)
-                .message(fb)
-                .build();
-        model.addAttribute("success","Thank you for giving feedback");
+        else {
+            return "redirect:/login";
+        }
+
+
+        redirectAttributes.addAttribute("success","Thank you for giving feedback");
         return "redirect:/homepage";
 
 

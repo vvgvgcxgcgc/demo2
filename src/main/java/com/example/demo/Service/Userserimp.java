@@ -65,4 +65,9 @@ public class Userserimp implements Userser{
 
         return userRepo.save(user);
     }
+
+    @Override
+    public int productTimesOrder(Long userid, String productid) {
+        return userRepo.productOrderTimes(userid,productid);
+    }
 }
