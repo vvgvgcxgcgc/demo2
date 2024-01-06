@@ -25,6 +25,7 @@ public class Feedback {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "ProductId",referencedColumnName = "ProductId")
     private  Product product;
+    private String message;
 
     private LocalDateTime time;
 

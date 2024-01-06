@@ -17,5 +17,11 @@ public interface OrderService {
 
     public Product_Order save_productOrder(Long Orderid, String Productid, Integer quantity);
     public List<Order> getAllOrders();
+    public Order acceptOrder(Long id);
+    public  Order cancelOrder(Long id);
+
+    public Order getSuccessOrder(Long id);
+    public  List<Order> getOrderofUser(String username);
+
 
 }

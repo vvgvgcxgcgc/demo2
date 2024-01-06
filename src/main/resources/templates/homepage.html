@@ -141,15 +141,14 @@
                                 }
                             </style>
                             <div class="scroll-container">
-                                <div th:each="feedback : ${product.feedBackList}">
-                                    <p th:text="${feedback.user.Fullname}"><i class="fa fa-user"></i></p>
-                                    <p th:text="${feedback.message}"></p>
+                                <div th:each="feed : ${product.feedBackList}">
+                                    <p th:text="${feed.user.Fullname}"><i class="fa fa-user"></i></p>
+                                    <p th:text="${feed.message}"></p>
                                 </div>
                             </div>
-                            <form id="yourForm" th:action="@{/add-feedback}" method="post" enctype="multipart/form-data">
+                            <form id="yourForm" th:action="@{/add-feedback(product_id = ${product.id})}" method="post" enctype="multipart/form-data">
                                 <label th:for="'feedbackMessage' + ${product.name}"><i class="far fa-comments"></i> Add feedback:</label>
-                                <input type="hidden" id="productID" name="productID" th:value="${product.id}" th:field="*{feedback.product_id}" />
-                                <textarea th:id="'feedbackMessage' + ${product.name}" th:field="*{feedback.message}" name="feedbackMessage" required="required"></textarea>
+                                <textarea th:id="'feedbackMessage' + ${product.name}" name="feedbackMessage" required="required"></textarea>
                                 <button type="submit">Submit</button>
                             </form>
                         </div>

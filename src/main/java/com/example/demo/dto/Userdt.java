@@ -30,6 +30,7 @@ public class Userdt {
     private List<String> addresses;
     private String avatar;
     private int Userpoint;
+    private List<Order> orders;
 
 
 

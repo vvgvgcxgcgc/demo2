@@ -1,9 +1,12 @@
 package com.example.demo.dto;
 
+import com.example.demo.Domain.Feedback;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +20,5 @@ public class Productdt {
     private Boolean deleted;
     private String info;
     private  String image;
+    private List<Feedback> feedbackList;
 }

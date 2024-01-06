@@ -346,7 +346,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="order-group" th:each="order : ${orders}" th:if="${order.id_user == user.id} and ${order.orderstatus == 1}">
+                                    <tr class="order-group" th:each="order : ${user.orders}" th:if=" ${order.orderstatus == 1}">
                                         <td>
                                             <p th:text="${order.time}"></p>
                                         </td>
@@ -359,19 +359,19 @@
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.pro.id} + 'x' + ${pair.pro.Name} + ' (' + ${pair.amount} + ')'"></p>
+                                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} "></p>
                                             </div>
                                         </td>
                                         <td>
                                             <p>Pending Approval</p>
                                         </td>
                                         <td>
-                                            <a th:href="@{/cancel-order(id = ${order.id})}"
+                                            <a th:href="@{/cancel-order-user(id = ${order.id})}"
                                                class="btn btn-primary"><img class='fa fa-window-close' alt='' src=''>Cancel</a>
                                         </td>
                                     </tr>
 
-                                    <tr class="order-group" th:each="order : ${orders}" th:if="${order.id_user == user.id} and ${order.orderstatus == 2 or order.orderstatus == 3 or order.orderstatus == 4}">
+                                    <tr class="order-group" th:each="order : ${orders}" th:if=" ${order.orderstatus == 2 or order.orderstatus == 3 or order.orderstatus == 4}">
                                         <td>
                                             <p th:text="${order.time}"></p>
                                         </td>

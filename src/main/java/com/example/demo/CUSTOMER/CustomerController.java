@@ -1,4 +1,5 @@
 package com.example.demo.CUSTOMER;
+import com.example.demo.Domain.Feedback;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
@@ -10,6 +11,7 @@ import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -179,6 +182,7 @@ public class CustomerController {
                     .price(p.getPrice())
                     .info(p.getInfo())
                     .deleted(p.getDeleted())
+                    .feedbackList(p.getFb())
                     .image(p.getImage())
                     .build();
             productdts.add(productdt);
@@ -187,6 +191,26 @@ public class CustomerController {
         return "homepage";
 
     }
+    @PostMapping("/add-feedback")
+    public String addFb(String product_id,@RequestParam("feedbackMessage") String fb, Principal principal, Model model){
+        Product product = productService.getProductById(product_id);
+        User user;
+        if(principal!=null && principal.getName().equals("adminonly")){
+            user=userser.findByUsername(principal.getName());
+        }
+        else user = null;
+        Feedback feedback = Feedback.builder()
+                .time(LocalDateTime.now())
+                .product(product)
+                .user(user)
+                .message(fb)
+                .build();
+        model.addAttribute("success","Thank you for giving feedback");
+        return "redirect:/homepage";
+
+
+    }
+
     @GetMapping("/my-account")
     public String profile(Model model, Principal principal) {
 
@@ -194,9 +218,11 @@ public class CustomerController {
             return "redirect:/login";
         }
 
+
         model.addAttribute("display",false);
 
         model.addAttribute("checkadmin",false);
+
 
 
         String username = principal.getName();
@@ -210,6 +236,7 @@ public class CustomerController {
                 .id(user.getId())
                 .Userpoint(user.getUserpoint())
                 .Phonenumber(user.getPhonenumber())
+                .orders(user.getOrders())
                 .build();
         model.addAttribute("user", customer);
         return "my-account";
@@ -277,7 +304,19 @@ public class CustomerController {
 
         return "redirect:/homepage";
     }
+    @RequestMapping(value = "/cancel-order-user", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String cancelorder(Long id, RedirectAttributes redirectAttributes) {
+        try {
 
+            Order order = orderService.cancelOrder(id);
+
+            redirectAttributes.addFlashAttribute("success", "Canceled successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Canceled failed!");
+        }
+        return "redirect:/my-account";
+    }
 
 
 }

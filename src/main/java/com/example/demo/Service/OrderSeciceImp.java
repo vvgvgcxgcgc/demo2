@@ -85,4 +85,30 @@ public class OrderSeciceImp implements OrderService {
     public List<Order> getAllOrders() {
         return orderRepos.findAll();
     }
+
+    @Override
+    public Order acceptOrder(Long id) {
+        Order order = orderRepos.getReferenceById(id);
+        order.setOrderstatus(2);
+        return orderRepos.save(order);
+    }
+
+    @Override
+    public Order cancelOrder(Long id) {
+        Order order = orderRepos.getReferenceById(id);
+        order.setOrderstatus(4);
+        return orderRepos.save(order);
+    }
+
+    @Override
+    public Order getSuccessOrder(Long id) {
+        Order order = orderRepos.getReferenceById(id);
+        order.setOrderstatus(3);
+        return orderRepos.save(order);
+    }
+
+    @Override
+    public List<Order> getOrderofUser(String username) {
+        return orderRepos.findAllByUserUsername(username);
+    }
 }

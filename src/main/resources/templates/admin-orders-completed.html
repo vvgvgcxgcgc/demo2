@@ -64,7 +64,7 @@
 
                             <!--                            List <pair<pair<id,name>,quantity>-->
                             <div th:each="pair : ${order.order_productList}">
-                                <p th:text="${pair.pro.id} + 'x' + ${pair.pro.Name} + ' (' + ${pair.amount} + ')'"></p>
+                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
                             </div>
                             <!--                            <p>2x Egg (001)</p>-->
                             <!--                            <p>1x Neptune (002)</p>-->

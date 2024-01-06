@@ -22,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,20 @@ public class AdminController {
 @GetMapping("/admin-orders-pending")
 public String viewOrderpending(Model model){
     List<Order> orders = orderService.getAllOrders();
+    for(Order order: orders){
+        if(order.getOrderstatus()==1 || order.getOrderstatus()==2){
+            LocalDateTime startDateTime = order.getTime();
+            // LocalDateTime kết thúc
+            LocalDateTime endDateTime = LocalDateTime.now(); // LocalDateTime kết thúc là thời điểm hiện tại
+            Duration duration = Duration.between(startDateTime, endDateTime);
+            if(duration.toHours()>6){
+                order.setOrderstatus(4);
+                orderService.cancelOrder(order.getId());
+            }
+
+
+        }
+    }
 
     model.addAttribute("orders",orders);
     return "/admin-orders-pending";
@@ -49,7 +65,11 @@ public String viewOrderpending(Model model){
 }
     @GetMapping("/admin-orders-completed")
     public String showAdminOrdersCompleted(Model model){
-        return "admin-orders-completed";
+        List<Order> orders = orderService.getAllOrders();
+
+        model.addAttribute("orders",orders);
+
+    return "admin-orders-completed";
     }
 
     @GetMapping("/admin-dashboard")
@@ -151,6 +171,47 @@ public String viewOrderpending(Model model){
         }
         return "redirect:/admin-products";
     }
+    @RequestMapping(value = "/accept-order", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String acceptorder(Long id, RedirectAttributes redirectAttributes) {
+        try {
+
+            Order order = orderService.acceptOrder(id);
+
+            redirectAttributes.addFlashAttribute("success", "Accepted successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Accepted failed!");
+        }
+        return "redirect:/admin-orders-pending";
+    }
+    @RequestMapping(value = "/cancel-order", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String cancelorder(Long id, RedirectAttributes redirectAttributes) {
+        try {
+
+            Order order = orderService.cancelOrder(id);
+
+            redirectAttributes.addFlashAttribute("success", "Canceled successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Canceled failed!");
+        }
+        return "redirect:/admin-orders-pending";
+    }
+    @RequestMapping(value = "/complete-order", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String completeorder(Long id, RedirectAttributes redirectAttributes) {
+        try {
+
+            Order order = orderService.getSuccessOrder(id);
+
+            redirectAttributes.addFlashAttribute("success", "Completed successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Completed failed!");
+        }
+        return "redirect:/admin-orders-pending";
+    }
+
+
 
 
 }
