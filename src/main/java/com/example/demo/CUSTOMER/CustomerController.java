@@ -208,7 +208,7 @@ public class CustomerController {
         }
 
 
-        redirectAttributes.addAttribute("success","Thank you for giving feedback");
+        redirectAttributes.addFlashAttribute("success","Thank you for giving feedback");
         return "redirect:/homepage";
 
 

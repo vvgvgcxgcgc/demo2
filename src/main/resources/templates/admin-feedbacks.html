@@ -33,6 +33,7 @@
                         <th>Product Name</th>
                         <th>Customer Name</th>
                         <th>Phone</th>
+                        <th>Purchase count</th>
                         <th>Message</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -51,6 +52,9 @@
                         </td>
                         <td style="width: 115px;">
                             <p th:text="${feedback.user.Phonenumber}"></p>
+                        </td>
+                        <td style="width: 115px;">
+                            <p th:text="${feedback.user.productTimeOrder}"></p>
                         </td>
                         <td style="width: 300px;">
                             <p th:text="${feedback.message}"></p>
@@ -78,6 +82,9 @@
                         </td>
                         <td style="width: 115px;">
                             <p th:text="${feedback.user.Phonenumber}"></p>
+                        </td>
+                        <td style="width: 115px;">
+                            <p th:text="${feedback.user.productTimeOrder}"></p>
                         </td>
                         <td style="width: 300px;">
                             <p th:text="${feedback.message}"></p>

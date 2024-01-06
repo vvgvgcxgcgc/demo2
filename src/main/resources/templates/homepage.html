@@ -6,26 +6,74 @@
     <div th:replace="~{fragments::head}"></div>
 </head>
 
+<style>
+    .feedback-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .feedback-btn:hover {
+        background-color: #45a049;
+    }
+
+    .feedback-popup {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .feedback-popup small {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 80%;
+        height: 50%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .feedback-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+    }
+
+    .close-btn {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+</style>
+
 <body>
 <!-- Header section -->
 <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin})}"></div>
-<div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
-    <p th:text = "${error}"></p>
-</div>
 
-<script>
-
-    const errorMessage = document.getElementById("errorMessage");
-
-    if (errorMessage) {
-        setTimeout(function () {
-            errorMessage.classList.add("fade-out");
-            setTimeout(function () {
-                errorMessage.style.display = "none";
-            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
-        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
-    }
-</script>
 <!-- Hero section -->
 <div th:replace="~{fragments::hero}"></div>
 
@@ -72,47 +120,26 @@
             <div class="col-lg-12">
                 <div class="section-title">
                     <h2>Today's Menu</h2>
+                    <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
+                        <p th:text = "${success}"></p>
+                    </div>
 
+                    <script>
+                        const successMessage = document.getElementById("successMessage");
+                        if (successMessage) {
+                            setTimeout(function () {
+                                successMessage.classList.add("fade-out");
+                                setTimeout(function () {
+                                    successMessage.style.display = "none";
+                                }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                        }
+                    </script>
                 </div>
             </div>
         </div>
 
-        <!--    Truyen vao day    -->
         <div class="row featured__filter">
-            <!--            <div class="col-lg-3 col-md-4 col-sm-6" th:each = "product : ${products}" th:if="${product.deleted} == false">-->
-            <!--                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">-->
-            <!--                    &lt;!&ndash;                                Text báo thêm thành công&ndash;&gt;-->
-            <!--                    <p th:text = "${success}"></p>-->
-            <!--                </div>-->
-            <!--                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">-->
-            <!--                    &lt;!&ndash;                                Text báo thêm thất bại&ndash;&gt;-->
-            <!--                    <p th:text = "${error}"></p>-->
-            <!--                </div>-->
-
-            <!--                <script>-->
-            <!--                    const successMessage = document.getElementById("successMessage");-->
-            <!--                    const errorMessage = document.getElementById("errorMessage");-->
-
-            <!--                    if (successMessage) {-->
-            <!--                        setTimeout(function () {-->
-            <!--                            successMessage.classList.add("fade-out");-->
-            <!--                            setTimeout(function () {-->
-            <!--                                successMessage.style.display = "none";-->
-            <!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
-            <!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
-            <!--                    }-->
-
-            <!--                    if (errorMessage) {-->
-            <!--                        setTimeout(function () {-->
-            <!--                            errorMessage.classList.add("fade-out");-->
-            <!--                            setTimeout(function () {-->
-            <!--                                errorMessage.style.display = "none";-->
-            <!--                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ-->
-            <!--                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)-->
-            <!--                    }-->
-            <!--                </script>-->
-
-            <!--                <form th:action="@{/}" method="post">-->
             <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${products}" th:if="${product.deleted} == false">
                 <div class="featured__item">
                     <div class="featured__item__pic set-bg">
@@ -142,14 +169,15 @@
                             </style>
                             <div class="scroll-container">
                                 <div th:each="feed : ${product.feedBackList}">
-                                    <p th:text="${feed.user.Fullname}"><i class="fa fa-user"></i></p>
+                                    <i class="fa fa-user-circle"></i>
+                                    <label th:text="${feed.user.Fullname}"><i class="fa fa-user-circle"> </i></label>
                                     <p th:text="${feed.message}"></p>
                                 </div>
                             </div>
                             <form id="yourForm" th:action="@{/add-feedback(product_id = ${product.id})}" method="post" enctype="multipart/form-data">
-                                <label th:for="'feedbackMessage' + ${product.name}"><i class="far fa-comments"></i> Add feedback:</label>
-                                <textarea th:id="'feedbackMessage' + ${product.name}" name="feedbackMessage" required="required"></textarea>
-                                <button type="submit">Submit</button>
+                                <label th:for="'feedbackMessage' + ${product.name}"><i class="fa fa-comments"></i> Add feedback:</label>
+                                <br><textarea style="width: 100%; height: 100px;" class="feedback-form textarea" th:id="'feedbackMessage' + ${product.name}" name="feedbackMessage" required="required"></textarea>
+                                <br><button class="site-btn" type="submit">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -216,96 +244,6 @@
             // });
 
         </script>
-        <style>
-            .feedback-btn {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            .feedback-btn:hover {
-                background-color: #45a049;
-            }
-
-            .feedback-popup {
-                display: none;
-                position: fixed;
-                z-index: 9999;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .feedback-content {
-                background-color: #fefefe;
-                margin: 10% auto;
-                padding: 20px;
-                border: 1px solid #888;
-                width: 50%;
-            }
-
-            .close-btn {
-                color: #aaaaaa;
-                float: right;
-                font-size: 28px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-            .close-btn:hover,
-            .close-btn:focus {
-                color: #000;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .feedback-form label {
-                display: block;
-                margin-top: 10px;
-            }
-
-            .feedback-form input,
-            .feedback-form textarea {
-                width: 100%;
-                padding: 5px;
-                margin-top: 5px;
-            }
-
-            .feedback-form button {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                margin-top: 10px;
-            }
-            .feedback-form button {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                margin-top: 10px;
-                transition: background-color 0.3s ease;
-            }
-
-            .feedback-form button:hover {
-                background-color: #45a049;
-            }
-
-            .feedback-form button:active {
-                background-color: #3e8e41;
-            }
-        </style>
         <!--                </form>-->
 
         <script>
