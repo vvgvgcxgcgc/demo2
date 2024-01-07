@@ -40,7 +40,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="order-group" th:each="feedback : ${feedbacks}" th:if="${feedback.status} == 1">
+                    <tr class="order-group" th:each="feedback : ${feedbacks}" th:if="${feedback.status} == 0">
                         <td>
                             <p th:text="${#temporals.format(feedback.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                         </td>
@@ -70,7 +70,7 @@
                         </td>
                     </tr>
 
-                    <tr class="order-group" th:each="feedback : ${feedbacks}" th:if="${feedback.status} == 2">
+                    <tr class="order-group" th:each="feedback : ${feedbacks}" th:if="${feedback.status} == 1">
                         <td>
                             <p th:text="${feedback.time}"></p>
                         </td>
