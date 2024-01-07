@@ -1,5 +1,6 @@
 package com.example.demo.ADMIN;
 
+import com.example.demo.Domain.Feedback;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Service.FeedbackService;
@@ -220,8 +221,19 @@ public String viewOrderpending(Model model){
         model.addAttribute("feedbacks",feedbackdts);
         return "/admin-feedbacks";
 
-
     }
+    @RequestMapping(value = "/accept-feedback", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String acceptFb(Long id){
+        Feedback feedback = feedbackService.updateOrder(id);
+
+        return "redirect:/admin-feedbacks";
+    }
+    @RequestMapping(value = "/delete-feedback", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String deleteFb(Long id){
+        feedbackService.deleteFB(id);
+        return "redirect:/admin-feedbacks";
+    }
+
 
 
 

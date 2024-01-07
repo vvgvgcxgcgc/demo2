@@ -51,4 +51,21 @@ public class FeedbackServiceImp implements FeedbackService{
         }
         return feedbackdts;
     }
+
+    @Override
+    public Feedback find(Long id) {
+        return feedbackRepo.getReferenceById(id);
+    }
+
+    @Override
+    public Feedback updateOrder(Long id) {
+        Feedback feedback = feedbackRepo.getReferenceById(id);
+        feedback.setStatus(1);
+        return feedbackRepo.save(feedback);
+    }
+
+    @Override
+    public void  deleteFB(Long id) {
+         feedbackRepo.deleteById(id);
+    }
 }

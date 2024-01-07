@@ -23,5 +23,9 @@ public interface OrderService {
     public Order getSuccessOrder(Long id);
     public  List<Order> getOrderofUser(String username);
 
+    public Long getDayRevenue();
+    public Long getWeekRevenue();
+    public Long getMonthRevenue();
+
 
 }

@@ -11,4 +11,7 @@ import java.util.List;
 public interface FeedbackService {
     public Feedback save(Feedback feedback);
     public List<Feedbackdt> getALLFb();
+    public Feedback find(Long id);
+    public Feedback updateOrder(Long id);
+    public void deleteFB(Long id);
 }
