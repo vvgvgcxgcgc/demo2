@@ -26,7 +26,7 @@ public class Feedback {
     @JoinColumn(name = "ProductId",referencedColumnName = "ProductId")
     private  Product product;
     private String message;
-    private int status = 1;
+    private int status = 0;
 
     private LocalDateTime time;
 

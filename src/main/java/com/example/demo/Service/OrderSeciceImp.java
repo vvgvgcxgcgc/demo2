@@ -10,7 +10,11 @@ import com.example.demo.dto.Orderdt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,4 +115,49 @@ public class OrderSeciceImp implements OrderService {
     public List<Order> getOrderofUser(String username) {
         return orderRepos.findAllByUserUsername(username);
     }
+
+    @Override
+    public Long getDayRevenue() {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfToday = LocalDateTime.of(today, LocalTime.MIN);
+        LocalDateTime timenow = LocalDateTime.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//        String startofDay = startOfToday.format(formatter);
+//        String timenowstring = timenow.format(formatter);
+        List<Order> orders= orderRepos.findByOrderDateBetween(startOfToday,timenow);
+        long sum=0;
+        for(Order order: orders){
+            sum += order.getTotal();
+        }
+        return sum;
+
+    }
+
+    @Override
+    public Long getWeekRevenue() {
+        LocalDateTime startOfWeek = LocalDateTime.now().with(DayOfWeek.MONDAY).toLocalDate().atStartOfDay();
+        LocalDateTime timenow = LocalDateTime.now();
+        List<Order> orders= orderRepos.findByOrderDateBetween(startOfWeek,timenow);
+        long sum=0;
+        for(Order order: orders){
+            sum += order.getTotal();
+        }
+        return sum;
+
+    }
+
+    @Override
+    public Long getMonthRevenue() {
+        LocalDateTime firstDateTimeOfMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1), LocalTime.MIN);
+        LocalDateTime timenow = LocalDateTime.now();
+        List<Order> orders= orderRepos.findByOrderDateBetween(firstDateTimeOfMonth,timenow);
+        long sum=0;
+        for(Order order: orders){
+            sum += order.getTotal();
+        }
+        return sum;
+
+
+    }
+
 }

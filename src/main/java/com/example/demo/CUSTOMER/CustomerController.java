@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,6 +201,7 @@ public class CustomerController {
                     .product(product)
                     .user(user)
                     .message(fb)
+                    .status(0)
                     .build();
             feedbackService.save(feedback);
         }
@@ -220,6 +222,7 @@ public class CustomerController {
         if(principal == null||principal.getName().equals("adminonly")) {
             return "redirect:/login";
         }
+        System.out.println(orderService.getDayRevenue());
 
 
         model.addAttribute("display",false);
