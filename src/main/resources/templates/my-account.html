@@ -348,7 +348,7 @@
                                     <tbody>
                                     <tr class="order-group" th:each="order : ${user.orders}" th:if=" ${order.orderstatus == 1}">
                                         <td>
-                                            <p th:text="${order.time}"></p>
+                                            <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                                         </td>
                                         <td>
                                             <p style="color: red" th:text="${order.total}"></p>
@@ -359,7 +359,7 @@
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} "></p>
+                                                <p th:text="${pair.amount} + 'x ' + ${pair.pro.Name} "></p>
                                             </div>
                                         </td>
                                         <td>

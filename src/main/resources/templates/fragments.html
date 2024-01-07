@@ -73,22 +73,21 @@
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>
-<!--                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span id="cartItemCount">0</span></a></li>-->
+<!--                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>-->
+                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span style="top: -.4rem; left: 1.0rem;" id="cartItemCount">0</span></a></li>
 
-<!--                <script>-->
-<!--                    // Lấy danh sách sản phẩm từ localStorage-->
-<!--                    let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];-->
+                <script>
+                    // Lấy danh sách sản phẩm từ localStorage
+                    let productsInCar = JSON.parse(localStorage.getItem('productsInCart')) || [];
 
-<!--                    // Lấy phần tử span dựa trên id-->
-<!--                    let cartItemCount = document.getElementById('cartItemCount');-->
+                    // Lấy phần tử span dựa trên id
+                    let cartItemCount = document.getElementById('cartItemCount');
 
-<!--                    if (productsInCart) {-->
-<!--                        // Cập nhật số lượng sản phẩm trong span-->
-<!--                        console.log(productsInCart.length)-->
-<!--                        cartItemCount.textContent = String(productsInCart.length);-->
-<!--                    }-->
-<!--                </script>-->
+                    if (productsInCar) {
+                        // Cập nhật số lượng sản phẩm trong span
+                        cartItemCount.textContent = String(productsInCar.length);
+                    }
+                </script>
 
             </ul>
         </div>
@@ -198,22 +197,21 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>
-<!--                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span id="cartItemCountt">0</span></a></li>-->
+<!--                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>-->
+                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i> <span style="top: -.4rem; left: 1.0rem;" id="cartItemCountt">0</span></a></li>
 
-<!--                            <script>-->
-<!--                                // Lấy danh sách sản phẩm từ localStorage-->
-<!--                                let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];-->
+                            <script>
+                                // Lấy danh sách sản phẩm từ localStorage
+                                let productsInCartt = JSON.parse(localStorage.getItem('productsInCart')) || [];
 
-<!--                                // Lấy phần tử span dựa trên id-->
-<!--                                let cartItemCount = document.getElementById('cartItemCountt');-->
+                                // Lấy phần tử span dựa trên id
+                                let cartItemCountt = document.getElementById('cartItemCountt');
 
-<!--                                if (productsInCart) {-->
-<!--                                    // Cập nhật số lượng sản phẩm trong span-->
-<!--                                    console.log(productsInCart.length)-->
-<!--                                    cartItemCount.textContent = String(productsInCart.length);-->
-<!--                                }-->
-<!--                            </script>-->
+                                if (productsInCartt) {
+                                    // Cập nhật số lượng sản phẩm trong span
+                                    cartItemCountt.textContent = String(productsInCartt.length);
+                                }
+                            </script>
                         </ul>
                     </div>
                 </div>

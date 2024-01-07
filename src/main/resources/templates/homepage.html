@@ -15,6 +15,7 @@
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        /*margin-left: 8px; margin-right: 8px;*/
     }
 
     .feedback-btn:hover {
@@ -68,6 +69,43 @@
         cursor: pointer;
     }
 
+    .contein .feedCount {
+        height: 20px;
+        width: 20px;
+        background: #7fad39;
+        font-size: 13px;
+        color: #ffffff;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        display: flex;
+        border-radius: 50%;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+    .popupAlert {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        line-height: 25px;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 600px;
+        height: 180px;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+    }
+
 </style>
 
 <body>
@@ -115,6 +153,24 @@
 
 <!-- Featured Section Begin -->
 <section class="featured spad">
+
+    <div id="successOrder" th:if="${successOrder}" class="popupAlert">
+        Order placed successfully!
+        <br>
+        We will call you back within 5 minutes for confirmation.
+    </div>
+
+    <div id="successOrderREG" th:if="${successOrderREG}" class="popupAlert">
+        Order placed successfully!
+        <br>
+        <span style="white-space: nowrap;"> You can track your order by View Orders in <a class="myaccc" href="my-account">My Account</a></span>
+        We will call you back within 5 minutes for confirmation.
+    </div>
+    <style>
+        .myaccc:hover {
+            color: red;
+        }
+    </style>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -132,8 +188,43 @@
                                 setTimeout(function () {
                                     successMessage.style.display = "none";
                                 }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
-                            }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                            }, 3000); // Hiển thị trong 5 giây (5000 milliseconds)
                         }
+
+                        const successOrder = document.getElementById("successOrder");
+                        if (successOrder) {
+                            var closeButton = document.createElement("button");
+                            closeButton.innerHTML = "Close";
+                            closeButton.style.marginTop = "20px";
+                            closeButton.style.backgroundColor = "#4CAF50";
+                            closeButton.style.color = "white";
+                            closeButton.style.border = "none";
+                            closeButton.style.padding = "7px 17px";
+                            closeButton.style.fontSize = "16px";
+                            closeButton.style.cursor = "pointer";
+                            closeButton.addEventListener('click', function() {
+                                successOrder.style.display = "none";
+                            });
+                            successOrder.appendChild(closeButton);
+                        }
+
+                        const successOrderREG = document.getElementById("successOrderREG");
+                        if (successOrderREG) {
+                            var closeButton = document.createElement("button");
+                            closeButton.innerHTML = "Close";
+                            closeButton.style.marginTop = "20px";
+                            closeButton.style.backgroundColor = "#4CAF50";
+                            closeButton.style.color = "white";
+                            closeButton.style.border = "none";
+                            closeButton.style.padding = "7px 17px";
+                            closeButton.style.fontSize = "16px";
+                            closeButton.style.cursor = "pointer";
+                            closeButton.addEventListener('click', function() {
+                                successOrderREG.style.display = "none";
+                            });
+                            successOrderREG.appendChild(closeButton);
+                        }
+
                     </script>
                 </div>
             </div>
@@ -142,6 +233,7 @@
         <div class="row featured__filter">
             <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${products}" th:if="${product.deleted} == false">
                 <div class="featured__item">
+                    <input class="product-id" type="hidden" th:value="${product.id}">
                     <div class="featured__item__pic set-bg">
                         <img class="my-product-image" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
                         <ul class="featured__item__pic__hover">
@@ -149,11 +241,28 @@
                         </ul>
                     </div>
                     <div class="featured__item__text">
-                        <input class="product-id" type="hidden" th:value="${product.id}">
                         <h6 class="product-name" th:text="${product.name}"></h6>
                         <h6 th:text="${product.info}"></h6>
-                        <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + 'đ'}"></h5>
-                        <button class="feedback-btn" data-product-id="${product.id}" onclick="openFeedbackForm(event)" style="margin-top: 10px;">Feedback</button>
+                        <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></h5>
+                        <div class="contein" style="position: relative; width: 130px; margin-left: auto; margin-right: auto;">
+                            <button class="feedback-btn" data-product-id="${product.id}" onclick="openFeedbackForm(event)" style="margin-top: 10px;">Feedback</button>
+                            <span class="feedCount" th:id="'feedCount'+ ${product.id}">0</span>
+                            <script>
+                                function getProductID(element) {
+                                    var parent = element.parentNode;
+                                    while (parent) {
+                                        if (parent.classList.contains('featured__item')) {
+                                            return parent.querySelector('.product-id').value;
+                                        }
+                                        parent = parent.parentNode;
+                                    }
+                                    return null;
+                                }
+                                product_iid = getProductID()
+                                console.log(product_iid)
+                                // document.getElementById('feedCount' + product_id).textContent = "0";
+                            </script>
+                        </div>
                     </div>
                     <div class="feedback-popup" th:id="'feedbackPopup'+ ${product.id}">
                         <div class="feedback-content">
@@ -167,10 +276,10 @@
                                     overflow: auto;
                                 }
                             </style>
-                            <div class="scroll-container">
-                                <div th:each="feed : ${product.feedBackList}">
+                            <div class="scroll-container" id="scroll-container">
+                                <div th:each="feed, feedStatus  : ${product.feedBackList}" th:if="${feed.status == 1}" th:class="'feed-item' + ${product.id}">
                                     <i class="fa fa-user-circle"></i>
-                                    <label th:text="${feed.user.Fullname}"><i class="fa fa-user-circle"> </i></label>
+                                    <label th:text="${feed.user.Fullname}"></label>
                                     <p th:text="${feed.message}"></p>
                                 </div>
                             </div>
@@ -182,8 +291,20 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
+            <script>
+                const product_container = document.getElementsByClassName('scroll-container');
+                const num_feedback = document.getElementsByClassName('feedCount')
+                for (let i = 0; i < product_container.length; i++){
+                    const scroll_container = product_container[i];
+                    const icons = scroll_container.getElementsByClassName('fa fa-user-circle');
+                    const num_icon = icons.length;
+                    const count = num_feedback[i];
+                    count.textContent = `${num_icon}`;
+                }
+            </script>
+
         </div>
         <script>
             function openFeedbackForm(event) {
@@ -202,53 +323,6 @@
                 document.getElementById("feedbackPopup" + productID).style.display = "none";
 
             }
-            function getProductID(element) {
-                var parent = element.parentNode;
-                while (parent) {
-                    if (parent.classList.contains('featured__item')) {
-                        var productID = parent.querySelector('.product-id').value;
-                        return productID;
-                    }
-                    parent = parent.parentNode;
-                }
-                return null;
-            }
-
-            // function openFeedbackForm() {
-            //
-            //     document.getElementById("feedbackPopup").style.display = "block";
-            //
-            //     document.getElementById("feedbackMessage").value = "";
-            //
-            // }
-            //
-            // function closeFeedbackForm() {
-            //     document.getElementById("feedbackPopup").style.display = "none";
-            // }
-            //
-            // document.querySelector(".feedback-form").addEventListener("submit", function(event) {
-            //     event.preventDefault();
-            //     var feedbackMessage = document.getElementById("feedbackMessage").value;
-            //
-            //     // Perform any necessary actions with the feedback data (e.g., send it to a server)
-            //
-            //     // Update the "userInfo" element with the updated username and phoneNumber
-            //     var userInfoElement = document.getElementById("userInfo");
-            //     var userInfoText = userInfoElement.textContent;
-            //     var userInfoParts = userInfoText.split(":");
-            //     var updatedUserInfo = userInfoParts[0] + ": " + feedbackMessage;
-            //     userInfoElement.textContent = updatedUserInfo;
-            //
-            //     // Clear the feedback message field
-            //     document.getElementById("feedbackMessage").value = "";
-            // });
-
-        </script>
-        <!--                </form>-->
-
-        <script>
-
-            // console.log("lmao");
 
             function addToCart(event) {
                 event.preventDefault();
@@ -282,6 +356,8 @@
 
                 // Lưu danh sách sản phẩm mới vào localStorage
                 localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+
+                window.location.reload();
             }
         </script>
 

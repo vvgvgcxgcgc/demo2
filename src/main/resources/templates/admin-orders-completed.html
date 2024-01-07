@@ -41,7 +41,7 @@
                     <tbody>
                     <tr th:each="order : ${orders}" th:if="${order.orderstatus == 3 or order.orderstatus == 4}">
                         <td>
-                            <p th:text="${order.time}"></p>
+                            <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                             <!--                            <p>00:11 31/12/2023</p>-->
                         </td>
                         <td>

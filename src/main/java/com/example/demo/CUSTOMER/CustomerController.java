@@ -285,6 +285,7 @@ public class CustomerController {
     }
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
+                             RedirectAttributes redirectAttributes,
                              @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
        if(principal== null || principal.getName()=="adminonly") {
            Order order = orderService.save(orderdt);
@@ -292,11 +293,12 @@ public class CustomerController {
                orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
            }
        }
-
+       redirectAttributes.addFlashAttribute("successOrder", "Order placed successfully!");
        return "redirect:/homepage";
     }
     @PostMapping("/place-orderREG")
     public String placeorderREG(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
+                                RedirectAttributes redirectAttributes,
                                 @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
 
         Order order = orderService.save1(orderdt,principal.getName());
@@ -304,7 +306,7 @@ public class CustomerController {
             orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
         }
 
-
+        redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");
         return "redirect:/homepage";
     }
     @RequestMapping(value = "/cancel-order-user", method = {RequestMethod.PUT, RequestMethod.GET})
@@ -313,10 +315,10 @@ public class CustomerController {
 
             Order order = orderService.cancelOrder(id);
 
-            redirectAttributes.addFlashAttribute("success", "Canceled successfully!");
+            redirectAttributes.addFlashAttribute("success", "Cancelled successfully!");
         } catch (Exception e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Canceled failed!");
+            redirectAttributes.addFlashAttribute("error", "Cancelled failed!");
         }
         return "redirect:/my-account";
     }
