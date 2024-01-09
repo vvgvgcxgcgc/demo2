@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Statitics {
-    StatiticsbyDay statiticsbyDay;
-    StatiticsbyWeek statiticsbyWeek;
-    StatiticsbyMonth statiticsbyMonth;
-    Integer pendingorderamount;
+
+public class StatiticsbyDay {
+    Long ordersuccessamount ;
+    Long revenuebyDay;
 
 }

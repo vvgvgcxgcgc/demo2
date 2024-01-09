@@ -6,8 +6,9 @@ import com.example.demo.Domain.Product_Order;
 import com.example.demo.Domain.User;
 import com.example.demo.Respories.OrderRepos;
 import com.example.demo.Respories.Product_OrderRepos;
-import com.example.demo.dto.Orderdt;
+import com.example.demo.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -117,46 +119,102 @@ public class OrderSeciceImp implements OrderService {
     }
 
     @Override
-    public Long getDayRevenue() {
+    public StatiticsbyDay getDayRevenue() {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfToday = LocalDateTime.of(today, LocalTime.MIN);
         LocalDateTime timenow = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//        String startofDay = startOfToday.format(formatter);
-//        String timenowstring = timenow.format(formatter);
+        long orderSuccess =0;
+
         List<Order> orders= orderRepos.findByOrderDateBetween(startOfToday,timenow);
         long sum=0;
         for(Order order: orders){
-            sum += order.getTotal();
+            if(order.getOrderstatus()==3) {
+                sum += order.getTotal();
+                orderSuccess++;
+            }
         }
-        return sum;
+        StatiticsbyDay statiticsbyDay = StatiticsbyDay.builder()
+                .ordersuccessamount(orderSuccess)
+                .revenuebyDay(sum)
+                .build();
+        return statiticsbyDay;
 
     }
 
     @Override
-    public Long getWeekRevenue() {
+    public StatiticsbyWeek getWeekRevenue() {
         LocalDateTime startOfWeek = LocalDateTime.now().with(DayOfWeek.MONDAY).toLocalDate().atStartOfDay();
         LocalDateTime timenow = LocalDateTime.now();
+        List<Integer> orderthroughhour = Collections.nCopies(25, 0);
         List<Order> orders= orderRepos.findByOrderDateBetween(startOfWeek,timenow);
         long sum=0;
+        long orderTotal =0;
+        long orderSuccess =0;
+        long orderCancel =0;
+        double  orderrate ;
+
+        List<Top3Productdt> top3product = orderRepos.findTop3Product(startOfWeek, timenow);
         for(Order order: orders){
-            sum += order.getTotal();
+            if(order.getOrderstatus()==3) {
+                sum += order.getTotal();
+                orderSuccess ++;
+                int index = (int)order.getTime().getHour();
+                orderthroughhour.set(index,orderthroughhour.get(index)+1) ;
+
+            }
+            else if(order.getOrderstatus()==4)  orderCancel ++;
         }
-        return sum;
+        orderrate = (double)orderCancel/(orderCancel+orderSuccess);
+        StatiticsbyWeek statiticsbyWeek = StatiticsbyWeek.builder()
+                .revenuebyWeek(sum)
+                .cancledorderrate(orderrate)
+                .ordersuccessamount(orderSuccess)
+                .orderthroughhour(orderthroughhour)
+                .top3Productdts(top3product)
+                .build();
+        return statiticsbyWeek;
+
+
+
+
 
     }
 
     @Override
-    public Long getMonthRevenue() {
+    public StatiticsbyMonth  getMonthRevenue() {
         LocalDateTime firstDateTimeOfMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1), LocalTime.MIN);
         LocalDateTime timenow = LocalDateTime.now();
         List<Order> orders= orderRepos.findByOrderDateBetween(firstDateTimeOfMonth,timenow);
+        List<Top3Userdt> top3Userdts = orderRepos.findTop3User(firstDateTimeOfMonth,timenow);
+        List<User> newusers = userser.findnewusers(firstDateTimeOfMonth,timenow);
+        long orderSuccess =0;
+        long orderCancel =0;
+        double  orderrate ;
         long sum=0;
         for(Order order: orders){
-            sum += order.getTotal();
-        }
-        return sum;
+            if(order.getOrderstatus()==3) {
+                sum += order.getTotal();
+                orderSuccess++;
+            }
+            else if(order.getOrderstatus()==4)  orderCancel ++;
 
+        }
+        orderrate = (double)orderCancel/(orderCancel+orderSuccess);
+        StatiticsbyMonth statiticsbyMonth = StatiticsbyMonth.builder()
+                .revenuebyMonth(sum)
+                .cancledorderrate(orderrate)
+                .ordersuccessamount(orderSuccess)
+                .newusers(newusers)
+                .top3Userdts(top3Userdts)
+                .build();
+        return statiticsbyMonth;
+
+
+    }
+
+    @Override
+    public Integer getPendingOrderamount() {
+        return orderRepos.findPendingOrders().size();
 
     }
 

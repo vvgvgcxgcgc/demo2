@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 @Service
 
@@ -33,6 +35,7 @@ public class Userserimp implements Userser{
                 .Phonenumber(userdt.getPhonenumber())
                 .Checkuser(1)
                 .Userpoint(0)
+                .time(LocalDateTime.now())
                 .addresses(userdt.getAddresses())
                 .build();
 
@@ -69,5 +72,10 @@ public class Userserimp implements Userser{
     @Override
     public int productTimesOrder(Long userid, String productid) {
         return userRepo.productOrderTimes(userid,productid);
+    }
+
+    @Override
+    public List<User> findnewusers(LocalDateTime startDate, LocalDateTime endDate) {
+        return userRepo.findNewUsers(startDate,endDate);
     }
 }
