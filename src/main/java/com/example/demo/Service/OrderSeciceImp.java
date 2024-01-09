@@ -134,7 +134,7 @@ public class OrderSeciceImp implements OrderService {
             }
         }
         StatiticsbyDay statiticsbyDay = StatiticsbyDay.builder()
-                .ordersuccessamount(orderSuccess)
+                .orderSuccessAmount(orderSuccess)
                 .revenuebyDay(sum)
                 .build();
         return statiticsbyDay;
@@ -167,9 +167,9 @@ public class OrderSeciceImp implements OrderService {
         orderrate = (double)orderCancel/(orderCancel+orderSuccess);
         StatiticsbyWeek statiticsbyWeek = StatiticsbyWeek.builder()
                 .revenuebyWeek(sum)
-                .cancledorderrate(orderrate)
-                .ordersuccessamount(orderSuccess)
-                .orderthroughhour(orderthroughhour)
+                .cancelOrderRate(orderrate)
+                .orderSuccessAmount(orderSuccess)
+                .orderThroughHour(orderthroughhour)
                 .top3Productdts(top3product)
                 .build();
         return statiticsbyWeek;
@@ -202,8 +202,8 @@ public class OrderSeciceImp implements OrderService {
         orderrate = (double)orderCancel/(orderCancel+orderSuccess);
         StatiticsbyMonth statiticsbyMonth = StatiticsbyMonth.builder()
                 .revenuebyMonth(sum)
-                .cancledorderrate(orderrate)
-                .ordersuccessamount(orderSuccess)
+                .cancelOrderRate(orderrate)
+                .orderSuccessAmount(orderSuccess)
                 .newusers(newusers)
                 .top3Userdts(top3Userdts)
                 .build();

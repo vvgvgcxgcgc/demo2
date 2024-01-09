@@ -13,10 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class StatiticsbyWeek {
-    List<Integer> orderthroughhour;
+    List<Integer> orderThroughHour;
     Long revenuebyWeek;
-    Long ordersuccessamount;
-    double cancledorderrate;
+    Long orderSuccessAmount;
+    double cancelOrderRate;
     List<Top3Productdt> top3Productdts;
 
 

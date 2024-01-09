@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class StatiticsbyDay {
-    Long ordersuccessamount ;
+    Long orderSuccessAmount ;
     Long revenuebyDay;
 
 }

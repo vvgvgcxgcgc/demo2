@@ -14,8 +14,8 @@ import java.util.List;
 @Builder
 public class StatiticsbyMonth {
     Long revenuebyMonth;
-    Long ordersuccessamount;
-    double cancledorderrate;
+    Long orderSuccessAmount;
+    double cancelOrderRate;
     List<Top3Userdt> top3Userdts;
     List<User> newusers;
 
