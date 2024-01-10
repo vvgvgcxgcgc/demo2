@@ -269,6 +269,24 @@ public class CustomerController {
 
         return "shoping-cart";
     }
+
+    @PostMapping("/forgotPass")
+    public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
+                             RedirectAttributes redirectAttributes) {
+
+        String suggestAddr = userser.generateSampleAddress(usernameForgot);
+        User user = userser.findByUsername(usernameForgot);
+        String phonenum = user.getPhonenumber();
+
+        System.out.println(suggestAddr);
+        System.out.println(phonenum);
+
+        redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
+        redirectAttributes.addFlashAttribute("phonenum", phonenum);
+
+        return "redirect:/forgot-password";
+    }
+
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                              RedirectAttributes redirectAttributes,
@@ -309,6 +327,7 @@ public class CustomerController {
         }
         return "redirect:/my-account";
     }
+
 
 }
 

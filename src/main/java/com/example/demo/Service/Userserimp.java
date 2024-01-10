@@ -93,7 +93,7 @@ public class Userserimp implements Userser{
     public String generateSampleAddress(String username) {
         User user = userRepo.findByUsername(username);
 
-        String address = user.getAddresses().getFirst();
+        String address = user.getAddresses().get(0);
         String[] parts = address.split(",");
         int index;
         if(parts.length>=5) index = parts.length-2;
@@ -102,11 +102,10 @@ public class Userserimp implements Userser{
         String sample = "";
         int j = parts.length-1;
         while (index>0){
-            sample = parts[j]+sample;
+            sample = parts[j] + sample;
             j--; index--;
         }
         return sample;
-
-
     }
+
 }
