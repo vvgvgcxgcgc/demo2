@@ -3,6 +3,7 @@ package com.example.demo.ADMIN;
 import com.example.demo.Domain.Feedback;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
+import com.example.demo.Domain.User;
 import com.example.demo.Service.FeedbackService;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
@@ -10,14 +11,6 @@ import com.example.demo.dto.Feedbackdt;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.rmi.server.LogStream.log;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,6 +35,26 @@ public class AdminController {
 //    public String showAdminOrdersPending(Model model){
 //        return "admin-orders-pending";
 //    }
+@GetMapping("/admin-dashboard")
+public String viewStatistic(Model model){
+    Long earningToday = orderService.getDayRevenue().getRevenuebyDay();
+    Long earningThisMonth = orderService.getMonthRevenue().getRevenuebyMonth();
+    Long completedOrdersToday = orderService.getDayRevenue().getOrderSuccessAmount();
+    Long completedOrdersThisMonth = orderService.getMonthRevenue().getOrderSuccessAmount();
+    Integer pendingOrders = orderService.getPendingOrderamount();
+    Double cancelRate = orderService.getWeekRevenue().getCancelOrderRate();
+    List<User> newMembers = orderService.getMonthRevenue().getNewusers();
+
+    model.addAttribute("earningToday",earningToday);
+    model.addAttribute("earningThisMonth",earningThisMonth);
+    model.addAttribute("completedToday",completedOrdersToday);
+    model.addAttribute("completedThisMonth",completedOrdersThisMonth);
+    model.addAttribute("pendingOrders",pendingOrders);
+    model.addAttribute("cancelRate",cancelRate);
+    model.addAttribute("newMembers",newMembers.size());
+    return "admin-dashboard";
+}
+
 @GetMapping("/admin-orders-pending")
 public String viewOrderpending(Model model){
     List<Order> orders = orderService.getAllOrders();
@@ -58,8 +68,6 @@ public String viewOrderpending(Model model){
                 order.setOrderstatus(4);
                 orderService.cancelOrder(order.getId());
             }
-
-
         }
     }
 
@@ -76,10 +84,6 @@ public String viewOrderpending(Model model){
     return "admin-orders-completed";
     }
 
-    @GetMapping("/admin-dashboard")
-    public String dasboard(){
-        return "admin-dashboard";
-    }
     @GetMapping("/admin-products")
     public String showAdminProducts(Model model ,Principal principal){
         if (principal == null) {

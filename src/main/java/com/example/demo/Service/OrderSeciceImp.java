@@ -151,7 +151,7 @@ public class OrderSeciceImp implements OrderService {
         long orderTotal =0;
         long orderSuccess =0;
         long orderCancel =0;
-        double  orderrate ;
+        double orderrate ;
 
         List<Top3Productdt> top3product = orderRepos.findTop3Product(startOfWeek, timenow);
         for(Order order: orders){
@@ -164,7 +164,7 @@ public class OrderSeciceImp implements OrderService {
             }
             else if(order.getOrderstatus()==4)  orderCancel ++;
         }
-        orderrate = (double)orderCancel/(orderCancel+orderSuccess);
+        orderrate = (double)orderCancel/(orderCancel+orderSuccess) * 100;
         StatiticsbyWeek statiticsbyWeek = StatiticsbyWeek.builder()
                 .revenuebyWeek(sum)
                 .cancelOrderRate(orderrate)
@@ -173,15 +173,10 @@ public class OrderSeciceImp implements OrderService {
                 .top3Productdts(top3product)
                 .build();
         return statiticsbyWeek;
-
-
-
-
-
     }
 
     @Override
-    public StatiticsbyMonth  getMonthRevenue() {
+    public StatiticsbyMonth getMonthRevenue() {
         LocalDateTime firstDateTimeOfMonth = LocalDateTime.of(LocalDate.now().withDayOfMonth(1), LocalTime.MIN);
         LocalDateTime timenow = LocalDateTime.now();
         List<Order> orders= orderRepos.findByOrderDateBetween(firstDateTimeOfMonth,timenow);
@@ -189,17 +184,17 @@ public class OrderSeciceImp implements OrderService {
         List<User> newusers = userser.findnewusers(firstDateTimeOfMonth,timenow);
         long orderSuccess =0;
         long orderCancel =0;
-        double  orderrate ;
+        double orderrate ;
         long sum=0;
         for(Order order: orders){
             if(order.getOrderstatus()==3) {
                 sum += order.getTotal();
                 orderSuccess++;
             }
-            else if(order.getOrderstatus()==4)  orderCancel ++;
+            else if(order.getOrderstatus()==4) orderCancel ++;
 
         }
-        orderrate = (double)orderCancel/(orderCancel+orderSuccess);
+        orderrate = (double)orderCancel/(orderCancel+orderSuccess) * 100;
         StatiticsbyMonth statiticsbyMonth = StatiticsbyMonth.builder()
                 .revenuebyMonth(sum)
                 .cancelOrderRate(orderrate)
@@ -208,14 +203,11 @@ public class OrderSeciceImp implements OrderService {
                 .top3Userdts(top3Userdts)
                 .build();
         return statiticsbyMonth;
-
-
     }
 
     @Override
     public Integer getPendingOrderamount() {
         return orderRepos.findPendingOrders().size();
-
     }
 
 }
