@@ -306,6 +306,7 @@ public class CustomerController {
         for (int i = 0; i < productlist.size(); i++) {
             orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
         }
+        User user = userser.updateAddress(principal.getName(),orderdt.getAddress());
 
         redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");
         return "redirect:/homepage";
