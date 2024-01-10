@@ -85,11 +85,6 @@ public class UserConfig {
                         logout.invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .logoutSuccessHandler((request, response, authentication) -> {
-                                    // Xóa thông tin principal sau khi đăng xuất thành công
-                                    SecurityContextHolder.clearContext();
-                                    response.sendRedirect("/homepage");
-                                })
                                 .logoutSuccessUrl("/homepage")
                                 .permitAll()
                 )

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -31,6 +32,7 @@ public class User {
     @NotNull // Đánh dấu trường này không được để trống
     private int Checkuser = 1;
     private int Userpoint =0;
+    private LocalDateTime time;
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String avatar;
