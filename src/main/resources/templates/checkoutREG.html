@@ -61,9 +61,10 @@
                             <div class="checkout__input">
                                 <p>Address</p>
 
-                                <input type="hidden" id="userAddresses" name="userAddresses" th:value="${user.addresses}" />
+<!--                                <input type="hidden" id="userAddresses" name="userAddresses" th:value="${user.addresses}" />-->
 
                                 <select th:field="${order.address}" name="addresses" id="addressesSelect" onchange="handleAddressChange()">
+                                    <option th:each="addr : ${user.addresses}" th:value="${addr}" th:text="${addr}"></option>
                                 </select>
 
                                 <br><br>
@@ -82,18 +83,20 @@
                             <input type="hidden" id="input_quantity" name="input_quantity" text="" required="required">
 
                             <script>
-                                let listAddr = document.getElementById("userAddresses").value;
+                                // let listAddr = document.getElementById("userAddresses").value;
                                 let addressesSelect = document.getElementById("addressesSelect");
+                                //
+                                // // Tạo các option từ listAddr
+                                // console.log(listAddr)
+                                // let addresses = listAddr.replace(/\[|\]/g, "").split("~"); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
+                                // console.log(addresses)
 
-                                // Tạo các option từ listAddr
-                                let addresses = listAddr.replace(/\[|\]/g, "").split(","); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
-
-                                addresses.forEach(function(address) {
-                                    let option = document.createElement("option");
-                                    option.value = address;
-                                    option.text = address;
-                                    addressesSelect.appendChild(option);
-                                });
+                                // addresses.forEach(function(address) {
+                                //     let option = document.createElement("option");
+                                //     option.value = address;
+                                //     option.text = address;
+                                //     addressesSelect.appendChild(option);
+                                // });
 
                                 // Thêm option cuối cùng
                                 let addNewAddressOption = document.createElement("option");

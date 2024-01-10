@@ -60,10 +60,10 @@ public class CustomerController {
 //    public String showAdminOrders(Model model){
 //        return "admin-orders";
 //    }
-//    @GetMapping("/contact")
-//    public String showContact(Model model){
-//        return "contact";
-//    }
+    @GetMapping("/contact")
+    public String showContact(Model model){
+        return "contact";
+    }
 
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
@@ -290,7 +290,7 @@ public class CustomerController {
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                              RedirectAttributes redirectAttributes,
                              @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
-       if(principal== null || principal.getName()=="adminonly") {
+       if(principal== null || principal.getName() == "adminonly") {
            Order order = orderService.save(orderdt);
            for (int i = 0; i < productlist.size(); i++) {
                orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
