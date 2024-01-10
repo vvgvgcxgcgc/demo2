@@ -64,7 +64,6 @@ public class Userserimp implements Userser{
         }
         user.setFullname(userdt.getFullname());
         user.setPhonenumber(userdt.getPhonenumber());
-        user.setAddresses(userdt.getAddresses());
 
         return userRepo.save(user);
     }
@@ -102,10 +101,24 @@ public class Userserimp implements Userser{
         String sample = "";
         int j = parts.length-1;
         while (index>0){
-            sample = parts[j] + sample;
+            sample = parts[j]+sample;
             j--; index--;
         }
         return sample;
+
+
     }
 
+    @Override
+    public User updateFirstAddress(String username, String address) {
+        User user = userRepo.findByUsername(username);
+        for(int i=0;i<user.getAddresses().size();i++){
+            if(user.getAddresses().get(i).equals(address)){
+                user.getAddresses().remove(i);
+                break;
+            }
+        }
+        user.getAddresses().set(0,address);
+        return userRepo.save(user);
+    }
 }

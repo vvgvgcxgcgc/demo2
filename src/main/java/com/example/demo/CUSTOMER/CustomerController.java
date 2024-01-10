@@ -241,6 +241,7 @@ public class CustomerController {
         try {
              userdt.setUsername(principal.getName());
             userser.Update(imageUser, userdt);
+            userser.updateFirstAddress(principal.getName(),selectedAddr);
 
             redirectAttributes.addFlashAttribute("success", "Update successfully!");
         } catch (Exception e) {
@@ -273,6 +274,7 @@ public class CustomerController {
     @PostMapping("/forgotPass")
     public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
                              RedirectAttributes redirectAttributes) {
+        System.out.println(usernameForgot);
 
         String suggestAddr = userser.generateSampleAddress(usernameForgot);
         User user = userser.findByUsername(usernameForgot);
@@ -286,6 +288,10 @@ public class CustomerController {
 
         return "redirect:/forgot-password";
     }
+//    @GetMapping("/forgot-password")
+//    public String showForgotPW(){
+//        return"/forgot-password";
+//    }
 
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,

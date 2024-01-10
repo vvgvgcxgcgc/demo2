@@ -18,4 +18,5 @@ public interface Userser {
     public User updateAddress(String username, String address);
 
     public String generateSampleAddress(String username);
+    public User updateFirstAddress(String username, String address);
 }

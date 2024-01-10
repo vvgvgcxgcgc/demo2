@@ -207,7 +207,7 @@
                             </div>
                             <div class="form-group">
 
-                                <label style="word-wrap: break-word;" class="form-label" th:text="'Default Address: ' + ${user.addresses.iterator().next()}" th:field="${user.addresses.iterator().next()}"></label>
+                                <label style="word-wrap: break-word;" class="form-label" th:text="'Default Address: ' + ${user.addresses.get(0)}" th:field="${user.addresses.get(0)}"></label>
 
                             </div>
                             <div class="form-group">
@@ -267,7 +267,7 @@
                                     <li th:each="address : ${user.addresses}">
                                         <label>
                                             <input type="radio" name="address" th:value=" ${address}" th:text="' ' + ${address}"
-                                                   th:checked="${address == user.addresses.iterator().next()}">
+                                                   th:checked="${address == user.addresses.get(0)}">
 
                                             <input type="hidden" name="selectedAddr" id="selectedAddr" required>
 
