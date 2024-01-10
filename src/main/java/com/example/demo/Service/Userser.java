@@ -16,4 +16,6 @@ public interface Userser {
     public int productTimesOrder(Long userid, String productid);
     public List<User> findnewusers(LocalDateTime startDate, LocalDateTime endDate);
     public User updateAddress(String username, String address);
+
+    public String generateSampleAddress(String username);
 }
