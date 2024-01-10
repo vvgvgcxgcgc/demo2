@@ -8,11 +8,9 @@ import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
-import org.springframework.boot.Banner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Attributes;
-
-import static java.lang.Math.log;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,10 +46,14 @@ public class CustomerController {
     }
 
 
-//    @GetMapping("/admin-forgot-password")
-//    public String showAdminForgotPassword(Model model){
-//        return "admin-forgot-password";
-//    }
+    @GetMapping("/forgot-password")
+    public String showForgotPassword(Model model){
+        return "forgot-password";
+    }
+    @GetMapping("/reset-password")
+    public String showResetPassword(Model model){
+        return "reset-password";
+    }
 //    @GetMapping("/admin-orders")
 //    public String showAdminOrders(Model model){
 //        return "admin-orders";
