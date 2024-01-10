@@ -70,9 +70,32 @@
                                 <br><br>
                                 <div id="newAddressContainer" style="display: none;">
                                     <label for="newAddress">New address:</label>
-                                    <input type="text" id="newAddress">
-<!--                                    <button onclick="addNewAddress()" class="site-btn-addr">Confirm</button>-->
-<!--                                    <button onclick="cancelAddNewAddress()" class="site-btn-remove-addr">Cancel</button>-->
+                                    <input type="text" id="newAddress" oninput="getAddressSuggestions()">
+
+                                    <ul id="suggestion-list" class="suggestion-list"></ul>
+
+                                    <style>
+                                        .suggestion-list {
+                                            position: absolute;
+                                            width: auto;
+                                            list-style: none;
+                                            background-color: #fff;
+                                            border: 1px solid #ccc;
+                                            padding: 0;
+                                            margin: 0;
+                                            z-index: 1;
+                                        }
+
+                                        .suggestion-list li {
+                                            padding: 5px;
+                                            cursor: pointer;
+                                        }
+
+                                        .suggestion-list li:hover {
+                                            background-color: #f2f2f2;
+                                        }
+                                    </style>
+
                                 </div>
 
                             </div>
@@ -83,20 +106,7 @@
                             <input type="hidden" id="input_quantity" name="input_quantity" text="" required="required">
 
                             <script>
-                                // let listAddr = document.getElementById("userAddresses").value;
                                 let addressesSelect = document.getElementById("addressesSelect");
-                                //
-                                // // Tạo các option từ listAddr
-                                // console.log(listAddr)
-                                // let addresses = listAddr.replace(/\[|\]/g, "").split("~"); // Giả sử các địa chỉ được phân tách bằng dấu phẩy
-                                // console.log(addresses)
-
-                                // addresses.forEach(function(address) {
-                                //     let option = document.createElement("option");
-                                //     option.value = address;
-                                //     option.text = address;
-                                //     addressesSelect.appendChild(option);
-                                // });
 
                                 // Thêm option cuối cùng
                                 let addNewAddressOption = document.createElement("option");
@@ -112,6 +122,58 @@
                                         document.getElementById("newAddressContainer").style.display = "none";
                                     }
                                 }
+
+                                // Biến để lưu trữ ID của interval
+                                let intervalId;
+
+                                // Hàm để bắt đầu hoặc dừng fetch tự động
+                                function toggleAutomaticFetch() {
+                                    if (intervalId) {
+                                        clearInterval(intervalId);
+                                        intervalId = null;
+                                    } else {
+                                        intervalId = setInterval(getAddressSuggestions, 1500);
+                                    }
+                                }
+
+                                function getAddressSuggestions() {
+                                    const addressInput = document.getElementById("newAddress");
+                                    const query = addressInput.value;
+
+                                    // Kiểm tra nếu ô input không trống
+                                    if (query.trim() !== "") {
+                                        // Gửi yêu cầu HTTP GET đến OpenStreetMap Nominatim API
+                                        const url = `https://nominatim.openstreetmap.org/search?accept-language=vi&countrycodes=VN&q=${encodeURIComponent(query)}&format=json&limit=3`;
+                                        fetch(url)
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error("Network response was not ok");
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                const suggestionList = document.getElementById("suggestion-list");
+                                                suggestionList.innerHTML = "";
+
+                                                // Kiểm tra kết quả gợi ý địa chỉ và tạo danh sách mới
+                                                if (data.length > 0) {
+                                                    data.forEach(item => {
+                                                        const li = document.createElement("li");
+                                                        li.textContent = item.display_name;
+                                                        li.addEventListener("click", () => {
+                                                            addressInput.value = item.display_name;
+                                                            suggestionList.innerHTML = "";
+                                                        });
+                                                        suggestionList.appendChild(li);
+                                                    });
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    }
+                                }
+
                             </script>
                         </div>
 
