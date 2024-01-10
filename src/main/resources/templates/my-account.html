@@ -174,7 +174,7 @@
 
 
     <div class="card overflow-hidden">
-        <div class="row no-gutters row-bordered row-border-light">
+        <div class="row no-gutters row-bordered row-border-light" style="width: 100%;">
             <div class="col-md-3 pt-0">
                 <div class="list-group list-group-flush account-settings-links">
                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#acc-info">Personal Information</a>
@@ -183,7 +183,7 @@
                 </div>
             </div>
 
-            <div class="col-md-15">
+            <div class="col-md-15" style="width: 70%">
                 <div class="tab-content">
 
                     <div class="tab-pane fade active show" id="acc-info">
@@ -207,7 +207,7 @@
                             </div>
                             <div class="form-group">
 
-                                <label class="form-label" th:text="'Default Address: ' + ${user.addresses.iterator().next()}" th:field="${user.addresses.iterator().next()}"></label>
+                                <label style="word-wrap: break-word;" class="form-label" th:text="'Default Address: ' + ${user.addresses.iterator().next()}" th:field="${user.addresses.iterator().next()}"></label>
 
                             </div>
                             <div class="form-group">
@@ -220,11 +220,11 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="acc-change"  >
-                          <form id="yourForm" th:action="@{/update-profile}" method="post" enctype="multipart/form-data">
+                        <form id="yourForm" th:action="@{/update-profile}" method="post" enctype="multipart/form-data">
 
                             <div class="card-body media align-items-center">
 
-                                <img class="d-block ui-w-80" width="200px" height="200px" id="previewImg",
+                                <img class="d-block ui-w-80" width="200px" height="200px" id="previewImg"
                                      th:src="'data:image/jpeg;base64,' + ${user.avatar}" alt="">
 
                                 <div class="media-body ml-4">
@@ -268,12 +268,15 @@
                                         <label>
                                             <input type="radio" name="address" th:value=" ${address}" th:text="' ' + ${address}"
                                                    th:checked="${address == user.addresses.iterator().next()}">
+
+                                            <input type="hidden" name="selectedAddr" id="selectedAddr" required>
+
                                         </label>
                                     </li>
                                 </ul>
 
                                 <!-- Hidden input field để lưu địa chỉ mặc định-->
-                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />
+<!--                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />-->
 
                                 <script>
                                     document.getElementById("yourForm").addEventListener("submit", function() {
@@ -287,16 +290,8 @@
                                             }
                                         });
 
-                                        // Loại bỏ selectedAddress khỏi user.addresses và thêm vào đầu user.addresses
-                                        const userAddressesInput = document.getElementById("userAddresses");
-                                        const userAddressesArray = userAddressesInput.value.split(",");
-                                        const addressIndex = userAddressesArray.indexOf(selectedAddress);
-
-                                        if (addressIndex !== -1) {
-                                            userAddressesArray.splice(addressIndex, 1);
-                                            userAddressesArray.unshift(selectedAddress);
-                                            document.getElementById("userAddresses").value = userAddressesArray.join(",");
-                                        }
+                                        document.getElementById("selectedAddr").value = selectedAddress;
+                                        // console.log(document.getElementById("selectedAddr").value);
 
                                     });
                                 </script>
@@ -309,25 +304,8 @@
 
                             </div>
 
-                         </form>
+                        </form>
                     </div>
-
-<!--                    <div class="tab-pane fade" id="account-change-password">-->
-<!--                        <div class="card-body pb-2">-->
-<!--                            <div class="form-group">-->
-<!--                                <label class="form-label">Current password</label>-->
-<!--                                <input type="password" class="form-control">-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <labelclass="form-label">New password</label>-->
-<!--                                <input type="password" class="form-control">-->
-<!--                            </div>-->
-<!--                            <div class="form-group">-->
-<!--                                <label class="form-label">Repeat new password</label>-->
-<!--                                <input type="password" class="form-control">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
 
                     <div class="tab-pane fade" id="view-orders">
                         <div class="card-body pb-2">
@@ -359,7 +337,7 @@
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.amount} + 'x ' + ${pair.pro.Name} "></p>
+                                                <p th:text="${pair.amount} + ' x ' + ${pair.pro.Name} "></p>
                                             </div>
                                         </td>
                                         <td>
@@ -371,33 +349,24 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="order-group" th:each="order : ${orders}" th:if=" ${order.orderstatus == 2 or order.orderstatus == 3 or order.orderstatus == 4}">
+                                    <tr class="order-group" th:each="order : ${user.orders}" th:if=" ${order.orderstatus == 2 or order.orderstatus == 3 or order.orderstatus == 4}">
                                         <td>
-                                            <p th:text="${order.time}"></p>
+                                            <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                                         </td>
                                         <td>
                                             <p style="color: red" th:text="${order.total}"></p>
                                         </td>
                                         <td style="width: 300px;">
-                                            <p th:text="${order.unregister_address)}"></p>
+                                            <p th:text="${order.unregister_address}"></p>
                                         </td>
                                         <td>
                                             <!--                            List <pair<pair<id,name>,quantity>-->
                                             <div th:each="pair : ${order.order_productList}">
-                                                <p th:text="${pair.pro.id} + 'x' + ${pair.pro.Name} + ' (' + ${pair.amount} + ')'"></p>
+                                                <p th:text="${pair.amount} + ' x ' + ${pair.pro.Name} "></p>
                                             </div>
                                         </td>
                                         <td>
-                                            <p id="sta"></p>
-                                            <script>
-                                                if (order.orderstatus === 2) {
-                                                    document.getElementById("sta").textContent = "Pending delivery"
-                                                } else if (order.orderstatus === 3) {
-                                                    document.getElementById("sta").textContent = "Completed"
-                                                } else if (order.orderstatus === 4) {
-                                                    document.getElementById("sta").textContent = "Cancelled"
-                                                }
-                                            </script>
+                                            <p th:text="${order.orderstatus == 2 ? 'Pending Delivery' : (order.orderstatus == 3 ? 'Completed' : (order.orderstatus == 4 ? 'Cancelled' : ''))}"></p>
                                         </td>
                                         <td>
                                             <p></p>
@@ -406,28 +375,28 @@
 
                                     </tbody>
 
-                                    <script>
-                                        function sortOrdersByDate() {
-                                            var orderGroups = document.querySelectorAll('.order-group');
+<!--                                    <script>-->
+<!--                                        function sortOrdersByDate() {-->
+<!--                                            var orderGroups = document.querySelectorAll('.order-group');-->
 
-                                            orderGroups.forEach(function(group) {
-                                                var orders = Array.from(group.parentNode.children);
-                                                var sortedOrders = orders.slice(1).sort(function(a, b) {
-                                                    var dateA = new Date(a.querySelector('p').textContent);
-                                                    var dateB = new Date(b.querySelector('p').textContent);
-                                                    return dateA - dateB;
-                                                });
+<!--                                            orderGroups.forEach(function(group) {-->
+<!--                                                var orders = Array.from(group.parentNode.children);-->
+<!--                                                var sortedOrders = orders.slice(1).sort(function(a, b) {-->
+<!--                                                    var dateA = new Date(a.querySelector('p').textContent);-->
+<!--                                                    var dateB = new Date(b.querySelector('p').textContent);-->
+<!--                                                    return dateA - dateB;-->
+<!--                                                });-->
 
-                                                sortedOrders.forEach(function(order) {
-                                                    group.parentNode.appendChild(order);
-                                                });
-                                            });
-                                        }
+<!--                                                sortedOrders.forEach(function(order) {-->
+<!--                                                    group.parentNode.appendChild(order);-->
+<!--                                                });-->
+<!--                                            });-->
+<!--                                        }-->
 
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            sortOrdersByDate();
-                                        });
-                                    </script>
+<!--                                        document.addEventListener("DOMContentLoaded", function() {-->
+<!--                                            sortOrdersByDate();-->
+<!--                                        });-->
+<!--                                    </script>-->
 
                                 </table>
 

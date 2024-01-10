@@ -64,21 +64,14 @@
 
                             <!--                            List <pair<pair<id,name>,quantity>-->
                             <div th:each="pair : ${order.order_productList}">
-                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
+                                <p th:text="${pair.amount} + ' x ' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
                             </div>
                             <!--                            <p>2x Egg (001)</p>-->
                             <!--                            <p>1x Neptune (002)</p>-->
                             <!--                            <p>10x Sausage (003)</p>-->
                         </td>
                         <td>
-                            <p id="sta"></p>
-                            <script>
-                                if (order.orderstatus === 3) {
-                                    document.getElementById("sta").textContent = "Completed"
-                                } else if (order.orderstatus === 4) {
-                                    document.getElementById("sta").textContent = "Cancelled"
-                                }
-                            </script>
+                            <p th:text="${order.orderstatus == 3 ? 'Completed' : (order.orderstatus == 4 ? 'Cancelled' : '')}"></p>
                         </td>
                     </tr>
                     </tbody>
@@ -102,7 +95,7 @@
                                     x = rows[i].getElementsByTagName("td")[columnIndex];
                                     y = rows[i + 1].getElementsByTagName("td")[columnIndex];
 
-                                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                                         shouldSwitch = true;
                                         break;
                                     }

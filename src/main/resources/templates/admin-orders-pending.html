@@ -70,7 +70,7 @@
 <!--                            </div>-->
 <!--                            List <pair<pair<id,name>,quantity>-->
                             <div th:each="pair : ${order.order_productList}">
-                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
+                                <p th:text="${pair.amount} + ' x ' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
                             </div>
 <!--                            <p>2x Egg</p>-->
 <!--                            <p>1x Neptune</p>-->
@@ -91,7 +91,7 @@
 
                     <tr th:each="order : ${orders}" th:if="${order.orderstatus == 2}">
                         <td>
-                            <p th:text="${order.time}"></p>
+                            <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                             <!--                            <p>00:11 31/12/2023</p>-->
                         </td>
                         <td>
@@ -114,7 +114,7 @@
 
                             <!--                            List <pair<pair<id,name>,quantity>-->
                             <div th:each="pair : ${order.order_productList}">
-                                <p th:text="${pair.amount} + 'x' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
+                                <p th:text="${pair.amount} + ' x ' + ${pair.pro.Name} + ' (' + ${pair.pro.id} + ')'"></p>
                             </div>
                             <!--                            <p>2x Egg (001)</p>-->
                             <!--                            <p>1x Neptune (002)</p>-->
@@ -130,47 +130,6 @@
                     </tr>
 
                     </tbody>
-
-                    <script>
-                        function sortOrdersByDate() {
-                            var orderGroups = document.querySelectorAll('tr[th:each="order : ${orders}"]');
-
-                            orderGroups.forEach(function(group) {
-                                var orders = Array.from(group.parentNode.children);
-                                var sortedOrders = orders.slice(1).sort(function(a, b) {
-                                    var dateA = new Date(a.querySelector('p').textContent);
-                                    var dateB = new Date(b.querySelector('p').textContent);
-                                    return dateA - dateB;
-                                });
-
-                                sortedOrders.forEach(function(order) {
-                                    group.parentNode.appendChild(order);
-                                });
-                            });
-                        }
-
-                        document.addEventListener("DOMContentLoaded", function() {
-                            sortOrdersByDate();
-                        });
-                    </script>
-                    <script>
-                        // Lấy giá trị datetime từ trường "${orderDate}"
-                        var datetimeValue = "${order.time}";
-
-                        // Tách phần ngày và phần thời gian từ giá trị datetime
-                        var parts = datetimeValue.split('T');
-                        var datePart = parts[0];
-                        var timePart = parts[1];
-
-                        // Làm tròn số giây và loại bỏ chữ số thập phân
-                        var roundedSeconds = Math.round(parseFloat(timePart.slice(0, 8)));
-
-                        // Định dạng lại datetime thành "YYYY-MM-DD HH:MM:SS"
-                        var formattedDatetime = datePart + ' ' + timePart.slice(0, 8).replace(/:/g, ':') + roundedSeconds;
-
-                        // Hiển thị giá trị datetime đã định dạng lại
-                        document.querySelector('span').textContent = formattedDatetime;
-                    </script>
 
                 </table>
 

@@ -225,6 +225,9 @@
                 event.preventDefault(); // Ngăn chặn việc submit
                 alert("Please fill out the required fields!");
             }
+
+            localStorage.setItem('productsInCart', JSON.stringify([]));
+
         });
 
     </script>

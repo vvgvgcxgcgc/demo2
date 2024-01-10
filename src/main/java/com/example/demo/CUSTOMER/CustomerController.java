@@ -79,6 +79,7 @@ public class CustomerController {
                 .Userpoint(user.getUserpoint())
                 .Phonenumber(user.getPhonenumber())
                 .build();
+
         model.addAttribute("user", customer);
 
         model.addAttribute("order",new Orderdt());
@@ -137,28 +138,11 @@ public class CustomerController {
             return "redirect:/homepage";
 
 
-
         }
 
     }
-//    @PostMapping("/login")
-//    public String Vertify(@Valid @ModelAttribute("userdt") Userdt userdt,
-//                          BindingResult result,
-//                          Model model ){
-//        if(result.hasErrors()){
-//            model.addAttribute("userdt",userdt);
-//            return "register";
-//        }
-//        String username = userdt.getUsername();
-//        User user = userser.findByUsername(username);
-//        if(user == null){
-//            model.addAttribute("userdt",userdt);
-//            model.addAttribute("ErrorPass","username is not registered");
-//            return "login";
-//        }
-//        return "redirect:/home";
-//
-//    }
+
+
     @GetMapping("/homepage")
     public String Viewhomepage(Model model, Principal principal){
         if(principal== null) {model.addAttribute("display",true);}
@@ -168,8 +152,8 @@ public class CustomerController {
                 model.addAttribute("checkadmin",true);
             else
                 model.addAttribute("checkadmin",false);
-
         }
+
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
         for(Product p:products ){
@@ -248,6 +232,7 @@ public class CustomerController {
     }
     @PostMapping("/update-profile")
     public String updateprofile( @ModelAttribute("user") Userdt userdt,Principal principal,
+                                @RequestParam("selectedAddr") String selectedAddr,
                                 @RequestParam("imageUser") MultipartFile imageUser,RedirectAttributes redirectAttributes){
         if(principal == null||principal.getName().equals("adminonly")) {
             return "redirect:/login";
@@ -324,7 +309,6 @@ public class CustomerController {
         }
         return "redirect:/my-account";
     }
-
 
 }
 
