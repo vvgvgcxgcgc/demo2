@@ -15,4 +15,5 @@ public interface Userser {
     public User Update(MultipartFile imageUser, Userdt userdt);
     public int productTimesOrder(Long userid, String productid);
     public List<User> findnewusers(LocalDateTime startDate, LocalDateTime endDate);
+    public User updateAddress(String username, String address);
 }

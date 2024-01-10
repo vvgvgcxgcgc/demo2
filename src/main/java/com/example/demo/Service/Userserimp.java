@@ -78,4 +78,14 @@ public class Userserimp implements Userser{
     public List<User> findnewusers(LocalDateTime startDate, LocalDateTime endDate) {
         return userRepo.findNewUsers(startDate,endDate);
     }
+
+    @Override
+    public User updateAddress(String username, String address) {
+        User user = userRepo.findByUsername(username);
+        for(String ad: user.getAddresses()){
+            if(ad.equals(address)) return  user;
+        }
+        user.getAddresses().add(address);
+        return userRepo.save(user);
+    }
 }
