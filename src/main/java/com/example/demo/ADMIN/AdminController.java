@@ -42,8 +42,9 @@ public String viewStatistic(Model model){
     Long completedOrdersToday = orderService.getDayRevenue().getOrderSuccessAmount();
     Long completedOrdersThisMonth = orderService.getMonthRevenue().getOrderSuccessAmount();
     Integer pendingOrders = orderService.getPendingOrderamount();
-    Double cancelRate = orderService.getWeekRevenue().getCancelOrderRate();
+    Long cancelRate = Math.round(orderService.getWeekRevenue().getCancelOrderRate());
     List<User> newMembers = orderService.getMonthRevenue().getNewusers();
+    List<Integer> ordersInAnHour = orderService.getWeekRevenue().getOrderThroughHour();
 
     model.addAttribute("earningToday",earningToday);
     model.addAttribute("earningThisMonth",earningThisMonth);
@@ -52,6 +53,7 @@ public String viewStatistic(Model model){
     model.addAttribute("pendingOrders",pendingOrders);
     model.addAttribute("cancelRate",cancelRate);
     model.addAttribute("newMembers",newMembers.size());
+    model.addAttribute("ordersInAnHour", ordersInAnHour);
     return "admin-dashboard";
 }
 
