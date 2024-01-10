@@ -145,7 +145,8 @@ public class OrderSeciceImp implements OrderService {
     public StatiticsbyWeek getWeekRevenue() {
         LocalDateTime startOfWeek = LocalDateTime.now().with(DayOfWeek.MONDAY).toLocalDate().atStartOfDay();
         LocalDateTime timenow = LocalDateTime.now();
-        List<Integer> orderthroughhour = Collections.nCopies(25, 0);
+        List<Integer> orderthroughhour = new ArrayList<>(Collections.nCopies(25, 0));
+
         List<Order> orders= orderRepos.findByOrderDateBetween(startOfWeek,timenow);
         long sum=0;
         long orderTotal =0;
@@ -159,7 +160,8 @@ public class OrderSeciceImp implements OrderService {
                 sum += order.getTotal();
                 orderSuccess ++;
                 int index = (int)order.getTime().getHour();
-                orderthroughhour.set(index,orderthroughhour.get(index)+1) ;
+                int value = orderthroughhour.get(index) +1;
+                orderthroughhour.set(0,value);
 
             }
             else if(order.getOrderstatus()==4)  orderCancel ++;
