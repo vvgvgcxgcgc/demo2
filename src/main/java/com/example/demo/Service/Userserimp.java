@@ -95,7 +95,7 @@ public class Userserimp implements Userser{
         String address = user.getAddresses().get(0);
         String[] parts = address.split(",");
         int index;
-        if(parts.length>=5) index = parts.length-2;
+        if(parts.length>=5) index = parts.length;
         else if(parts.length>=2) index = parts.length-1;
         else  index =1;
         String sample = "";

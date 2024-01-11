@@ -7,6 +7,7 @@ import com.example.demo.Service.*;
 import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Userdt;
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -274,24 +275,32 @@ public class CustomerController {
     @PostMapping("/forgotPass")
     public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
                              RedirectAttributes redirectAttributes) {
-        System.out.println(usernameForgot);
+
+//        System.out.println(usernameForgot);
 
         String suggestAddr = userser.generateSampleAddress(usernameForgot);
         User user = userser.findByUsername(usernameForgot);
         String phonenum = user.getPhonenumber();
 
-        System.out.println(suggestAddr);
-        System.out.println(phonenum);
+//        System.out.println(suggestAddr);
+//        System.out.println(phonenum);
 
         redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
         redirectAttributes.addFlashAttribute("phonenum", phonenum);
 
         return "redirect:/forgot-password";
     }
-//    @GetMapping("/forgot-password")
-//    public String showForgotPW(){
-//        return"/forgot-password";
-//    }
+
+    @PostMapping("/checkForgotPass")
+    public String checkForgotPass(@RequestParam("selectedAddr") String selectedAddr,
+                                  @RequestParam("phonenum") String phonenum,
+                                  RedirectAttributes redirectAttributes) {
+        System.out.println(selectedAddr);
+        System.out.println(phonenum);
+        return "redirect:/reset-password";
+    }
+
+
 
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
