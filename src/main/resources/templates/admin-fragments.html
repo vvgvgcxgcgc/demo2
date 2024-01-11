@@ -193,50 +193,99 @@
          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw"></i>
         <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter">3+</span>
+        <span id="notiNum" class="badge badge-danger badge-counter"></span>
       </a>
       <!-- Dropdown - Alerts -->
-      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+
+      <input type="hidden" th:value="${newOrderNum}" id="newOrderNum">
+      <input type="hidden" th:value="${notiTime}" id="notiTime">
+
+      <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" id="notiDiv"
            aria-labelledby="alertsDropdown">
         <h6 class="dropdown-header">
           Alerts Center
         </h6>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-primary">
-              <i class="fas fa-file-alt text-white"></i>
-            </div>
-          </div>
-          <div>
-            <div class="small text-gray-500">December 12, 2019</div>
-            <span class="font-weight-bold">A new monthly report is ready to download!</span>
-          </div>
-        </a>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-success">
-              <i class="fas fa-donate text-white"></i>
-            </div>
-          </div>
-          <div>
-            <div class="small text-gray-500">December 7, 2019</div>
-            $290.29 has been deposited into your account!
-          </div>
-        </a>
-        <a class="dropdown-item d-flex align-items-center" href="#">
-          <div class="mr-3">
-            <div class="icon-circle bg-warning">
-              <i class="fas fa-exclamation-triangle text-white"></i>
-            </div>
-          </div>
-          <div>
-            <div class="small text-gray-500">December 2, 2019</div>
-            Spending Alert: We've noticed unusually high spending for your account.
-          </div>
-        </a>
-        <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+
+        <div class="scroll-container" id="scroll-container">
+<!--          <a class="dropdown-item d-flex align-items-center" href="#">-->
+<!--            <div class="mr-3">-->
+<!--              <div class="icon-circle bg-success">-->
+<!--                <i class="fas fa-bell text-white"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              <div class="small text-gray-500">December 7, 2019</div>-->
+<!--              <span class="font-weight-bold">$290.29 has been deposited into your account!</span>-->
+<!--            </div>-->
+<!--          </a>-->
+        </div>
+
+        <div style="height: 30px;"></div>
+
+        <style>
+          .scroll-container {
+            width: 100%;
+            height: 300px;
+            overflow: auto;
+          }
+        </style>
+
       </div>
     </li>
+
+<!--    <button type="button" style="display: block" id="autoclick" onclick=playSoundNoti(event)></button>-->
+<!--    <audio controls style="display: block" id="audioPlayer">-->
+<!--      <source src="src/main/resources/noti.mp3" type="audio/mpeg">-->
+<!--    </audio>-->
+
+    <script>
+
+      let newOrderNumm = parseInt(document.getElementById("newOrderNum").value);
+      // console.log("New order num: " + newOrderNum);
+      let notiTime = document.getElementById("notiTime").value;
+
+      let notiList = JSON.parse(localStorage.getItem('notiList')) || [];
+      // notiList = [];
+
+      // localStorage.setItem("notiList", JSON.stringify(notiList));
+
+      document.getElementById("notiNum").textContent = String(notiList.length);
+
+      if (newOrderNumm) {
+        let newNoti = {
+          newOrder_num: newOrderNumm,
+          noti_time: notiTime
+        };
+
+        notiList.push(newNoti);
+        localStorage.setItem("notiList", JSON.stringify(notiList));
+      }
+
+      let notiScroll = document.getElementById('scroll-container');
+
+      notiList.forEach(function(noti) {
+        let a = document.createElement("a");
+        a.className = "dropdown-item d-flex align-items-center";
+        a.href = "/admin-orders-pending";
+        a.innerHTML = `
+          <div class="mr-3">
+            <div class="icon-circle bg-success">
+              <i class="fas fa-bell text-white"></i>
+            </div>
+          </div>
+          <div>
+            <div class="small text-gray-500">${noti.noti_time}</div>
+            <span>You have ${noti.newOrder_num} new orders pending for approval!</span>
+          </div>
+        `;
+        notiScroll.appendChild(a);
+      })
+
+    </script>
+
+
+
+
 
     <!-- Nav Item - Messages -->
     <li class="nav-item dropdown no-arrow mx-1">

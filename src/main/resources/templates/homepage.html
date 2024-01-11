@@ -402,7 +402,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text='${product.name}'></h6>
-                                        <span th:text='${product.price}'></span>
+                                        <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -415,7 +415,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text='${product.name}'></h6>
-                                        <span th:text='${product.price}'></span>
+                                        <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -435,7 +435,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text='${product.product.name}'></h6>
-                                        <span th:text='${product.product.price}'></span>
+                                        <span th:text="${#numbers.formatDecimal(product.product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -448,7 +448,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text='${product.product.name}'></h6>
-                                        <span th:text='${product.product.price}'></span>
+                                        <span th:text="${#numbers.formatDecimal(product.product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -468,7 +468,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text="${product.name}"></h6>
-                                        <span th:text="${product.price}"></span>
+                                        <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>
@@ -481,7 +481,7 @@
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6 th:text="${product.name}"></h6>
-                                        <span th:text="${product.price}"></span>
+                                        <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></span>
                                     </div>
                                 </a>
                             </div>

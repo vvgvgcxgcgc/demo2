@@ -329,7 +329,7 @@
                                             <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                                         </td>
                                         <td>
-                                            <p style="color: red" th:text="${order.total}"></p>
+                                            <p style="color: red" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></p>
                                         </td>
                                         <td style="width: 300px;">
                                             <p th:text="${order.unregister_address}"></p>
@@ -354,7 +354,7 @@
                                             <p th:text="${#temporals.format(order.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                                         </td>
                                         <td>
-                                            <p style="color: red" th:text="${order.total}"></p>
+                                            <p style="color: red" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></p>
                                         </td>
                                         <td style="width: 300px;">
                                             <p th:text="${order.unregister_address}"></p>
