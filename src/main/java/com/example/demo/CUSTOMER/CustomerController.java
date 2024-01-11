@@ -159,7 +159,8 @@ public class CustomerController {
 
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
-        for(Product p : products){
+        List<Productdt> reverseProducts = new ArrayList<>();
+        for (Product p : products){
             Productdt productdt = Productdt.builder()
                     .id(p.getId())
                     .name(p.getName())
@@ -170,10 +171,41 @@ public class CustomerController {
                     .image(p.getImage())
                     .build();
             productdts.add(productdt);
+            reverseProducts.add(productdt);
         }
         List<Top3Productdt> top3Products = orderService.getWeekRevenue().getTop3Productdts();
+        Collections.reverse(reverseProducts);
+        List<Productdt> page1Products;
+        List<Productdt> page2Products;
+        if (reverseProducts.size() >= 6){
+            page1Products = reverseProducts.subList(0,3);
+            page2Products = reverseProducts.subList(3,6);
+        } else if (reverseProducts.size() <= 3) {
+            page1Products = reverseProducts;
+            page2Products = reverseProducts;
+        } else {
+            page1Products = reverseProducts.subList(0,3);
+            page2Products = reverseProducts.subList(3,reverseProducts.size());
+        }
+
+        List<Product> topFeedback = productService.getTop6Productfeedback();
+        List<Product> page1Feedback;
+        List<Product> page2Feedback;
+        if (topFeedback.size() <= 3){
+            page1Feedback = topFeedback;
+            page2Feedback = topFeedback;
+        } else {
+            page1Feedback = topFeedback.subList(0,3);
+            page2Feedback = topFeedback.subList(3,topFeedback.size());
+        }
+
+
         model.addAttribute("products", productdts);
         model.addAttribute("top3Products",top3Products);
+        model.addAttribute("page1", page1Products);
+        model.addAttribute("page2", page2Products);
+        model.addAttribute("page1Feedback", page1Feedback);
+        model.addAttribute("page2Feedback", page2Feedback);
         return "homepage";
 
     }

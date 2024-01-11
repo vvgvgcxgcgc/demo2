@@ -132,6 +132,11 @@
 <!--                            <div class="header__top__right__social">-->
 <!--                                <a href="#"><i class="fa fa-facebook-f"></i></a>-->
 <!--                            </div>-->
+                            <div th:if="${display}">
+                                <div class="header__top__right__auth" style='padding-right: 10px'>
+                                    <p th:text="${'Hello, ' + userFullname}"><i class="fa fa-user-circle"></i></p>
+                                </div>
+                            </div>
 <!--                            Truong hop chua dang nhap-->
                             <div th:if="${display}">
                                 <div class="header__top__right__auth" style='padding-right: 10px'>

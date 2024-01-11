@@ -392,37 +392,35 @@
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="latest-product__text">
-<!--                    <h4>Latest Products</h4>-->
-<!--                    <div class="latest-product__slider owl-carousel">-->
-<!--                        <div class="latest-prdouct__slider__item">-->
-<!--                            <div th:each="i : ${#numbers.sequence(products.size() - 3, products.size() - 5, -1)}"-->
-<!--                                 th:with="product = ${products[i]}" >-->
-<!--                                <a href="#" class="latest-product__item">-->
-<!--                                    <div class="latest-product__item__pic">-->
-<!--                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">-->
-<!--                                    </div>-->
-<!--                                    <div class="latest-product__item__text">-->
-<!--                                        <h6 th:text='${product.name}'></h6>-->
-<!--                                        <span th:text='${product.price}'></span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="latest-product__slider__item">-->
-<!--                            <div th:each="i : ${#numbers.sequence(products.size() - 1, products.size() - 3, -1)}"-->
-<!--                                 th:with="product = ${products[i]}" >-->
-<!--                                <a href="#" class="latest-product__item">-->
-<!--                                    <div class="latest-product__item__pic">-->
-<!--                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">-->
-<!--                                    </div>-->
-<!--                                    <div class="latest-product__item__text">-->
-<!--                                        <h6 th:text='${product.name}'></h6>-->
-<!--                                        <span th:text='${product.price}'></span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <h4>Latest Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <div th:each="product : ${page1}" >
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6 th:text='${product.name}'></h6>
+                                        <span th:text='${product.price}'></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="latest-product__slider__item">
+                            <div th:each="product : ${page2}" >
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6 th:text='${product.name}'></h6>
+                                        <span th:text='${product.price}'></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
@@ -463,62 +461,30 @@
                     <h4>Review Products</h4>
                     <div class="latest-product__slider owl-carousel">
                         <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-1.jpg}" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-2.jpg}" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-3.jpg}"  alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
+                            <div th:each="product : ${page1Feedback}">
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6 th:text="${product.name}"></h6>
+                                        <span th:text="${product.price}"></span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div class="latest-prdouct__slider__item">
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-1.jpg}" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-2.jpg}" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
-                            <a href="#" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img th:src="@{/img/latest-product/lp-3.jpg}"  alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>Crab Pool Security</h6>
-                                    <span>$30.00</span>
-                                </div>
-                            </a>
+                            <div th:each="product : ${page2Feedback}">
+                                <a href="#" class="latest-product__item">
+                                    <div class="latest-product__item__pic">
+                                        <img th:src="'data:image/jpeg;base64,' + ${product.image}" alt="">
+                                    </div>
+                                    <div class="latest-product__item__text">
+                                        <h6 th:text="${product.name}"></h6>
+                                        <span th:text="${product.price}"></span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

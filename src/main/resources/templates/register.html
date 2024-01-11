@@ -6,8 +6,117 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <div th:replace="~{fragments::head}"></div>
 </head>
+
 <body class="bg-gradient-primary">
-<div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin})}"></div>
+<div>
+    <!-- Humberger Begin -->
+    <div class='humberger__menu__overlay'></div>
+    <div class='humberger__menu__wrapper'>
+        <div class='humberger__menu__logo'>
+            <a th:href='@{/homepage}'><img alt='' th:src='@{static/img/logo.png}'></a>
+        </div>
+        <div class='humberger__menu__cart'>
+            <ul>
+                <!--                <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>-->
+                <li>Cart <a href='/shoping-cart'><i class='fa fa-shopping-cart'></i> <span
+                  id='cartItemCount' style='top: -.4rem; left: 1.0rem;'>0</span></a></li>
+
+                <script>
+                    // Lấy danh sách sản phẩm từ localStorage
+                    let productsInCar = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+                    // Lấy phần tử span dựa trên id
+                    let cartItemCount = document.getElementById('cartItemCount');
+
+                    if (productsInCar) {
+                        // Cập nhật số lượng sản phẩm trong span
+                        cartItemCount.textContent = String(productsInCar.length);
+                    }
+                </script>
+
+            </ul>
+        </div>
+        <nav class='humberger__menu__nav mobile-menu'>
+            <ul>
+                <li class='active'><a th:href='@{/homepage}'>Home</a></li>
+                <li><a th:href='@{/contact}'>Contact</a></li>
+                <li><a th:href='@{/my-account}'>My Account</a></li>
+            </ul>
+        </nav>
+        <div id='mobile-menu-wrap'></div>
+        <div class='header__top__right__social'>
+            <a href='#'><i class='fa fa-facebook'></i></a>
+        </div>
+        <div class='humberger__menu__contact'>
+            <ul>
+                <li><i class='fa fa-envelope'></i> nhom7@cnpm.com</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Humberger End -->
+
+    <!-- Header Section Begin -->
+    <header class='header'>
+        <div class='header__top'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='col-lg-6 col-md-6'>
+                        <div class='header__top__left'>
+                            <ul>
+                                <li><i class='fa fa-envelope'></i> nhom7@cnpm.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-lg-3'>
+                    <div class='header__logo'>
+                        <a th:href='@{/homepage}'><img alt='' style='width: 250px; height: auto'
+                                                       th:src='@{/img/logo.png}'></a>
+                    </div>
+                </div>
+                <div class='col-lg-6'>
+                    <nav class='header__menu'>
+                        <ul>
+                            <li class='active'><a th:href='@{/homepage}'>Home</a></li>
+                            <li><a th:href='@{/contact}'>Contact</a></li>
+                            <li><a th:href='@{/my-account}'>My Account</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class='col-lg-3'>
+                    <div class='header__cart'>
+                        <ul>
+                            <!--                            <li>Cart <a href="/shoping-cart"><i class="fa fa-shopping-cart"></i></a></li>-->
+                            <li>Cart <a href='/shoping-cart'><i class='fa fa-shopping-cart'></i> <span
+                              id='cartItemCountt' style='top: -.4rem; left: 1.0rem;'>0</span></a></li>
+
+                            <script>
+                                // Lấy danh sách sản phẩm từ localStorage
+                                let productsInCartt = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+                                // Lấy phần tử span dựa trên id
+                                let cartItemCountt = document.getElementById('cartItemCountt');
+
+                                if (productsInCartt) {
+                                    // Cập nhật số lượng sản phẩm trong span
+                                    cartItemCountt.textContent = String(productsInCartt.length);
+                                }
+                            </script>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class='humberger__open'>
+                <i class='fa fa-bars'></i>
+            </div>
+        </div>
+    </header>
+</div>
+
 <div class="container">
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
