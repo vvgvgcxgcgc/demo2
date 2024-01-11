@@ -6,6 +6,7 @@ import com.example.demo.Domain.User;
 import com.example.demo.Service.*;
 import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
+import com.example.demo.dto.Top3Productdt;
 import com.example.demo.dto.Userdt;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -156,7 +158,7 @@ public class CustomerController {
 
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
-        for(Product p:products ){
+        for(Product p : products){
             Productdt productdt = Productdt.builder()
                     .id(p.getId())
                     .name(p.getName())
@@ -168,7 +170,9 @@ public class CustomerController {
                     .build();
             productdts.add(productdt);
         }
+        List<Top3Productdt> top3Products = orderService.getWeekRevenue().getTop3Productdts();
         model.addAttribute("products", productdts);
+        model.addAttribute("top3Products",top3Products);
         return "homepage";
 
     }
