@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.Demo2Application;
 import com.example.demo.Respories.UserRepo;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -24,16 +25,19 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableScheduling
 @Component
 public class UserConfig {
-    @Scheduled(fixedRate = 10000) // Gọi API mỗi 60 giây
+    @Scheduled(fixedRate = 20000) // Gọi API mỗi 10 giây
     public void callSomeAPI() {
         // Gọi một API endpoint từ ứng dụng của bạn
-        System.out.println("haha");
+        LocalDateTime rightNow = LocalDateTime.now();
+        System.out.println("Bây giờ là: " + rightNow);
     }
 
     @Bean
@@ -73,7 +77,7 @@ public class UserConfig {
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed","/admin-feedbacks").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass").permitAll()
 
                                 .anyRequest().authenticated()
 

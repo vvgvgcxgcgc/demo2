@@ -280,17 +280,16 @@ public class CustomerController {
     public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
                              RedirectAttributes redirectAttributes) {
 
-//        System.out.println(usernameForgot);
 
         String suggestAddr = userser.generateSampleAddress(usernameForgot);
         User user = userser.findByUsername(usernameForgot);
         String phonenum = user.getPhonenumber();
-
-//        System.out.println(suggestAddr);
-//        System.out.println(phonenum);
+        String realAddr = user.getAddresses().get(0);
 
         redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
         redirectAttributes.addFlashAttribute("phonenum", phonenum);
+        redirectAttributes.addFlashAttribute("realAddr", realAddr);
+        redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
 
         return "redirect:/forgot-password";
     }
@@ -298,7 +297,9 @@ public class CustomerController {
     @PostMapping("/checkForgotPass")
     public String checkForgotPass(@RequestParam("selectedAddr") String selectedAddr,
                                   @RequestParam("phonenum") String phonenum,
+                                  @RequestParam("usernameForgot") String usernameForgot,
                                   RedirectAttributes redirectAttributes) {
+        System.out.println(usernameForgot);
         System.out.println(selectedAddr);
         System.out.println(phonenum);
         return "redirect:/reset-password";
