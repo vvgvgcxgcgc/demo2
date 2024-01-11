@@ -161,7 +161,7 @@ public class OrderSeciceImp implements OrderService {
                 orderSuccess ++;
                 int index = (int)order.getTime().getHour();
                 int value = orderthroughhour.get(index) +1;
-                orderthroughhour.set(0,value);
+                orderthroughhour.set(index,value);
 
             }
             else if(order.getOrderstatus()==4)  orderCancel ++;
@@ -211,5 +211,7 @@ public class OrderSeciceImp implements OrderService {
     public Integer getPendingOrderamount() {
         return orderRepos.findPendingOrders().size();
     }
+
+
 
 }

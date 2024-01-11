@@ -18,4 +18,6 @@ public interface ProductService {
     public void enableById(String id);
     public Productdt getById(String id);
     public Product getProductById(String id);
+    public List<Product> getTop6Productfeedback();
+
 }

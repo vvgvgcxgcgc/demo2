@@ -13,4 +13,7 @@ public interface ProductRepos extends JpaRepository<Product,String> {
     @Query("SELECT p.Image FROM Product p WHERE p.id = :id")
     String findProductImageById(String id);
 
+    @Query(value = "SELECT P FROM Product P, Feedback F WHERE P.id = F.product.id AND F.status = 1 GROUP BY P.id ORDER BY COUNT(F.id) DESC LIMIT 6")
+    List<Product> findTop6ProductFeedback();
+
 }
