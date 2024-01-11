@@ -33,7 +33,6 @@ public class UserConfig {
     @Scheduled(fixedRate = 10000) // Gọi API mỗi 60 giây
     public void callSomeAPI() {
         // Gọi một API endpoint từ ứng dụng của bạn
-
         System.out.println("haha");
     }
 
@@ -41,8 +40,6 @@ public class UserConfig {
     public UserDetailsService userDetailsService() {
         return new UserConfigService();
     }
-
-
 
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
@@ -56,11 +53,6 @@ public class UserConfig {
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-
-
-
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -103,7 +95,6 @@ public class UserConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
-
         ;
         return http.build();
     }
