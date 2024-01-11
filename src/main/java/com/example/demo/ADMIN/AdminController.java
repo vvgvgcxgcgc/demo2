@@ -31,59 +31,66 @@ public class AdminController {
     private final OrderService orderService;
     private final FeedbackService feedbackService;
 
-//    @GetMapping("/admin-orders-pending")
-//    public String showAdminOrdersPending(Model model){
-//        return "admin-orders-pending";
-//    }
-@GetMapping("/admin-dashboard")
-public String viewStatistic(Model model){
-    Long earningToday = orderService.getDayRevenue().getRevenuebyDay();
-    Long earningThisMonth = orderService.getMonthRevenue().getRevenuebyMonth();
-    Long completedOrdersToday = orderService.getDayRevenue().getOrderSuccessAmount();
-    Long completedOrdersThisMonth = orderService.getMonthRevenue().getOrderSuccessAmount();
-    Integer pendingOrders = orderService.getPendingOrderamount();
-    Long cancelRate = Math.round(orderService.getWeekRevenue().getCancelOrderRate());
-    List<User> newMembers = orderService.getMonthRevenue().getNewusers();
-    List<Integer> ordersInAnHour = orderService.getWeekRevenue().getOrderThroughHour();
+    @GetMapping("/admin-dashboard")
+    public String viewStatistic(Model model){
+        Long earningToday = orderService.getDayRevenue().getRevenuebyDay();
+        Long earningThisMonth = orderService.getMonthRevenue().getRevenuebyMonth();
+        Long completedOrdersToday = orderService.getDayRevenue().getOrderSuccessAmount();
+        Long completedOrdersThisMonth = orderService.getMonthRevenue().getOrderSuccessAmount();
+        Integer pendingOrders = orderService.getPendingOrderamount();
+        Long cancelRate = Math.round(orderService.getWeekRevenue().getCancelOrderRate());
+        List<User> newMembers = orderService.getMonthRevenue().getNewusers();
+        List<Integer> ordersInAnHour = orderService.getWeekRevenue().getOrderThroughHour();
 
-    model.addAttribute("earningToday",earningToday);
-    model.addAttribute("earningThisMonth",earningThisMonth);
-    model.addAttribute("completedToday",completedOrdersToday);
-    model.addAttribute("completedThisMonth",completedOrdersThisMonth);
-    model.addAttribute("pendingOrders",pendingOrders);
-    model.addAttribute("cancelRate",cancelRate);
-    model.addAttribute("newMembers",newMembers.size());
-    model.addAttribute("ordersInAnHour", ordersInAnHour);
-    return "admin-dashboard";
-}
+        model.addAttribute("earningToday",earningToday);
+        model.addAttribute("earningThisMonth",earningThisMonth);
+        model.addAttribute("completedToday",completedOrdersToday);
+        model.addAttribute("completedThisMonth",completedOrdersThisMonth);
+        model.addAttribute("pendingOrders",pendingOrders);
+        model.addAttribute("cancelRate",cancelRate);
+        model.addAttribute("newMembers",newMembers.size());
+        model.addAttribute("ordersInAnHour", ordersInAnHour);
 
-@GetMapping("/admin-orders-pending")
-public String viewOrderpending(Model model){
-    List<Order> orders = orderService.getAllOrders();
-    for(Order order: orders){
-        if(order.getOrderstatus()==1 || order.getOrderstatus()==2){
-            LocalDateTime startDateTime = order.getTime();
-            // LocalDateTime kết thúc
-            LocalDateTime endDateTime = LocalDateTime.now(); // LocalDateTime kết thúc là thời điểm hiện tại
-            Duration duration = Duration.between(startDateTime, endDateTime);
-            if(duration.toHours()>6){
-                order.setOrderstatus(4);
-                orderService.cancelOrder(order.getId());
-            }
-        }
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", "2024-11-1 09:30:11");
+
+        return "admin-dashboard";
     }
 
-    model.addAttribute("orders",orders);
-    return "/admin-orders-pending";
+    @GetMapping("/admin-orders-pending")
+    public String viewOrderpending(Model model){
+        List<Order> orders = orderService.getAllOrders();
+        for(Order order: orders){
+            if(order.getOrderstatus()==1 || order.getOrderstatus()==2){
+                LocalDateTime startDateTime = order.getTime();
+                // LocalDateTime kết thúc
+                LocalDateTime endDateTime = LocalDateTime.now(); // LocalDateTime kết thúc là thời điểm hiện tại
+                Duration duration = Duration.between(startDateTime, endDateTime);
+                if(duration.toHours()>6){
+                    order.setOrderstatus(4);
+                    orderService.cancelOrder(order.getId());
+                }
+            }
+        }
 
-}
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
+        model.addAttribute("orders",orders);
+        return "/admin-orders-pending";
+
+    }
+
     @GetMapping("/admin-orders-completed")
     public String showAdminOrdersCompleted(Model model){
         List<Order> orders = orderService.getAllOrders();
 
         model.addAttribute("orders",orders);
 
-    return "admin-orders-completed";
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
+        return "admin-orders-completed";
     }
 
     @GetMapping("/admin-products")
@@ -107,6 +114,10 @@ public String viewOrderpending(Model model){
         }
         model.addAttribute("products", productdts);
         model.addAttribute("size", productdts.size());
+
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
         return "admin-products";
     }
 
@@ -114,8 +125,11 @@ public String viewOrderpending(Model model){
     public String addProductPage(Model model) {
 
         model.addAttribute("title", "Add Product");
-
         model.addAttribute("productDt", new Productdt());
+
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
         return "admin-add-product";
     }
     @PostMapping("/save-product")
@@ -163,8 +177,11 @@ public String viewOrderpending(Model model){
 
         Productdt productdt = productService.getById(id);
         model.addAttribute("title", "UPDATE Product");
-
         model.addAttribute("productDt", productdt);
+
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
         return "admin-update-product";
     }
     @PostMapping("/admin-update-product/{id}")
@@ -225,6 +242,10 @@ public String viewOrderpending(Model model){
     public String viewFb(Model model){
         List<Feedbackdt> feedbackdts = feedbackService.getALLFb();
         model.addAttribute("feedbacks",feedbackdts);
+
+        model.addAttribute("newOrderNum", 0);
+        model.addAttribute("notiTime", 0);
+
         return "/admin-feedbacks";
 
     }
@@ -239,7 +260,6 @@ public String viewOrderpending(Model model){
         feedbackService.deleteFB(id);
         return "redirect:/admin-feedbacks";
     }
-
 
 
 
