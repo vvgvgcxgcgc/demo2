@@ -120,4 +120,9 @@ public class ProductServiceImp implements ProductService {
         return productRepos.findProductByName(name);
     }
 
+    @Override
+    public List<String> getAllProductName() {
+        return productRepos.findAllProductName();
+    }
+
 }

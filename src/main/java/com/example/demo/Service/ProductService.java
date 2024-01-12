@@ -21,5 +21,6 @@ public interface ProductService {
     public Product getProductById(String id);
     public List<Product> getTop6Productfeedback();
     public List<Product> getProductByName(String name);
+    public List<String> getAllProductName();
 
 }
