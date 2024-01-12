@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import com.example.demo.Demo2Application;
 import com.example.demo.Respories.UserRepo;
+import com.example.demo.dto.Orderdt;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -24,8 +25,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -33,11 +37,26 @@ import java.time.LocalDateTime;
 @EnableScheduling
 @Component
 public class UserConfig {
-    @Scheduled(fixedRate = 20000) // Gọi API mỗi 10 giây
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    @Scheduled(fixedRate = 10000) // Gọi API mỗi 10 giây
     public void callSomeAPI() {
-        // Gọi một API endpoint từ ứng dụng của bạn
-        LocalDateTime rightNow = LocalDateTime.now();
-        System.out.println("Bây giờ là: " + rightNow);
+        if(Orderdt.countOrder>0) {
+            // Gọi một API endpoint từ ứng dụng của bạn
+            String apiEndpoint = "http://localhost:9090/admin-dashboard";
+
+            Map<String, Object> urlVariables = new HashMap<>();
+            urlVariables.put("newOrderNum", Orderdt.countOrder);
+            urlVariables.put("notiTime", LocalDateTime.now());
+
+            // Gửi dữ liệu và thuộc tính đến API endpoint từ ứng dụng của bạn
+            String response = restTemplate().postForObject(apiEndpoint ,"",
+                     String.class, urlVariables);
+            Orderdt.countOrder =0;
+        }
+
     }
 
     @Bean
@@ -77,7 +96,7 @@ public class UserConfig {
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed","/admin-feedbacks").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass","/login?error","/do-login").permitAll()
 
                                 .anyRequest().authenticated()
 
@@ -86,7 +105,9 @@ public class UserConfig {
                         login.loginPage("/login")
                                 .loginProcessingUrl("/do-login")
                                 .defaultSuccessUrl("/homepage", true)
+
                                 .permitAll()
+
                 )
                 .logout(logout ->
                         logout.invalidateHttpSession(true)

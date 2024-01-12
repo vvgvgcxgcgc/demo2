@@ -1,8 +1,5 @@
 package com.example.demo.CUSTOMER;
-import com.example.demo.Domain.Feedback;
-import com.example.demo.Domain.Order;
-import com.example.demo.Domain.Product;
-import com.example.demo.Domain.User;
+import com.example.demo.Domain.*;
 import com.example.demo.Service.*;
 import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
@@ -37,13 +34,16 @@ public class CustomerController {
     private final OrderService orderService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final FeedbackService feedbackService;
+    private final DefaultAddressService defaultAddressService;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
         if(principal== null) model.addAttribute("display",true);
         else{
+
             model.addAttribute("display",false);
             model.addAttribute("checkadmin",true);
         }
+
         model.addAttribute("order",new Orderdt());
         return "checkout";
     }
@@ -62,16 +62,29 @@ public class CustomerController {
 //        return "admin-orders";
 //    }
     @GetMapping("/contact")
-    public String showContact(Model model){
+    public String showContact(Model model, Principal principal){
+        if(principal== null) {model.addAttribute("display",true);}
+        else{
+            model.addAttribute("display",false);
+            if(principal.getName().equals("adminonly"))
+                model.addAttribute("checkadmin",true);
+            else {
+                User user = userser.findByUsername(principal.getName());
+                model.addAttribute("userFullname", user.getFullname());
+                model.addAttribute("checkadmin", false);
+            }
+        }
+
         return "contact";
     }
 
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
+        User user = userser.findByUsername(principal.getName());
+        model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);
-        String username = principal.getName();
-        User user = userser.findByUsername(username);
+
 
         Userdt customer = Userdt.builder()
                 .Username(user.getUsername())
@@ -146,6 +159,7 @@ public class CustomerController {
     }
 
 
+
     @GetMapping("/homepage")
     public String Viewhomepage(Model model, Principal principal){
         if(principal== null) {model.addAttribute("display",true);}
@@ -153,9 +167,34 @@ public class CustomerController {
             model.addAttribute("display",false);
             if(principal.getName().equals("adminonly"))
                 model.addAttribute("checkadmin",true);
-            else
-                model.addAttribute("checkadmin",false);
+            else {
+                User user = userser.findByUsername(principal.getName());
+                model.addAttribute("userFullname", user.getFullname());
+                model.addAttribute("checkadmin", false);
+            }
         }
+
+//        defaultAddressService.save("Ngõ 8, Quận 6, Thành phố Hồ Chí Minh, Việt Nam") ;
+//        defaultAddressService.save("49, Phố Viên, Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội, 11909, Việt Nam");
+//        defaultAddressService.save("99, 175/28/9, a, Phường Tăng Nhơn Phú A, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, 71211, Việt Nam");
+//        defaultAddressService.save("11, Đường Nghiêm Xuân Yêm, Phường Đại Kim, Quận Hoàng Mai, Hà Nội, 10135, Việt Nam");
+//        defaultAddressService.save("7, Đường Lý Thường Kiệt, Phường Bắc Lý, Đồng Hới, Tỉnh Quảng Bình, Việt Nam");
+//        defaultAddressService.save("12, Quốc lộ 1, Phước Dân, Huyện Ninh Phước, Tỉnh Ninh Thuận, Việt Nam");
+//        defaultAddressService.save("16A, Phú Châu, Phường An Bình, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Dĩ An, Tỉnh Bình Dương, 00848, Việt Nam");
+//        defaultAddressService.save("52, Đường 30 Tháng 4, Phường Trung Dũng, Thành phố Biên Hòa, Tỉnh Đồng Nai, 76118, Việt Nam");
+//        defaultAddressService.save("6, Đường Nguyễn Công Trứ, Phường An Hải Bắc, Quận Sơn Trà, Thành phố Đà Nẵng, 02363, Việt Nam");
+//        defaultAddressService.save( "17A, Mạc Thiên Tích, Phường Xuân Khánh, Ninh Kiều, Quận Ninh Kiều, Thành phố Cần Thơ, 94111, Việt Nam");
+//        defaultAddressService.save("15, Tiên Bình, Tác Tình, Thị trấn Tam Đường, Tỉnh Lai Châu, Việt Nam");
+//        defaultAddressService.save("55, P. Thành Tô, Phường Thành Tô, Quận Hải An, Hải Phòng, 04813, Việt Nam");
+//        defaultAddressService.save("90B, Đường tỉnh 619, Núi Thành, Tỉnh Quảng Nam, Việt Nam");
+//        defaultAddressService.save("Ngõ 3, Yên Cư, Đại Yên, Thành phố Hạ Long, Tỉnh Quảng Ninh, Việt Nam");
+//        defaultAddressService.save("3, Đường Trần Hải Thành, Phường Thuận An, Thành phố Huế, Phú Vang, Thừa Thiên Huế, Việt Nam");
+//        defaultAddressService.save("44A1 Đường Ngụy Khắc Tuần, Xuân An, Nghi Xuân, Hà Tĩnh, 45506, Việt Nam");
+//        defaultAddressService.save("6A, Đường Sông Xoài-Cù Bị, Sông Xoài 2, Xã Sông Xoài, Thị xã Phú Mỹ, Tỉnh Bà Rịa - Vũng Tàu, Việt Nam");
+//        defaultAddressService.save("16, Nguyễn Thị Bảy, Thị trấn Cần Giuộc, Huyện Cần Giuộc, Tỉnh Long An, Việt Nam");
+//        defaultAddressService.save("9A, P. Hà Huy Tập, Thành phố Vinh, Tỉnh Nghệ An, Việt Nam");
+//        defaultAddressService.save("23, Bào Toàn, Bảo Lạc, Tỉnh Cao Bằng, Việt Nam");
+//        defaultAddressService.save("8, Ngõ 115 Trần Cung, Phường Nghĩa Tân, Quận Cầu Giấy, Hà Nội, 10065, Việt Nam");
 
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
@@ -243,15 +282,13 @@ public class CustomerController {
         }
         System.out.println(orderService.getDayRevenue());
 
-
+        User user = userser.findByUsername(principal.getName());
+        model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
 
         model.addAttribute("checkadmin",false);
 
 
-
-        String username = principal.getName();
-        User user = userser.findByUsername(username);
 
         Userdt customer = Userdt.builder()
                 .Username(user.getUsername())
@@ -300,6 +337,8 @@ public class CustomerController {
             model.addAttribute("displayElement",false);
         }
         else {
+            User user = userser.findByUsername(principal.getName());
+            model.addAttribute("userFullname", user.getFullname());
             model.addAttribute("display",false);
             model.addAttribute("checkadmin",false);
             model.addAttribute("displayElement",true);
@@ -311,21 +350,25 @@ public class CustomerController {
     @PostMapping("/forgotPass")
     public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
                              RedirectAttributes redirectAttributes) {
-
-
-        String suggestAddr = userser.generateSampleAddress(usernameForgot);
         User user = userser.findByUsername(usernameForgot);
-        String phonenum = user.getPhonenumber();
-        String realAddr = user.getAddresses().get(0);
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("ErrorPass", "Invalid username");
+            return "redirect:/login";
+        } else {
 
-        redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
-        redirectAttributes.addFlashAttribute("phonenum", phonenum);
-        redirectAttributes.addFlashAttribute("realAddr", realAddr);
-        redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
+            String suggestAddr = userser.generateSampleAddress(usernameForgot);
 
-        return "redirect:/forgot-password";
+            String realAddr = user.getAddresses().get(0);
+            List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
+
+
+            redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
+            redirectAttributes.addFlashAttribute("realAddr", realAddr);
+            redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
+
+            return "redirect:/forgot-password";
+        }
     }
-
     @PostMapping("/checkForgotPass")
     public String checkForgotPass(@RequestParam("selectedAddr") String selectedAddr,
                                   @RequestParam("phonenum") String phonenum,
@@ -349,7 +392,9 @@ public class CustomerController {
                orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
            }
        }
-       redirectAttributes.addFlashAttribute("successOrder", "Order placed successfully!");
+        Orderdt.countOrder++;
+
+        redirectAttributes.addFlashAttribute("successOrder", "Order placed successfully!");
        return "redirect:/homepage";
     }
     @PostMapping("/place-orderREG")
@@ -362,6 +407,7 @@ public class CustomerController {
             orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
         }
         User user = userser.updateAddress(principal.getName(),orderdt.getAddress());
+        Orderdt.countOrder++;
 
         redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");
         return "redirect:/homepage";
