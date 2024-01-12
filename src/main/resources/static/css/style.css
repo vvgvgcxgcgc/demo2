@@ -693,7 +693,7 @@ ol {
 }
 
 .hero__search {
-	overflow: hidden;
+	overflow: visible;
 	margin-bottom: 30px;
 }
 
