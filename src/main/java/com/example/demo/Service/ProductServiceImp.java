@@ -115,4 +115,9 @@ public class ProductServiceImp implements ProductService {
         return productRepos.findTop6ProductFeedback();
     }
 
+    @Override
+    public List<Product> getProductByName(String name) {
+        return productRepos.findProductByName(name);
+    }
+
 }

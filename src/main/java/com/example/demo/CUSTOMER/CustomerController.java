@@ -181,6 +181,7 @@ public class CustomerController {
                 model.addAttribute("checkadmin", false);
             }
         }
+        //System.out.println(productService.getProductByName("m").size());
        // System.out.println(defaultAddressService.getAllAddress().size());
         if(defaultAddressService.getAllAddress().isEmpty()) {
 
@@ -422,10 +423,10 @@ public class CustomerController {
 
     @PostMapping("/searchProduct")
     public String searchProduct(@RequestParam("prodName") String prodName,
-                                Model model){
+                                RedirectAttributes redirectAttributes){
 
-//        List<Product> searchedProducts =
-//        model.addAttribute("searchedProduct", searchedProducts);
+        List<Product> searchedProducts = productService.getProductByName(prodName);
+        redirectAttributes.addFlashAttribute("searchedProducts", searchedProducts);
 
         return "/homepage";
     }

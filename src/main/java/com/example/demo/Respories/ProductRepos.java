@@ -16,4 +16,7 @@ public interface ProductRepos extends JpaRepository<Product,String> {
     @Query(value = "SELECT P FROM Product P, Feedback F WHERE P.id = F.product.id AND F.status = 1 GROUP BY P.id ORDER BY COUNT(F.id) DESC LIMIT 6")
     List<Product> findTop6ProductFeedback();
 
+    @Query(value = "SELECT P FROM Product P WHERE P.Name LIKE %?1 OR P.Info LIKE %?1%")
+    List<Product> findProductByName(String name);
+
 }

@@ -2,6 +2,7 @@ package com.example.demo.Service;
 
 import com.example.demo.Domain.Product;
 import com.example.demo.dto.Productdt;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,5 +20,6 @@ public interface ProductService {
     public Productdt getById(String id);
     public Product getProductById(String id);
     public List<Product> getTop6Productfeedback();
+    public List<Product> getProductByName(String name);
 
 }
