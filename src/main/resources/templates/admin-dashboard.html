@@ -45,7 +45,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Earnings (Today)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text='${earningToday}'></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${earningToday != 0 ? (#numbers.formatDecimal(earningToday, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;') : '0&#8363;'}"></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -63,7 +63,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Earnings (This month)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text='${earningThisMonth}'></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${earningThisMonth != 0 ? (#numbers.formatDecimal(earningThisMonth, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;') : '0&#8363;'}"></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
