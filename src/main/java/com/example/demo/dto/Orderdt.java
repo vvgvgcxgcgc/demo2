@@ -13,6 +13,8 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class Orderdt {
+    public static int countOrder =0;
+    public static int check =0;
     private String id_user;
     private  String name;
     private String  phonenumber;

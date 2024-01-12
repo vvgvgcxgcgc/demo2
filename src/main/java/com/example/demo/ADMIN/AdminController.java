@@ -8,6 +8,7 @@ import com.example.demo.Service.FeedbackService;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
 import com.example.demo.dto.Feedbackdt;
+import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -51,8 +52,9 @@ public class AdminController {
         model.addAttribute("newMembers",newMembers.size());
         model.addAttribute("ordersInAnHour", ordersInAnHour);
 
-        model.addAttribute("newOrderNum", 0);
-        model.addAttribute("notiTime", "2024-11-1 09:30:11");
+//        model.addAttribute("newOrderNum", 0);
+//        model.addAttribute("notiTime", "2024-11-1 09:30:11");
+
 
         return "admin-dashboard";
     }
