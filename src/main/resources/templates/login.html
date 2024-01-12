@@ -123,12 +123,36 @@
                                     <h1 class="h4 text-gray-900 mb-4">Login</h1>
                                 </div>
                                 <!--                        Tên đăng nhập hoặc mật khẩu không đúng-->
-                                <div th:if="${ErrorPass}">
+                                <div th:if="${ErrorPass}" id="err">
                                     <p class="alert alert-danger" th:text="${ErrorPass}"></p>
                                 </div>
-                                <div th:if = "${param.error}" class="alert alert-danger text-center">
+                                <div th:if = "${param.error}" id="errr" class="alert alert-danger text-center">
                                     Invalid username or password
                                 </div>
+
+                                <script>
+                                    const err = document.getElementById("err");
+                                    const errr = document.getElementById("errr");
+
+                                    if (err) {
+                                        setTimeout(function () {
+                                            err.classList.add("fade-out");
+                                            setTimeout(function () {
+                                                err.style.display = "none";
+                                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                                    }
+
+                                    if (errr) {
+                                        setTimeout(function () {
+                                            errr.classList.add("fade-out");
+                                            setTimeout(function () {
+                                                errr.style.display = "none";
+                                            }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
+                                        }, 5000); // Hiển thị trong 5 giây (5000 milliseconds)
+                                    }
+                                </script>
+
                                 <form th:action="@{/do-login}" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" id="username"

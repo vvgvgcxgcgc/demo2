@@ -374,12 +374,25 @@ public class CustomerController {
                                   @RequestParam("phonenumber") String phonenumber,
                                   @RequestParam("usernameForgot") String usernameForgot,
                                   RedirectAttributes redirectAttributes) {
-        System.out.println(usernameForgot);
-        System.out.println(selectedAddr);
-        System.out.println(phonenumber);
+
+        System.out.println("~~~~~~~~~~~~~~~Selected addr: " + selectedAddr);
+        System.out.println("~~~~~~~~~~~~~~~Phone num: " + phonenumber);
+
+        redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
         return "redirect:/reset-password";
     }
 
+
+    @PostMapping("/updatePass")
+    public String updatePass(@RequestParam("password") String newPass,
+                             @RequestParam("usernameForgot") String usernameForgot) {
+
+        System.out.println("-------------------------username: " + usernameForgot);
+        System.out.println("-------------------------new pass: " + newPass);
+//        userser.updatePassword(usernameForgot, newPass);
+
+        return "redirect: /login";
+    }
 
 
     @PostMapping("/place-order")
