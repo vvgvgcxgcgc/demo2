@@ -45,7 +45,7 @@
                             <!--                            <p>00:11 31/12/2023</p>-->
                         </td>
                         <td>
-                            <p style="color: red" th:text="${order.total}"></p>
+                            <p style="color: red" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></p>
                             <!--                            <p>350,000VND</p>-->
                         </td>
                         <td>
