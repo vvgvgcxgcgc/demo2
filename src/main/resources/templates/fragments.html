@@ -26,6 +26,37 @@
     <link rel="stylesheet" th:href="@{css/slicknav.min.css}" type="text/css">
     <link rel="stylesheet" th:href="@{css/style.css}" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />
+    <style>
+        /* Your existing styles */
+
+        #searchInput {
+            /* Add your styles for searchInput if needed */
+            width: 200px;
+        }
+
+        #suggestionsPopup {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+        }
+
+        #suggestionsPopup li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        #suggestionsPopup li:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 
 <body>
@@ -249,10 +280,55 @@
 <!--                                    All Categories-->
 <!--                                    <span class="arrow_carrot-down"></span>-->
 <!--                                </div>-->
-                                <input type="text" placeholder="What do you need?">
+                                <input type="text" id="searchInput" placeholder="What do you need?">
+                                <ul id="suggestionsPopup"></ul>
                                 <button type="submit" class="site-btn">SEARCH</button>
+
                             </form>
                         </div>
+                        <script>
+                            const searchInput = document.getElementById('searchInput');
+                            const suggestionsPopup = document.getElementById('suggestionsPopup');
+
+                            const suggestions = ['Apple', 'Banana', 'Orange', 'Grapes', 'Mango', 'Pineapple'];
+
+                            searchInput.addEventListener('input', function() {
+                                const userInput = searchInput.value.toLowerCase();
+                                const filteredSuggestions = suggestions.filter(suggestion =>
+                                    suggestion.toLowerCase().includes(userInput)
+                                );
+
+                                displaySuggestions(filteredSuggestions);
+                            });
+
+                            function displaySuggestions(suggestionsArray) {
+                                suggestionsPopup.innerHTML = '';
+
+                                if (suggestionsArray.length > 0) {
+                                    suggestionsArray.forEach(suggestion => {
+                                        const li = document.createElement('li');
+                                        li.textContent = suggestion;
+                                        li.addEventListener('click', function() {
+                                            searchInput.value = suggestion;
+                                            suggestionsPopup.style.display = 'none';
+                                        });
+                                        suggestionsPopup.appendChild(li);
+                                    });
+
+                                    suggestionsPopup.style.display = 'block';
+                                } else {
+                                    suggestionsPopup.style.display = 'none';
+                                }
+                            }
+
+                            document.addEventListener('click', function(e) {
+                                if (!searchInput.contains(e.target) && !suggestionsPopup.contains(e.target)) {
+                                    suggestionsPopup.style.display = 'none';
+                                }
+                            });
+                        </script>
+
+
                         <div class="hero__search__phone">
                             <div class="hero__search__phone__icon">
                                 <i class="fa fa-phone"></i>
