@@ -113,43 +113,7 @@
 <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}"></div>
 
 <!-- Hero section -->
-<div th:replace="~{fragments::hero}"></div>
-
-<!-- Categories Section Begin -->
-<section class="categories">
-    <div class="container">
-        <div class="row">
-            <div class="categories__slider owl-carousel">
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="/img/categories/cat-1.jpg">
-                        <h5><a href="#">Fresh Seafoods</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                        <h5><a href="#">Noodles</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                        <h5><a href="#">Fastfoods</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                        <h5><a href="#">Drinks</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                        <h5><a href="#">Products for vegan</a></h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Categories Section End -->
+<div th:replace="~{fragments::hero(var1=${products})}"></div>
 
 <!-- Featured Section Begin -->
 <section class="featured spad">
@@ -171,6 +135,13 @@
             color: red;
         }
     </style>
+
+
+
+
+
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -363,8 +334,6 @@
 
     </div>
 
-
-    </div>
 </section>
 
 <!-- Banner Begin -->

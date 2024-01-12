@@ -417,6 +417,16 @@ public class CustomerController {
         return "redirect: /login";
     }
 
+    @PostMapping("/searchProduct")
+    public String searchProduct(@RequestParam("prodName") String prodName,
+                                Model model){
+
+//        List<Product> searchedProducts =
+//        model.addAttribute("searchedProduct", searchedProducts);
+
+        return "/homepage";
+    }
+
 
     @PostMapping("/place-order")
     public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,

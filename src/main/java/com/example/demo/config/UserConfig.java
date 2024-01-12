@@ -77,7 +77,7 @@ public class UserConfig {
                                   .requestMatchers("/img/**").permitAll()
                                   .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed","/admin-feedbacks").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
-                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass","/login?error","/do-login", "/updatePass").permitAll()
+                                  .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass","/login?error","/do-login", "/updatePass", "/searchProduct").permitAll()
 
                                 .anyRequest().authenticated()
 
