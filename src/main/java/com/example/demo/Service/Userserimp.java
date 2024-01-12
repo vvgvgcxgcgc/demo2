@@ -112,7 +112,7 @@ public class Userserimp implements Userser{
     @Override
     public User updateFirstAddress(String username, String address) {
         User user = userRepo.findByUsername(username);
-        for(int i=0;i<user.getAddresses().size();i++){
+        for (int i=0; i<user.getAddresses().size(); i++){
             if(user.getAddresses().get(i).equals(address)){
                 user.getAddresses().remove(i);
                 break;

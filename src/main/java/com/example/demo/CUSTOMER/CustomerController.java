@@ -361,7 +361,7 @@ public class CustomerController {
             String realAddr = user.getAddresses().get(0);
             List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
 
-
+            redirectAttributes.addFlashAttribute("defaultaddresses", defaultaddresses);
             redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
             redirectAttributes.addFlashAttribute("realAddr", realAddr);
             redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
@@ -371,15 +371,28 @@ public class CustomerController {
     }
     @PostMapping("/checkForgotPass")
     public String checkForgotPass(@RequestParam("selectedAddr") String selectedAddr,
-                                  @RequestParam("phonenum") String phonenum,
+                                  @RequestParam("phonenumber") String phonenumber,
                                   @RequestParam("usernameForgot") String usernameForgot,
                                   RedirectAttributes redirectAttributes) {
-        System.out.println(usernameForgot);
-        System.out.println(selectedAddr);
-        System.out.println(phonenum);
+
+        System.out.println("~~~~~~~~~~~~~~~Selected addr: " + selectedAddr);
+        System.out.println("~~~~~~~~~~~~~~~Phone num: " + phonenumber);
+
+        redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
         return "redirect:/reset-password";
     }
 
+
+    @PostMapping("/updatePass")
+    public String updatePass(@RequestParam("password") String newPass,
+                             @RequestParam("usernameForgot") String usernameForgot) {
+
+        System.out.println("-------------------------username: " + usernameForgot);
+        System.out.println("-------------------------new pass: " + newPass);
+//        userser.updatePassword(usernameForgot, newPass);
+
+        return "redirect: /login";
+    }
 
 
     @PostMapping("/place-order")
