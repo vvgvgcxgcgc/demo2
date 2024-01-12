@@ -268,12 +268,11 @@
                                         <label>
                                             <input type="radio" name="address" th:value=" ${address}" th:text="' ' + ${address}"
                                                    th:checked="${address == user.addresses.get(0)}">
-
-                                            <input type="hidden" name="selectedAddr" id="selectedAddr" required>
-
                                         </label>
                                     </li>
                                 </ul>
+
+                                <input type="hidden" name="selectedAddr" id="selectedAddr" required>
 
                                 <!-- Hidden input field để lưu địa chỉ mặc định-->
 <!--                                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />-->
