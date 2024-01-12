@@ -72,7 +72,7 @@
 
                     <tr class="order-group" th:each="feedback : ${feedbacks}" th:if="${feedback.status} == 1">
                         <td>
-                            <p th:text="${feedback.time}"></p>
+                            <p th:text="${#temporals.format(feedback.time, 'yyyy-MM-dd HH:mm:ss')}"></p>
                         </td>
                         <td>
                             <p th:text="${feedback.product.name}"></p>
