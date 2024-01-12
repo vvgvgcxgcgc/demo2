@@ -181,28 +181,31 @@ public class CustomerController {
                 model.addAttribute("checkadmin", false);
             }
         }
+       // System.out.println(defaultAddressService.getAllAddress().size());
+        if(defaultAddressService.getAllAddress().isEmpty()) {
 
-//        defaultAddressService.save("Ngõ 8, Quận 6, Thành phố Hồ Chí Minh, Việt Nam") ;
-//        defaultAddressService.save("49, Phố Viên, Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội, 11909, Việt Nam");
-//        defaultAddressService.save("99, 175/28/9, a, Phường Tăng Nhơn Phú A, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, 71211, Việt Nam");
-//        defaultAddressService.save("11, Đường Nghiêm Xuân Yêm, Phường Đại Kim, Quận Hoàng Mai, Hà Nội, 10135, Việt Nam");
-//        defaultAddressService.save("7, Đường Lý Thường Kiệt, Phường Bắc Lý, Đồng Hới, Tỉnh Quảng Bình, Việt Nam");
-//        defaultAddressService.save("12, Quốc lộ 1, Phước Dân, Huyện Ninh Phước, Tỉnh Ninh Thuận, Việt Nam");
-//        defaultAddressService.save("16A, Phú Châu, Phường An Bình, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Dĩ An, Tỉnh Bình Dương, 00848, Việt Nam");
-//        defaultAddressService.save("52, Đường 30 Tháng 4, Phường Trung Dũng, Thành phố Biên Hòa, Tỉnh Đồng Nai, 76118, Việt Nam");
-//        defaultAddressService.save("6, Đường Nguyễn Công Trứ, Phường An Hải Bắc, Quận Sơn Trà, Thành phố Đà Nẵng, 02363, Việt Nam");
-//        defaultAddressService.save( "17A, Mạc Thiên Tích, Phường Xuân Khánh, Ninh Kiều, Quận Ninh Kiều, Thành phố Cần Thơ, 94111, Việt Nam");
-//        defaultAddressService.save("15, Tiên Bình, Tác Tình, Thị trấn Tam Đường, Tỉnh Lai Châu, Việt Nam");
-//        defaultAddressService.save("55, P. Thành Tô, Phường Thành Tô, Quận Hải An, Hải Phòng, 04813, Việt Nam");
-//        defaultAddressService.save("90B, Đường tỉnh 619, Núi Thành, Tỉnh Quảng Nam, Việt Nam");
-//        defaultAddressService.save("Ngõ 3, Yên Cư, Đại Yên, Thành phố Hạ Long, Tỉnh Quảng Ninh, Việt Nam");
-//        defaultAddressService.save("3, Đường Trần Hải Thành, Phường Thuận An, Thành phố Huế, Phú Vang, Thừa Thiên Huế, Việt Nam");
-//        defaultAddressService.save("44A1 Đường Ngụy Khắc Tuần, Xuân An, Nghi Xuân, Hà Tĩnh, 45506, Việt Nam");
-//        defaultAddressService.save("6A, Đường Sông Xoài-Cù Bị, Sông Xoài 2, Xã Sông Xoài, Thị xã Phú Mỹ, Tỉnh Bà Rịa - Vũng Tàu, Việt Nam");
-//        defaultAddressService.save("16, Nguyễn Thị Bảy, Thị trấn Cần Giuộc, Huyện Cần Giuộc, Tỉnh Long An, Việt Nam");
-//        defaultAddressService.save("9A, P. Hà Huy Tập, Thành phố Vinh, Tỉnh Nghệ An, Việt Nam");
-//        defaultAddressService.save("23, Bào Toàn, Bảo Lạc, Tỉnh Cao Bằng, Việt Nam");
-//        defaultAddressService.save("8, Ngõ 115 Trần Cung, Phường Nghĩa Tân, Quận Cầu Giấy, Hà Nội, 10065, Việt Nam");
+            defaultAddressService.save("Ngõ 8, Quận 6, Thành phố Hồ Chí Minh, Việt Nam");
+            defaultAddressService.save("49, Phố Viên, Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội, 11909, Việt Nam");
+            defaultAddressService.save("99, 175/28/9, a, Phường Tăng Nhơn Phú A, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, 71211, Việt Nam");
+            defaultAddressService.save("11, Đường Nghiêm Xuân Yêm, Phường Đại Kim, Quận Hoàng Mai, Hà Nội, 10135, Việt Nam");
+            defaultAddressService.save("7, Đường Lý Thường Kiệt, Phường Bắc Lý, Đồng Hới, Tỉnh Quảng Bình, Việt Nam");
+            defaultAddressService.save("12, Quốc lộ 1, Phước Dân, Huyện Ninh Phước, Tỉnh Ninh Thuận, Việt Nam");
+            defaultAddressService.save("16A, Phú Châu, Phường An Bình, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Dĩ An, Tỉnh Bình Dương, 00848, Việt Nam");
+            defaultAddressService.save("52, Đường 30 Tháng 4, Phường Trung Dũng, Thành phố Biên Hòa, Tỉnh Đồng Nai, 76118, Việt Nam");
+            defaultAddressService.save("6, Đường Nguyễn Công Trứ, Phường An Hải Bắc, Quận Sơn Trà, Thành phố Đà Nẵng, 02363, Việt Nam");
+            defaultAddressService.save("17A, Mạc Thiên Tích, Phường Xuân Khánh, Ninh Kiều, Quận Ninh Kiều, Thành phố Cần Thơ, 94111, Việt Nam");
+            defaultAddressService.save("15, Tiên Bình, Tác Tình, Thị trấn Tam Đường, Tỉnh Lai Châu, Việt Nam");
+            defaultAddressService.save("55, P. Thành Tô, Phường Thành Tô, Quận Hải An, Hải Phòng, 04813, Việt Nam");
+            defaultAddressService.save("90B, Đường tỉnh 619, Núi Thành, Tỉnh Quảng Nam, Việt Nam");
+            defaultAddressService.save("Ngõ 3, Yên Cư, Đại Yên, Thành phố Hạ Long, Tỉnh Quảng Ninh, Việt Nam");
+            defaultAddressService.save("3, Đường Trần Hải Thành, Phường Thuận An, Thành phố Huế, Phú Vang, Thừa Thiên Huế, Việt Nam");
+            defaultAddressService.save("44A1 Đường Ngụy Khắc Tuần, Xuân An, Nghi Xuân, Hà Tĩnh, 45506, Việt Nam");
+            defaultAddressService.save("6A, Đường Sông Xoài-Cù Bị, Sông Xoài 2, Xã Sông Xoài, Thị xã Phú Mỹ, Tỉnh Bà Rịa - Vũng Tàu, Việt Nam");
+            defaultAddressService.save("16, Nguyễn Thị Bảy, Thị trấn Cần Giuộc, Huyện Cần Giuộc, Tỉnh Long An, Việt Nam");
+            defaultAddressService.save("9A, P. Hà Huy Tập, Thành phố Vinh, Tỉnh Nghệ An, Việt Nam");
+            defaultAddressService.save("23, Bào Toàn, Bảo Lạc, Tỉnh Cao Bằng, Việt Nam");
+            defaultAddressService.save("8, Ngõ 115 Trần Cung, Phường Nghĩa Tân, Quận Cầu Giấy, Hà Nội, 10065, Việt Nam");
+        }
 
         List<Product> products = productService.getAllProducts();
         List<Productdt> productdts = new ArrayList<>();
