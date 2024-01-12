@@ -30,8 +30,6 @@ public class Product {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private String Image;
-    @ManyToMany(mappedBy = "productList")
-    private List<Menu> menuList;
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "pro")
     private List<Product_Order> product_orderList;
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "product")

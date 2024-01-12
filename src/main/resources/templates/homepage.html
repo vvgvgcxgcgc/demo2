@@ -136,11 +136,142 @@
         }
     </style>
 
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
+    <div class="container" th:if="${searchedProducts}">
 
+    <script th:inline="javascript">
+        var searched = /*[[${searchedProducts}]]*/ [];
+        console.log(searched);
+    </script>
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Search Results</h2>
+                </div>
+            </div>
+        </div>
 
+        <div class="row featured__filter">
+            <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${searchedProducts}" th:if="${product.deleted} == false">
+                <div class="featured__item">
+                    <input class="product-idd" type="hidden" th:value="${product.id}">
+                    <div class="featured__item__pic set-bg">
+                        <img class="my-product-imagee" style="height: 100%; width: 100%" th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
+                        <ul class="featured__item__pic__hover">
+                            <li><button class="site-btn" type="submit" onclick="addToCart(event)">Add to cart</button></li>
+                        </ul>
+                    </div>
+                    <div class="featured__item__text">
+                        <h6 class="product-namee" th:text="${product.name}"></h6>
+                        <h6 th:text="${product.info}"></h6>
+                        <h5 class="product-pricee" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></h5>
+                        <div class="contein" style="position: relative; width: 130px; margin-left: auto; margin-right: auto;">
+                            <button class="feedback-btn" data-product-id="${product.id}" onclick="openFeedbackForm(event)" style="margin-top: 10px;">Feedback</button>
+                            <span class="feedCountt" th:id="'feedCountt'+ ${product.id}">0</span>
+                        </div>
+                    </div>
+                    <div class="feedback-popup" th:id="'feedbackPopupp'+ ${product.id}">
+                        <div class="feedback-content">
+                            <span class="close-btn" onclick="closeFeedbackForm(event)">&times;</span>
+                            <h3 id="productNamee" th:text="${product.name}" style="margin-bottom: 15px;"></h3>
+                            <h5 style="margin-bottom: 10px;">Customers' feedbacks:</h5>
+                            <style>
+                                .scroll-containerr {
+                                    width: 100%;
+                                    height: 250px;
+                                    overflow: auto;
+                                }
+                            </style>
+                            <div class="scroll-containerr" id="scroll-container">
+                                <div th:each="feed, feedStatus  : ${product.feedBackList}" th:if="${feed.status == 1}" th:class="'feed-itemm' + ${product.id}">
+                                    <i class="fa fa-user-circle"></i>
+                                    <label th:text="${feed.user.Fullname}"></label>
+                                    <p th:text="${feed.message}"></p>
+                                </div>
+                            </div>
+                            <form id="yourFormm" th:action="@{/add-feedback(product_id = ${product.id})}" method="post" enctype="multipart/form-data">
+                                <label th:for="'feedbackMessage' + ${product.name}"><i class="fa fa-comments"></i> Add feedback:</label>
+                                <br><textarea style="width: 100%; height: 100px;" class="feedback-form textarea" th:id="'feedbackMessagee' + ${product.name}" name="feedbackMessage" required="required"></textarea>
+                                <br><button class="site-btn" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <script>
+                const product_container = document.getElementsByClassName('scroll-containerr');
+                const num_feedback = document.getElementsByClassName('feedCountt')
+                for (let i = 0; i < product_container.length; i++){
+                    const scroll_container = product_container[i];
+                    const icons = scroll_container.getElementsByClassName('fa fa-user-circle');
+                    const num_icon = icons.length;
+                    const count = num_feedback[i];
+                    count.textContent = `${num_icon}`;
+                }
+            </script>
+
+        </div>
+        <script>
+            function openFeedbackForm(event) {
+                event.preventDefault();
+                var productID = getProductID(event.target);
+                // Sử dụng productID để thực hiện các hành động liên quan đến form feedback của sản phẩm tương ứng
+                // alert("ID:" + productID);
+                document.getElementById("feedbackPopupp" + productID).style.display = "block";
+                // document.getElementById("feedbackMessagee").value = "";
+
+            }
+            function closeFeedbackForm(event) {
+                event.preventDefault();
+                var productID = getProductID(event.target);
+                // Sử dụng productID để thực hiện các hành động liên quan đến form feedback của sản phẩm tương ứng
+                document.getElementById("feedbackPopupp" + productID).style.display = "none";
+
+            }
+
+            function addToCart(event) {
+                event.preventDefault();
+
+                let productElement = event.target.closest('.featured__item');
+                let productId = productElement.querySelector('.product-idd').value;
+                let productImg = productElement.querySelector('.my-product-imagee').getAttribute('src');
+                let productName = productElement.querySelector('.product-namee').innerText;
+                let productPrice = productElement.querySelector('.product-pricee').innerText;
+
+                let newProduct = {
+                    id: productId,
+                    image: productImg,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                };
+
+                // Lấy danh sách sản phẩm từ localStorage (nếu có)
+                let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+                let existingProduct = productsInCart.find(product => product.id === newProduct.id);
+
+                if (existingProduct) {
+                    alert("Sản phẩm "+productName+" đã có trong giỏ hàng!");
+                } else {
+                    // Nếu sản phẩm chưa tồn tại, thêm nó vào danh sách
+                    alert("Sản phẩm "+productName+" đã được thêm vào giỏ hàng!");
+                    productsInCart.push(newProduct);
+                }
+
+                // Lưu danh sách sản phẩm mới vào localStorage
+                localStorage.setItem('productsInCart', JSON.stringify(productsInCart));
+
+                window.location.reload();
+            }
+        </script>
+
+    </div>
+
+<!----------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
     <div class="container">
         <div class="row">

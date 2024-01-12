@@ -426,9 +426,10 @@ public class CustomerController {
                                 RedirectAttributes redirectAttributes){
 
         List<Product> searchedProducts = productService.getProductByName(prodName);
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+searchedProducts.size());
         redirectAttributes.addFlashAttribute("searchedProducts", searchedProducts);
 
-        return "/homepage";
+        return "redirect:/homepage";
     }
 
 
