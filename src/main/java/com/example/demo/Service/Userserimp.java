@@ -118,7 +118,14 @@ public class Userserimp implements Userser{
                 break;
             }
         }
-        user.getAddresses().set(0,address);
+        user.getAddresses().add(0,address);
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User updatePassword(String usename, String password) {
+        User user = userRepo.findByUsername(usename);
+        user.setPassword(password);
         return userRepo.save(user);
     }
 }

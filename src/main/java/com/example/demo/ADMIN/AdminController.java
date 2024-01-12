@@ -5,6 +5,7 @@ import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
 import com.example.demo.Service.FeedbackService;
+import com.example.demo.Service.OrderSeciceImp;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
 import com.example.demo.dto.Feedbackdt;
@@ -12,6 +13,7 @@ import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class AdminController {
     private final ProductService productService;
     private final OrderService orderService;
     private final FeedbackService feedbackService;
-
+    private final OrderSeciceImp orderSeciceImp;
     @GetMapping("/admin-dashboard")
     public String viewStatistic(Model model){
         Long earningToday = orderService.getDayRevenue().getRevenuebyDay();
@@ -54,6 +56,14 @@ public class AdminController {
 
 //        model.addAttribute("newOrderNum", 0);
 //        model.addAttribute("notiTime", "2024-11-1 09:30:11");
+        if(Orderdt.countOrder>0){
+            model.addAttribute("newOrderNum", Orderdt.countOrder);
+            model.addAttribute("notiTime", LocalDateTime.now());
+            Orderdt.countOrder =0;
+        }
+
+
+
 
 
         return "admin-dashboard";

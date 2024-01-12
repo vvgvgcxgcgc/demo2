@@ -9,7 +9,9 @@ import com.example.demo.Respories.Product_OrderRepos;
 import com.example.demo.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

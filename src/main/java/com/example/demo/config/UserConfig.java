@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,27 +38,7 @@ import java.util.Map;
 @EnableScheduling
 @Component
 public class UserConfig {
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-    @Scheduled(fixedRate = 10000) // Gọi API mỗi 10 giây
-    public void callSomeAPI() {
-        if(Orderdt.countOrder>0) {
-            // Gọi một API endpoint từ ứng dụng của bạn
-            String apiEndpoint = "http://localhost:9090/admin-dashboard";
 
-            Map<String, Object> urlVariables = new HashMap<>();
-            urlVariables.put("newOrderNum", Orderdt.countOrder);
-            urlVariables.put("notiTime", LocalDateTime.now());
-
-            // Gửi dữ liệu và thuộc tính đến API endpoint từ ứng dụng của bạn
-            String response = restTemplate().postForObject(apiEndpoint ,"",
-                     String.class, urlVariables);
-            Orderdt.countOrder =0;
-        }
-
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {

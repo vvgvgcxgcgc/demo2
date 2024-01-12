@@ -51,10 +51,18 @@ public class CustomerController {
 
     @GetMapping("/forgot-password")
     public String showForgotPassword(Model model){
+       if( model.getAttribute("suggestAddr") == null){
+           return "redirect:/login";
+       }
+
         return "forgot-password";
     }
     @GetMapping("/reset-password")
     public String showResetPassword(Model model){
+        if( model.getAttribute("usernameForgot") == null){
+            return "redirect:/login";
+
+        }
         return "reset-password";
     }
 //    @GetMapping("/admin-orders")
@@ -375,11 +383,28 @@ public class CustomerController {
                                   @RequestParam("usernameForgot") String usernameForgot,
                                   RedirectAttributes redirectAttributes) {
 
-        System.out.println("~~~~~~~~~~~~~~~Selected addr: " + selectedAddr);
-        System.out.println("~~~~~~~~~~~~~~~Phone num: " + phonenumber);
+       User user =userser.findByUsername(usernameForgot);
+       if(user.getPhonenumber().equals(phonenumber)&&user.getAddresses().get(0).equals(selectedAddr)){
+           redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
+           return "redirect:/reset-password";
 
-        redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
-        return "redirect:/reset-password";
+        }
+       else {
+           String suggestAddr = userser.generateSampleAddress(usernameForgot);
+
+           String realAddr = user.getAddresses().get(0);
+           List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
+
+           redirectAttributes.addFlashAttribute("defaultaddresses", defaultaddresses);
+           redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
+           redirectAttributes.addFlashAttribute("realAddr", realAddr);
+           redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
+          redirectAttributes.addFlashAttribute("ErrorPass", "Invalid phone number and/or address");
+           return "redirect:/forgot-password";
+
+       }
+
+
     }
 
 
@@ -387,9 +412,7 @@ public class CustomerController {
     public String updatePass(@RequestParam("password") String newPass,
                              @RequestParam("usernameForgot") String usernameForgot) {
 
-        System.out.println("-------------------------username: " + usernameForgot);
-        System.out.println("-------------------------new pass: " + newPass);
-//        userser.updatePassword(usernameForgot, newPass);
+        userser.updatePassword(usernameForgot,passwordEncoder.encode(newPass));
 
         return "redirect: /login";
     }
