@@ -77,6 +77,15 @@ public class CartOrderController {
         return "user-shopping-cart";
     }
 
+    @PostMapping("/checkExistProductInCart")
+    public String checkExistProductInCart(@RequestParam("productsId") List<String> productsId,
+                                          RedirectAttributes redirectAttributes) {
+        for (String s : productsId) {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ " + s);
+        }
+        return "redirect: /user-shopping-cart";
+    }
+
     @PostMapping("/place-order")
     public String placeOrder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                              RedirectAttributes redirectAttributes,
