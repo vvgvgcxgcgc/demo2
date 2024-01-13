@@ -53,7 +53,14 @@
                         <label id="noProductInCart" style="display: none; color: red; margin-top: 5px; font-size: large">  No product in cart!</label>
                     </div>
 
+                    <input id="delProductsId" type="hidden" th:value="${delProductsId}">
+
                     <script>
+
+                        let delProductsId = document.getElementById("delProductsId").value;
+
+                        console.log("`````````````````````"+ delProductsId);
+
                         // Lấy danh sách sản phẩm từ localStorage
                         let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
                         // Lấy thẻ tbody trong bảng
@@ -63,6 +70,9 @@
                         productsInCart.forEach(function(product, index) {
                               // Tạo các phần tử HTML tương ứng với thông tin sản phẩm
                               let tr = document.createElement('tr');
+                              tr.style.paddingTop = "0px";
+                              tr.style.paddingBottom = "0px";
+                              tr.style.height = "50px";
                               tr.innerHTML = `
                                     <td class="shoping__cart__item">
                                         <img src="${product.image}" alt="" width='80px' height='80px'>
@@ -83,8 +93,20 @@
                                     </td>
                                 `;
 
-                              // Thêm phần tử vào thẻ tbody
-                              cartItems.appendChild(tr);
+                            if (delProductsId.includes(product.id)) {
+                                var warn = document.createElement("label");
+                                warn.style.display = "block";
+                                warn.style.color = "red";
+                                warn.style.marginTop = "5px";
+                                warn.style.marginLeft = "0px";
+                                warn.style.marginBottom = "0px";
+                                warn.style.fontSize = "large";
+                                warn.style.textAlign = "left";
+                                warn.textContent = "This product is no longer available, please remove it from your cart!";
+                                cartItems.appendChild(warn);
+                            }
+
+                            cartItems.appendChild(tr);
 
                             let decButton = tr.querySelector('.dec');
                             let incButton = tr.querySelector('.inc');
@@ -169,13 +191,8 @@
                                 <li>Total <span id="totalPrice"></span></li>
                             </ul>
     <!--                        <a th:href="@{/checkout}">-->
-                            <div th:if="${displayElement}">
+                            <div>
                                 <!-- Phần tử này sẽ hiển thị nếu displayElement là true -->
-                                <button type="submit" class="primary-btn" onclick="clickProceed(event)">PROCEED TO CHECKOUT</button>
-                            </div>
-
-                            <div th:unless="${displayElement}">
-                                <!-- Phần tử này sẽ hiển thị nếu displayElement là false -->
                                 <button type="submit" class="primary-btn" onclick="clickProceed(event)">PROCEED TO CHECKOUT</button>
                             </div>
 

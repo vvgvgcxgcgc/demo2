@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -76,27 +77,43 @@ public class CartOrderController {
             model.addAttribute("displayElement",true);
         }
 
+        System.out.println("RECEIVE: " + model.getAttribute("delProductsId"));
+
+
         return "user-shopping-cart";
     }
 
     @PostMapping("/checkExistProductInCart")
     public String checkExistProductInCart(@RequestParam("productsId") List<String> productsId,
-                                          RedirectAttributes redirectAttributes) {
-        List<String> disableproducts = new ArrayList<>();
+                                          RedirectAttributes redirectAttributes,
+                                          Principal principal) {
+        List<String> delProductsId = new ArrayList<>();
         for (String s : productsId) {
             Product product = productService.getProductById(s);
-            if(!product.getDeleted()) disableproducts.add(s);
-
+            if(product.getDeleted()) delProductsId.add(s);
         }
-        redirectAttributes.addFlashAttribute("productsId",disableproducts);
-        return "redirect: /user-shopping-cart";
+
+        if (delProductsId.isEmpty()) {
+            System.out.println("CHECKOUTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            if(principal== null || principal.getName().equals("adminonly")) {
+                return "redirect:/checkout";
+            } else {
+                return "redirect:/checkoutREG";
+            }
+        } else {
+            System.out.println("BACK TO CARTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            redirectAttributes.addFlashAttribute("error", "error");
+            redirectAttributes.addFlashAttribute("delProductsId", delProductsId);
+            System.out.println("delProductsId: " + delProductsId);
+            return "redirect:/shoping-cart";
+        }
     }
 
     @PostMapping("/place-order")
     public String placeOrder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                              RedirectAttributes redirectAttributes,
                              @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
-        if(principal== null || principal.getName() == "adminonly") {
+        if(principal== null || principal.getName().equals("adminonly")) {
             Order order = orderService.save(orderdt);
             for (int i = 0; i < productlist.size(); i++) {
                 orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
