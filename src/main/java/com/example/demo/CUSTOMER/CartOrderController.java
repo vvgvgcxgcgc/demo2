@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,6 +22,7 @@ import java.util.List;
 public class CartOrderController {
     private final UserService userService;
     private final OrderService orderService;
+    private final ProductService productService;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
         if(principal== null) model.addAttribute("display",true);
@@ -80,9 +82,13 @@ public class CartOrderController {
     @PostMapping("/checkExistProductInCart")
     public String checkExistProductInCart(@RequestParam("productsId") List<String> productsId,
                                           RedirectAttributes redirectAttributes) {
+        List<String> disableproducts = new ArrayList<>();
         for (String s : productsId) {
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ " + s);
+            Product product = productService.getProductById(s);
+            if(!product.getDeleted()) disableproducts.add(s);
+
         }
+        redirectAttributes.addFlashAttribute("productsId",disableproducts);
         return "redirect: /user-shopping-cart";
     }
 
