@@ -163,11 +163,7 @@
 <!--                            <div class="header__top__right__social">-->
 <!--                                <a href="#"><i class="fa fa-facebook-f"></i></a>-->
 <!--                            </div>-->
-<!--                            <div th:if="${display}">-->
-<!--                                <div class="header__top__right__auth" style='padding-right: 10px'>-->
-<!--                                    <p th:text="${'Hello, ' + userFullname}"><i class="fa fa-user-circle"></i></p>-->
-<!--                                </div>-->
-<!--                            </div>-->
+
 <!--                            Truong hop chua dang nhap-->
                             <div th:if="${display}">
                                 <div class="header__top__right__auth" style='padding-right: 10px'>
@@ -189,7 +185,7 @@
                                 </div>
                                 <div th:unless="${checkadmin}">
                                     <div class="header__top__right__auth" style='padding-right: 10px'>
-                                        <p th:text="${'Hello, ' + userFullname}"><i class="fa fa-user-circle"></i></p>
+                                        <a th:text="${'Hello, ' + userFullname}"><i class="fa fa-user-circle"></i></a>
                                     </div>
                                     <div class="header__top__right__auth">
                                         <a th:href="@{/logout}"><i class="fa fa-user"></i> Logout</a>
@@ -337,7 +333,7 @@
                             </div>
                             <div class="hero__search__phone__text">
                                 <h5>+84 355.064.809</h5>
-                                <span>  Support 24/7 time</span>
+                                <span>Support 24/7</span>
                             </div>
                         </div>
                     </div>
@@ -459,7 +455,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a th:href="@{/homepage}"><img style="width: 200px; height: auto" th:src="@{static/img/logo.png}" alt=""></a>
+                            <a th:href="@{/homepage}"><img style="width: 200px; height: auto" th:src="@{/img/logo.png}" alt=""></a>
                         </div>
                         <ul>
                             <li>Address: 1, Dai Co Viet, Hai Ba Trung, Ha Noi</li>
@@ -474,10 +470,8 @@
                         <ul>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">About Our Shop</a></li>
-                            <li><a href="#">Secure Shopping</a></li>
-                            <li><a href="#">Delivery information</a></li>
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Our Sitemap</a></li>
+                            <li><a href="contact">Our Location</a></li>
                         </ul>
                     </div>
                 </div>

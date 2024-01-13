@@ -82,8 +82,7 @@
                         <tbody>
                         <tr th:each = "product : ${products}">
                             <th scope="row" th:text = "${product.name}"></th>
-                            <td th:text = "${product.price}"></td>
-<!--                            <td th:text = "${product.currentQuantity}"></td>-->
+                            <td th:text = "${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></td>
                             <td>
                                 <img class = "my-product-image" style="height: 40px; width: 40px"
                                      th:src="'data:image/jpeg;base64,' + ${product.image}" alt="Product Image">
