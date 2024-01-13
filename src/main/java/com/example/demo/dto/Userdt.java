@@ -32,6 +32,7 @@ public class Userdt {
     private int Userpoint;
     private List<Order> orders;
     private int productTimeOrder;
+    private  int canceledOrderTime;
 
 
 

@@ -3,10 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.Product_Order;
-import com.example.demo.dto.Orderdt;
-import com.example.demo.dto.StatiticsbyDay;
-import com.example.demo.dto.StatiticsbyMonth;
-import com.example.demo.dto.StatiticsbyWeek;
+import com.example.demo.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +28,7 @@ public interface OrderService {
     public StatiticsbyWeek getWeekRevenue();
     public StatiticsbyMonth getMonthRevenue();
     public Integer getPendingOrderamount();
+    public List<BlackListPhoneNumber> getBlackList();
 
 
 }

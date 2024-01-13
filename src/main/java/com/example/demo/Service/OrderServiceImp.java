@@ -210,6 +210,10 @@ public class OrderServiceImp implements OrderService {
         return orderRepos.findPendingOrders().size();
     }
 
+    @Override
+    public List<BlackListPhoneNumber> getBlackList() {
+        return orderRepos.findBlackList();
+    }
 
 
 }

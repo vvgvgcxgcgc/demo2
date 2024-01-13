@@ -1,10 +1,12 @@
 package com.example.demo.Respositories;
 
 import com.example.demo.Domain.Order;
+import com.example.demo.dto.BlackListPhoneNumber;
 import com.example.demo.dto.Top3Productdt;
 import com.example.demo.dto.Top3Userdt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -25,6 +27,9 @@ public interface OrderRepos extends JpaRepository<Order, Long> {
     public List<Top3Userdt> findTop3User(LocalDateTime startDate, LocalDateTime endDate);
     @Query(value = "SELECT O FROM Order O WHERE O.orderstatus = 1 ")
     public List<Order> findPendingOrders();
+
+    @Query(value = "SELECT  new com.example.demo.dto.BlackListPhoneNumber(O.unregister_phonenumber,count(O.id)) FROM Order O WHERE O.orderstatus = 4 GROUP BY O.unregister_phonenumber HAVING count(O.id) >= 3 ORDER BY count(O.id) DESC ")
+    public List<BlackListPhoneNumber> findBlackList();
 
 
 }
