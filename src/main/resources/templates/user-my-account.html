@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <div th:replace="~{fragments::head}"></div>
+    <div th:replace='~{user-fragments::head}'></div>
 </head>
 
 
@@ -133,7 +133,7 @@
 
 
 <body>
-<div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}"></div>
+<div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}'></div>
 
 <div class="container light-style flex-grow-1 container-p-y">
 
@@ -403,7 +403,7 @@
 </div>
 <br><br><br>
 <!-- Footer Section-->
-<div th:replace="~{fragments::footer}"></div>
+<div th:replace='~{user-fragments::footer}'></div>
 
 
 <!--<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
@@ -412,7 +412,7 @@
 <!--<script type="text/javascript"></script>-->
 
 <!-- Js Plugins -->
-<div th:replace="~{fragments::JS-import}"></div>
+<div th:replace='~{user-fragments::JS-import}'></div>
 </body>
 
 </html>

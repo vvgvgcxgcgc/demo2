@@ -31,7 +31,7 @@ public class AuthController {
         if( model.getAttribute("suggestAddr") == null){
             return "redirect:/login";
         }
-        return "forgot-password";
+        return "user-forgot-password";
     }
 
     @GetMapping("/reset-password")
@@ -39,7 +39,7 @@ public class AuthController {
         if( model.getAttribute("usernameForgot") == null){
             return "redirect:/login";
         }
-        return "reset-password";
+        return "user-reset-password";
     }
 
     @GetMapping("/register")
@@ -47,7 +47,7 @@ public class AuthController {
         Userdt userdt = Userdt.builder().build();
 
         model.addAttribute("userdt",userdt);
-        return "register"; // Đây là tên của file HTML Thymeleaf (không cần phần mở rộng .html)
+        return "user-register"; // Đây là tên của file HTML Thymeleaf (không cần phần mở rộng .html)
     }
 
     @PostMapping("/register-new")
@@ -56,7 +56,7 @@ public class AuthController {
                               Model model) {
         if(result.hasErrors()){
             model.addAttribute("userdt",userdt);
-            return "register";
+            return "user-register";
         }
         String username = userdt.getUsername();
         User user = userService.findByUsername(username);
@@ -64,7 +64,7 @@ public class AuthController {
             model.addAttribute("userdt",userdt);
             model.addAttribute("usernameErr","username has existed");
             log.info("username has existed");
-            return "register";
+            return "user-register";
         }
         if(userdt.getPassword().equals(userdt.getRepeatPassword())){
             userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
@@ -77,7 +77,7 @@ public class AuthController {
             model.addAttribute("userdt",userdt);
             model.addAttribute("passwordError","Your password maybe wrong! Check again!");
         }
-        return "register";
+        return "user-register";
     }
 
     @GetMapping("/login")
@@ -86,7 +86,7 @@ public class AuthController {
             Userdt userdt = Userdt.builder().build();
             model.addAttribute("userdt",userdt);
 
-            return "login";}
+            return "user-login";}
         else{
 
             redirectAttributes.addFlashAttribute("error","You must log out first");

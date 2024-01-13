@@ -3,13 +3,13 @@
 <html lang="en" xmlns:th = "https://www.thymeleaf.org/">
 <head>
     <title>Cơm Anh Bảy</title>
-    <div th:replace="~{fragments::head}"></div>
+    <div th:replace='~{user-fragments::head}'></div>
 
 </head>
 
 <body>
     <!-- Header section-->
-    <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin},var3 = ${userFullname})}"></div>
+    <div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin},var3 = ${userFullname})}'></div>
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
@@ -278,10 +278,10 @@
     </script>
 
     <!-- Footer Section-->
-    <div th:replace="~{fragments::footer}"></div>
+    <div th:replace='~{user-fragments::footer}'></div>
 
     <!-- Js Plugins -->
-    <div th:replace="~{fragments::JS-import}"></div>
+    <div th:replace='~{user-fragments::JS-import}'></div>
 
 </body>
 
