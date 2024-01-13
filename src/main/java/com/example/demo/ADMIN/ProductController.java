@@ -98,7 +98,7 @@ public class ProductController {
                               RedirectAttributes redirectAttributes){
         try {
            // System.out.println(product.getId());
-            if(productService.getProductById(product.getId())!=null) {
+            if(productService.checkID(product.getId())) {
                 redirectAttributes.addFlashAttribute("error", "ID has existed!");
                 return "redirect:/admin-products";
             }

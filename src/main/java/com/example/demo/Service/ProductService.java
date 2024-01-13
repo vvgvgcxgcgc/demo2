@@ -22,5 +22,5 @@ public interface ProductService {
     public List<Product> getTop6Productfeedback();
     public List<Product> getProductByName(String name);
     public List<String> getAllProductName();
-
+    public boolean checkID(String id);
 }
