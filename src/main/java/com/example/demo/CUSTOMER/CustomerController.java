@@ -135,7 +135,7 @@ public class CustomerController {
         model.addAttribute("suggestions",s);
         model.addAttribute("menuTitle","Today's Menu");
 
-        return "homepage";
+        return "user-homepage";
     }
 
     @PostMapping("/add-feedback")
@@ -183,7 +183,7 @@ public class CustomerController {
                 .orders(user.getOrders())
                 .build();
         model.addAttribute("user", customer);
-        return "my-account";
+        return "user-my-account";
     }
 
     @PostMapping("/update-profile")
@@ -285,7 +285,7 @@ public class CustomerController {
         model.addAttribute("suggestions",s);
         model.addAttribute("menuTitle","Search Result");
 
-        return "homepage";
+        return "user-homepage";
     }
 }
 

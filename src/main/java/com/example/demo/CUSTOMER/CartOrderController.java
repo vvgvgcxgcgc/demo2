@@ -31,7 +31,7 @@ public class CartOrderController {
         }
 
         model.addAttribute("order",new Orderdt());
-        return "checkout";
+        return "user-checkout";
     }
 
     @GetMapping("/checkoutREG")
@@ -53,7 +53,7 @@ public class CartOrderController {
 
         model.addAttribute("user", customer);
         model.addAttribute("order",new Orderdt());
-        return "checkoutREG";
+        return "user-checkoutREG";
     }
 
     @GetMapping("/shoping-cart")
@@ -74,7 +74,7 @@ public class CartOrderController {
             model.addAttribute("displayElement",true);
         }
 
-        return "shoping-cart";
+        return "user-shopping-cart";
     }
 
     @PostMapping("/place-order")

@@ -3,12 +3,12 @@
 
 <head>
     <title>Cơm Anh Bảy</title>
-    <div th:replace="~{fragments::head}"></div>
+    <div th:replace='~{user-fragments::head}'></div>
 </head>
 
 <body>
     <!-- Header section-->
-    <div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}"></div>
+    <div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}'></div>
 
 <!--    &lt;!&ndash; Hero section &ndash;&gt;-->
 <!--    <div th:replace="~{fragments::hero}"></div>-->
@@ -21,7 +21,7 @@
                     <div class="breadcrumb__text">
                         <h2>Contact Us</h2>
                         <div class="breadcrumb__option">
-                            <a href="homepage.html">Home</a>
+                            <a href='user-homepage.html'>Home</a>
                             <span>Contact Us</span>
                         </div>
                     </div>
@@ -115,10 +115,10 @@
     <!-- Contact Form End -->
 
     <!-- Footer Section-->
-    <div th:replace="~{fragments::footer}"></div>
+    <div th:replace='~{user-fragments::footer}'></div>
 
     <!-- Js Plugins -->
-    <div th:replace="~{fragments::JS-import}"></div>
+    <div th:replace='~{user-fragments::JS-import}'></div>
 
 </body>
 

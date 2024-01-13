@@ -3,7 +3,7 @@
 
 <head>
     <title>Cơm Anh Bảy</title>
-    <div th:replace="~{fragments::head}"></div>
+    <div th:replace='~{user-fragments::head}'></div>
 </head>
 
 <style>
@@ -110,11 +110,11 @@
 
 <body>
 <!-- Header section -->
-<div th:replace="~{fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}"></div>
+<div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}'></div>
 
 <!-- Hero section -->
 <!--<div th:replace="~{fragments::hero}"></div>-->
-<div th:replace="~{fragments::hero(var4=${suggestions})}"></div>
+<div th:replace='~{user-fragments::hero(var4=${suggestions})}'></div>
 
 <!-- Featured Section Begin -->
 <section class="featured spad">
@@ -521,10 +521,10 @@
 <!-- Blog Section End -->
 
 <!-- Footer Section-->
-<div th:replace="~{fragments::footer}"></div>
+<div th:replace='~{user-fragments::footer}'></div>
 
 <!-- Js Plugins -->
-<div th:replace="~{fragments::JS-import}"></div>
+<div th:replace='~{user-fragments::JS-import}'></div>
 
 </body>
 
