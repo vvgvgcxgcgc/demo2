@@ -1,19 +1,14 @@
 package com.example.demo.CUSTOMER;
 import com.example.demo.Domain.*;
 import com.example.demo.Service.*;
-import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
 import com.example.demo.dto.Top3Productdt;
 import com.example.demo.dto.Userdt;
-import com.sun.tools.jconsole.JConsoleContext;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,43 +27,9 @@ public class CustomerController {
     private final Userser userser;
     private final ProductService productService;
     private final OrderService orderService;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final FeedbackService feedbackService;
     private final DefaultAddressService defaultAddressService;
-    @GetMapping("/checkout")
-    public String showCheckout(Model model, Principal principal){
-        if(principal== null) model.addAttribute("display",true);
-        else{
 
-            model.addAttribute("display",false);
-            model.addAttribute("checkadmin",true);
-        }
-
-        model.addAttribute("order",new Orderdt());
-        return "checkout";
-    }
-
-
-    @GetMapping("/forgot-password")
-    public String showForgotPassword(Model model){
-       if( model.getAttribute("suggestAddr") == null){
-           return "redirect:/login";
-       }
-
-        return "forgot-password";
-    }
-    @GetMapping("/reset-password")
-    public String showResetPassword(Model model){
-        if( model.getAttribute("usernameForgot") == null){
-            return "redirect:/login";
-
-        }
-        return "reset-password";
-    }
-//    @GetMapping("/admin-orders")
-//    public String showAdminOrders(Model model){
-//        return "admin-orders";
-//    }
     @GetMapping("/contact")
     public String showContact(Model model, Principal principal){
         if(principal== null) {model.addAttribute("display",true);}
@@ -82,94 +43,11 @@ public class CustomerController {
                 model.addAttribute("checkadmin", false);
             }
         }
-
         return "contact";
     }
 
-    @GetMapping("/checkoutREG")
-    public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
-        User user = userser.findByUsername(principal.getName());
-        model.addAttribute("userFullname", user.getFullname());
-        model.addAttribute("display",false);
-        model.addAttribute("checkadmin",false);
-
-
-        Userdt customer = Userdt.builder()
-                .Username(user.getUsername())
-                .addresses(user.getAddresses())
-                .avatar(user.getAvatar())
-                .Fullname(user.getFullname())
-                .id(user.getId())
-                .Userpoint(user.getUserpoint())
-                .Phonenumber(user.getPhonenumber())
-                .build();
-
-        model.addAttribute("user", customer);
-
-        model.addAttribute("order",new Orderdt());
-
-        return "checkoutREG";
-    }
-
-    @GetMapping("/register")
-    public String showRegisterPage(Model model) {
-        Userdt userdt = Userdt.builder().build();
-
-        model.addAttribute("userdt",userdt);
-        return "register"; // Đây là tên của file HTML Thymeleaf (không cần phần mở rộng .html)
-    }
-    @PostMapping("/register-new")
-    public String addNewAdmin(@Valid @ModelAttribute("userdt") Userdt userdt,@RequestParam("address") String address,
-                              BindingResult result,
-                              Model model) {
-        if(result.hasErrors()){
-          model.addAttribute("userdt",userdt);
-          return "register";
-        }
-        String username = userdt.getUsername();
-        User user = userser.findByUsername(username);
-        if(user != null){
-            model.addAttribute("userdt",userdt);
-            model.addAttribute("usernameErr","username has existed");
-            log.info("username has existed");
-            return "register";
-        }
-        if(userdt.getPassword().equals(userdt.getRepeatPassword())){
-            userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
-            userdt.setAddresses(new ArrayList<String>());
-            userdt.getAddresses().add(address);
-            userser.save(userdt);
-            model.addAttribute("success", "Register successfully!");
-
-        }
-        else{
-            model.addAttribute("userdt",userdt);
-            model.addAttribute("passwordError","Your password maybe wrong! Check again!");
-        }
-        return "register";
-
-    }
-    @GetMapping("/login")
-    public String ShowLogin(Model model, Principal principal,RedirectAttributes redirectAttributes){
-        if(principal== null) {model.addAttribute("display",true);
-            Userdt userdt = Userdt.builder().build();
-            model.addAttribute("userdt",userdt);
-
-            return "login";}
-        else{
-
-            redirectAttributes.addFlashAttribute("error","You must log out first");
-            return "redirect:/homepage";
-
-
-        }
-
-    }
-
-
-
     @GetMapping("/homepage")
-    public String Viewhomepage(Model model, Principal principal){
+    public String ViewHomepage(Model model, Principal principal){
         if(principal== null) {model.addAttribute("display",true);}
         else{
             model.addAttribute("display",false);
@@ -181,10 +59,7 @@ public class CustomerController {
                 model.addAttribute("checkadmin", false);
             }
         }
-        //System.out.println(productService.getProductByName("m").size());
-       // System.out.println(defaultAddressService.getAllAddress().size());
         if(defaultAddressService.getAllAddress().isEmpty()) {
-
             defaultAddressService.save("Ngõ 8, Quận 6, Thành phố Hồ Chí Minh, Việt Nam");
             defaultAddressService.save("49, Phố Viên, Phường Cổ Nhuế 2, Quận Bắc Từ Liêm, Hà Nội, 11909, Việt Nam");
             defaultAddressService.save("99, 175/28/9, a, Phường Tăng Nhơn Phú A, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, 71211, Việt Nam");
@@ -250,7 +125,6 @@ public class CustomerController {
             page2Feedback = topFeedback.subList(3,topFeedback.size());
         }
 
-
         model.addAttribute("products", productdts);
         model.addAttribute("top3Products",top3Products);
         model.addAttribute("page1", page1Products);
@@ -262,8 +136,8 @@ public class CustomerController {
         model.addAttribute("menuTitle","Today's Menu");
 
         return "homepage";
-
     }
+
     @PostMapping("/add-feedback")
     public String addFb(String product_id,@RequestParam("feedbackMessage") String fb, Principal principal, RedirectAttributes redirectAttributes){
         Product product = productService.getProductById(product_id);
@@ -278,21 +152,16 @@ public class CustomerController {
                     .status(0)
                     .build();
             feedbackService.save(feedback);
-        }
-        else {
+        } else {
             return "redirect:/login";
         }
 
-
         redirectAttributes.addFlashAttribute("success","Thank you for giving feedback");
         return "redirect:/homepage";
-
-
     }
 
     @GetMapping("/my-account")
     public String profile(Model model, Principal principal) {
-
         if(principal == null||principal.getName().equals("adminonly")) {
             return "redirect:/login";
         }
@@ -301,10 +170,7 @@ public class CustomerController {
         User user = userser.findByUsername(principal.getName());
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
-
         model.addAttribute("checkadmin",false);
-
-
 
         Userdt customer = Userdt.builder()
                 .Username(user.getUsername())
@@ -318,111 +184,25 @@ public class CustomerController {
                 .build();
         model.addAttribute("user", customer);
         return "my-account";
-
     }
+
     @PostMapping("/update-profile")
-    public String updateprofile( @ModelAttribute("user") Userdt userdt,Principal principal,
+    public String updateProfile( @ModelAttribute("user") Userdt userdt,Principal principal,
                                 @RequestParam("selectedAddr") String selectedAddr,
                                 @RequestParam("imageUser") MultipartFile imageUser,RedirectAttributes redirectAttributes){
         if(principal == null||principal.getName().equals("adminonly")) {
             return "redirect:/login";
         }
-
         try {
              userdt.setUsername(principal.getName());
             userser.Update(imageUser, userdt);
             userser.updateFirstAddress(principal.getName(),selectedAddr);
-
             redirectAttributes.addFlashAttribute("success", "Update successfully!");
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Error server, please try again!");
         }
         return "redirect:/my-account";
-
-    }
-    @GetMapping("/shoping-cart")
-    public String showShoppingCart(Model model, Principal principal){
-        if(principal == null||principal.getName().equals("adminonly")) {
-            if(principal== null) model.addAttribute("display",true);
-            else {
-                model.addAttribute("display",false);
-                model.addAttribute("checkadmin",true);
-
-            }
-            model.addAttribute("displayElement",false);
-        }
-        else {
-            User user = userser.findByUsername(principal.getName());
-            model.addAttribute("userFullname", user.getFullname());
-            model.addAttribute("display",false);
-            model.addAttribute("checkadmin",false);
-            model.addAttribute("displayElement",true);
-        }
-
-        return "shoping-cart";
-    }
-
-    @PostMapping("/forgotPass")
-    public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
-                             RedirectAttributes redirectAttributes) {
-        User user = userser.findByUsername(usernameForgot);
-        if (user == null) {
-            redirectAttributes.addFlashAttribute("ErrorPass", "Invalid username");
-            return "redirect:/login";
-        } else {
-
-            String suggestAddr = userser.generateSampleAddress(usernameForgot);
-
-            String realAddr = user.getAddresses().get(0);
-            List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
-
-            redirectAttributes.addFlashAttribute("defaultaddresses", defaultaddresses);
-            redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
-            redirectAttributes.addFlashAttribute("realAddr", realAddr);
-            redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
-
-            return "redirect:/forgot-password";
-        }
-    }
-    @PostMapping("/checkForgotPass")
-    public String checkForgotPass(@RequestParam("selectedAddr") String selectedAddr,
-                                  @RequestParam("phonenumber") String phonenumber,
-                                  @RequestParam("usernameForgot") String usernameForgot,
-                                  RedirectAttributes redirectAttributes) {
-
-       User user =userser.findByUsername(usernameForgot);
-       if(user.getPhonenumber().equals(phonenumber)&&user.getAddresses().get(0).equals(selectedAddr)){
-           redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
-           return "redirect:/reset-password";
-
-        }
-       else {
-           String suggestAddr = userser.generateSampleAddress(usernameForgot);
-
-           String realAddr = user.getAddresses().get(0);
-           List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
-
-           redirectAttributes.addFlashAttribute("defaultaddresses", defaultaddresses);
-           redirectAttributes.addFlashAttribute("suggestAddr", suggestAddr);
-           redirectAttributes.addFlashAttribute("realAddr", realAddr);
-           redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
-          redirectAttributes.addFlashAttribute("ErrorPass", "Invalid phone number and/or address");
-           return "redirect:/forgot-password";
-
-       }
-
-
-    }
-
-
-    @PostMapping("/updatePass")
-    public String updatePass(@RequestParam("password") String newPass,
-                             @RequestParam("usernameForgot") String usernameForgot) {
-
-        userser.updatePassword(usernameForgot,passwordEncoder.encode(newPass));
-
-        return "redirect: /login";
     }
 
     @PostMapping("/searchProduct")
@@ -439,9 +219,6 @@ public class CustomerController {
                 model.addAttribute("checkadmin", false);
             }
         }
-        //System.out.println(productService.getProductByName("m").size());
-        // System.out.println(defaultAddressService.getAllAddress().size());
-
 
         List<Product> products = productService.getProductByName(prodName);
         List<Product> allProducts = productService.getAllProducts();
@@ -458,7 +235,6 @@ public class CustomerController {
                     .image(p.getImage())
                     .build();
             productdts.add(productdt);
-
         }
         for (Product p : allProducts){
             Productdt productdt = Productdt.builder()
@@ -471,8 +247,8 @@ public class CustomerController {
                     .image(p.getImage())
                     .build();
             reverseProducts.add(productdt);
-
         }
+
         List<Top3Productdt> top3Products = orderService.getWeekRevenue().getTop3Productdts();
         Collections.reverse(reverseProducts);
         List<Productdt> page1Products;
@@ -499,7 +275,6 @@ public class CustomerController {
             page2Feedback = topFeedback.subList(3,topFeedback.size());
         }
 
-
         model.addAttribute("products", productdts);
         model.addAttribute("top3Products",top3Products);
         model.addAttribute("page1", page1Products);
@@ -510,59 +285,7 @@ public class CustomerController {
         model.addAttribute("suggestions",s);
         model.addAttribute("menuTitle","Search Result");
 
-
-      //  System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+searchedProducts.get(0).getProduct_orderList().get(0).getAmount());
-      // model.addAttribute("searchedProducts", searchedProducts);
-
-
         return "homepage";
     }
-
-
-    @PostMapping("/place-order")
-    public String placeorder(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
-                             RedirectAttributes redirectAttributes,
-                             @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
-       if(principal== null || principal.getName() == "adminonly") {
-           Order order = orderService.save(orderdt);
-           for (int i = 0; i < productlist.size(); i++) {
-               orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
-           }
-       }
-        Orderdt.countOrder++;
-
-        redirectAttributes.addFlashAttribute("successOrder", "Order placed successfully!");
-       return "redirect:/homepage";
-    }
-    @PostMapping("/place-orderREG")
-    public String placeorderREG(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
-                                RedirectAttributes redirectAttributes,
-                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
-
-        Order order = orderService.save1(orderdt,principal.getName());
-        for (int i = 0; i < productlist.size(); i++) {
-            orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
-        }
-        User user = userser.updateAddress(principal.getName(),orderdt.getAddress());
-        Orderdt.countOrder++;
-
-        redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");
-        return "redirect:/homepage";
-    }
-    @RequestMapping(value = "/cancel-order-user", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String cancelorder(Long id, RedirectAttributes redirectAttributes) {
-        try {
-
-            Order order = orderService.cancelOrder(id);
-
-            redirectAttributes.addFlashAttribute("success", "Cancelled successfully!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Cancelled failed!");
-        }
-        return "redirect:/my-account";
-    }
-
-
 }
 
