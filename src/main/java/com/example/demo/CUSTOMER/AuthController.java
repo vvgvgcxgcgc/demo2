@@ -22,7 +22,7 @@ import java.util.List;
 @Log
 
 public class AuthController {
-    private final Userser userser;
+    private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final DefaultAddressService defaultAddressService;
 
@@ -59,7 +59,7 @@ public class AuthController {
             return "register";
         }
         String username = userdt.getUsername();
-        User user = userser.findByUsername(username);
+        User user = userService.findByUsername(username);
         if(user != null){
             model.addAttribute("userdt",userdt);
             model.addAttribute("usernameErr","username has existed");
@@ -70,7 +70,7 @@ public class AuthController {
             userdt.setPassword(passwordEncoder.encode(userdt.getPassword()));
             userdt.setAddresses(new ArrayList<String>());
             userdt.getAddresses().add(address);
-            userser.save(userdt);
+            userService.save(userdt);
             model.addAttribute("success", "Register successfully!");
 
         } else {
@@ -97,13 +97,13 @@ public class AuthController {
     @PostMapping("/forgotPass")
     public String forgotPass(@RequestParam("usernameForgot") String usernameForgot,
                              RedirectAttributes redirectAttributes) {
-        User user = userser.findByUsername(usernameForgot);
+        User user = userService.findByUsername(usernameForgot);
         if (user == null) {
             redirectAttributes.addFlashAttribute("ErrorPass", "Invalid username");
             return "redirect:/login";
         } else {
 
-            String suggestAddr = userser.generateSampleAddress(usernameForgot);
+            String suggestAddr = userService.generateSampleAddress(usernameForgot);
             String realAddr = user.getAddresses().get(0);
             List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
 
@@ -121,13 +121,13 @@ public class AuthController {
                                   @RequestParam("usernameForgot") String usernameForgot,
                                   RedirectAttributes redirectAttributes) {
 
-        User user =userser.findByUsername(usernameForgot);
+        User user = userService.findByUsername(usernameForgot);
         if(user.getPhonenumber().equals(phonenumber)&&user.getAddresses().get(0).equals(selectedAddr)){
             redirectAttributes.addFlashAttribute("usernameForgot", usernameForgot);
             return "redirect:/reset-password";
         }
         else {
-            String suggestAddr = userser.generateSampleAddress(usernameForgot);
+            String suggestAddr = userService.generateSampleAddress(usernameForgot);
             String realAddr = user.getAddresses().get(0);
             List<Defaultaddress> defaultaddresses = defaultAddressService.getAllAddress();
 
@@ -144,7 +144,7 @@ public class AuthController {
     public String updatePass(@RequestParam("password") String newPass,
                              @RequestParam("usernameForgot") String usernameForgot) {
 
-        userser.updatePassword(usernameForgot,passwordEncoder.encode(newPass));
+        userService.updatePassword(usernameForgot,passwordEncoder.encode(newPass));
         return "redirect:/login";
     }
 }

@@ -1,12 +1,9 @@
-package com.example.demo.Respories;
+package com.example.demo.Respositories;
 
-import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import com.example.demo.Domain.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

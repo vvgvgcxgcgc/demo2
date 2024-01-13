@@ -1,27 +1,25 @@
 package com.example.demo.Service;
 
 import com.example.demo.Domain.User;
-import com.example.demo.Respories.UserRepo;
+import com.example.demo.Respositories.UserRepo;
 import com.example.demo.Utils.ImageUpload;
 import com.example.demo.dto.Userdt;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 @Service
 
-public class Userserimp implements Userser{
+public class UserServiceImp implements UserService {
     private final UserRepo userRepo;
     private final ImageUpload imageUpload;
     @Autowired
-     public Userserimp(UserRepo userRepo, ImageUpload imageUpload) {
+    public UserServiceImp(UserRepo userRepo, ImageUpload imageUpload) {
         this.userRepo = userRepo;
         this.imageUpload = imageUpload;
     }
@@ -97,16 +95,14 @@ public class Userserimp implements Userser{
         int index;
         if(parts.length>=5) index = parts.length;
         else if(parts.length>=2) index = parts.length-1;
-        else  index =1;
+        else index =1;
         String sample = "";
         int j = parts.length-1;
         while (index>0){
-            sample = parts[j]+sample;
+            sample = parts[j] + sample;
             j--; index--;
         }
         return sample;
-
-
     }
 
     @Override
@@ -123,8 +119,8 @@ public class Userserimp implements Userser{
     }
 
     @Override
-    public User updatePassword(String usename, String password) {
-        User user = userRepo.findByUsername(usename);
+    public User updatePassword(String username, String password) {
+        User user = userRepo.findByUsername(username);
         user.setPassword(password);
         return userRepo.save(user);
     }

@@ -1,7 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Domain.Defaultaddress;
-import com.example.demo.Respories.DefaultAddressRepos;
+import com.example.demo.Respositories.DefaultAddressRepos;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Domain.Product;
-import com.example.demo.Respories.ProductRepos;
+import com.example.demo.Respositories.ProductRepos;
 import com.example.demo.Utils.ImageUpload;
 import com.example.demo.dto.Productdt;
 import org.springframework.beans.factory.annotation.Autowired;

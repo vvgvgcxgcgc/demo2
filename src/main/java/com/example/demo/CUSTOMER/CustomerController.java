@@ -24,7 +24,7 @@ import java.util.List;
 @Log
 
 public class CustomerController {
-    private final Userser userser;
+    private final UserService userService;
     private final ProductService productService;
     private final OrderService orderService;
     private final FeedbackService feedbackService;
@@ -38,7 +38,7 @@ public class CustomerController {
             if(principal.getName().equals("adminonly"))
                 model.addAttribute("checkadmin",true);
             else {
-                User user = userser.findByUsername(principal.getName());
+                User user = userService.findByUsername(principal.getName());
                 model.addAttribute("userFullname", user.getFullname());
                 model.addAttribute("checkadmin", false);
             }
@@ -54,7 +54,7 @@ public class CustomerController {
             if(principal.getName().equals("adminonly"))
                 model.addAttribute("checkadmin",true);
             else {
-                User user = userser.findByUsername(principal.getName());
+                User user = userService.findByUsername(principal.getName());
                 model.addAttribute("userFullname", user.getFullname());
                 model.addAttribute("checkadmin", false);
             }
@@ -143,7 +143,7 @@ public class CustomerController {
         Product product = productService.getProductById(product_id);
         User user;
         if(principal!=null && !principal.getName().equals("adminonly")){
-            user=userser.findByUsername(principal.getName());
+            user= userService.findByUsername(principal.getName());
             Feedback feedback = Feedback.builder()
                     .time(LocalDateTime.now())
                     .product(product)
@@ -167,7 +167,7 @@ public class CustomerController {
         }
         System.out.println(orderService.getDayRevenue());
 
-        User user = userser.findByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);
@@ -195,8 +195,8 @@ public class CustomerController {
         }
         try {
              userdt.setUsername(principal.getName());
-            userser.Update(imageUser, userdt);
-            userser.updateFirstAddress(principal.getName(),selectedAddr);
+            userService.Update(imageUser, userdt);
+            userService.updateFirstAddress(principal.getName(),selectedAddr);
             redirectAttributes.addFlashAttribute("success", "Update successfully!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +214,7 @@ public class CustomerController {
             if(principal.getName().equals("adminonly"))
                 model.addAttribute("checkadmin",true);
             else {
-                User user = userser.findByUsername(principal.getName());
+                User user = userService.findByUsername(principal.getName());
                 model.addAttribute("userFullname", user.getFullname());
                 model.addAttribute("checkadmin", false);
             }

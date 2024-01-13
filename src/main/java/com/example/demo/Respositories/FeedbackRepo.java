@@ -1,7 +1,6 @@
-package com.example.demo.Respories;
+package com.example.demo.Respositories;
 
 import com.example.demo.Domain.Feedback;
-import com.example.demo.Domain.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

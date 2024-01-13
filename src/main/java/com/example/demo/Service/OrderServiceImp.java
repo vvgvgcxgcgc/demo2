@@ -4,20 +4,16 @@ import com.example.demo.Domain.Order;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.Product_Order;
 import com.example.demo.Domain.User;
-import com.example.demo.Respories.OrderRepos;
-import com.example.demo.Respories.Product_OrderRepos;
+import com.example.demo.Respositories.OrderRepos;
+import com.example.demo.Respositories.Product_OrderRepos;
 import com.example.demo.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 
-public class OrderSeciceImp implements OrderService {
+public class OrderServiceImp implements OrderService {
     private final ProductService productService;
     private final OrderRepos orderRepos;
     private final Product_OrderRepos productOrderRepos;
-    private final Userser userser;
+    private final UserService userService;
 
 
 
@@ -63,7 +59,7 @@ public class OrderSeciceImp implements OrderService {
 
     @Override
     public Order save1(Orderdt orderdt, String username) {
-        User user = userser.findByUsername(username);
+        User user = userService.findByUsername(username);
         Order order = Order.builder()
                 .usr(user)
                 .orderstatus(1)
@@ -185,7 +181,7 @@ public class OrderSeciceImp implements OrderService {
         LocalDateTime timenow = LocalDateTime.now();
         List<Order> orders= orderRepos.findByOrderDateBetween(firstDateTimeOfMonth,timenow);
         List<Top3Userdt> top3Userdts = orderRepos.findTop3User(firstDateTimeOfMonth,timenow);
-        List<User> newusers = userser.findnewusers(firstDateTimeOfMonth,timenow);
+        List<User> newusers = userService.findnewusers(firstDateTimeOfMonth,timenow);
         long orderSuccess =0;
         long orderCancel =0;
         double orderrate ;

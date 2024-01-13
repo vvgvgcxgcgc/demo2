@@ -3,8 +3,7 @@ package com.example.demo.Service;
 import com.example.demo.Domain.Feedback;
 import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
-import com.example.demo.Respories.FeedbackRepo;
-import com.example.demo.Respories.UserRepo;
+import com.example.demo.Respositories.FeedbackRepo;
 import com.example.demo.dto.Feedbackdt;
 import com.example.demo.dto.Userdt;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.List;
 
 public class FeedbackServiceImp implements FeedbackService{
      private  final FeedbackRepo feedbackRepo;
-     private final Userser userser;
+     private final UserService userService;
     @Override
     public Feedback save(Feedback feedback) {
         return feedbackRepo.save(feedback);
@@ -32,7 +31,7 @@ public class FeedbackServiceImp implements FeedbackService{
         for(Feedback feedback: feedbacks){
             User user = feedback.getUser();
             Product product = feedback.getProduct();
-            int times = userser.productTimesOrder(user.getId(),product.getId());
+            int times = userService.productTimesOrder(user.getId(),product.getId());
             Userdt userdt = Userdt.builder()
                     .id(user.getId())
                     .Fullname(user.getFullname())

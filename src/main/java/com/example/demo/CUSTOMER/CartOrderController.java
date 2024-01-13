@@ -6,7 +6,6 @@ import com.example.demo.dto.Userdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +19,7 @@ import java.util.List;
 @Log
 
 public class CartOrderController {
-    private final Userser userser;
+    private final UserService userService;
     private final OrderService orderService;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
@@ -37,7 +36,7 @@ public class CartOrderController {
 
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
-        User user = userser.findByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);
@@ -68,7 +67,7 @@ public class CartOrderController {
             model.addAttribute("displayElement",false);
         }
         else {
-            User user = userser.findByUsername(principal.getName());
+            User user = userService.findByUsername(principal.getName());
             model.addAttribute("userFullname", user.getFullname());
             model.addAttribute("display",false);
             model.addAttribute("checkadmin",false);
@@ -103,7 +102,7 @@ public class CartOrderController {
         for (int i = 0; i < productlist.size(); i++) {
             orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
         }
-        User user = userser.updateAddress(principal.getName(),orderdt.getAddress());
+        User user = userService.updateAddress(principal.getName(),orderdt.getAddress());
         Orderdt.countOrder++;
 
         redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");

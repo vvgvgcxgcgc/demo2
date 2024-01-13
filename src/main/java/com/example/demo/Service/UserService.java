@@ -9,16 +9,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public interface Userser {
+public interface UserService {
     User save(Userdt userdt);
     public User findByUsername(String username);
     public User Update(MultipartFile imageUser, Userdt userdt);
     public int productTimesOrder(Long userid, String productid);
     public List<User> findnewusers(LocalDateTime startDate, LocalDateTime endDate);
     public User updateAddress(String username, String address);
-
     public String generateSampleAddress(String username);
     public User updateFirstAddress(String username, String address);
-
-    public User updatePassword (String usename, String password);
+    public User updatePassword (String username, String password);
 }

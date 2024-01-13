@@ -1,13 +1,10 @@
-package com.example.demo.Respories;
+package com.example.demo.Respositories;
 
 import com.example.demo.Domain.Order;
-import com.example.demo.Domain.Product;
 import com.example.demo.dto.Top3Productdt;
 import com.example.demo.dto.Top3Userdt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.relational.core.sql.Select;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
