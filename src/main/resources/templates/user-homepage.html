@@ -131,6 +131,44 @@
         <span style="white-space: nowrap;"> You can track your order by View Orders in <a class="myaccc" href="my-account">My Account</a></span>
         We will call you back within 5 minutes for confirmation.
     </div>
+
+    <script>
+
+        const successOrder = document.getElementById("successOrder");
+        const successOrderREG = document.getElementById("successOrderREG");
+
+        var closeButton = document.createElement("button");
+        closeButton.innerHTML = "Close";
+        closeButton.style.display = "none";
+        closeButton.style.marginTop = "20px";
+        closeButton.style.backgroundColor = "#4CAF50";
+        closeButton.style.color = "white";
+        closeButton.style.border = "none";
+        closeButton.style.padding = "7px 17px";
+        closeButton.style.fontSize = "16px";
+        closeButton.style.cursor = "pointer";
+        closeButton.addEventListener('click', function() {
+            successOrder.style.display = "none";
+            successOrderREG.style.display = "none";
+        });
+
+        if (successOrder) {
+            closeButton.style.display = "block";
+            closeButton.addEventListener('click', function() {
+                successOrder.style.display = "none";
+            });
+            successOrder.appendChild(closeButton);
+        }
+
+        if (successOrderREG) {
+            closeButton.style.display = "block";
+            closeButton.addEventListener('click', function() {
+                successOrderREG.style.display = "none";
+            });
+            successOrderREG.appendChild(closeButton);
+        }
+    </script>
+
     <style>
         .myaccc:hover {
             color: red;
@@ -160,41 +198,6 @@
                                 }, 1000); // Thời gian chờ 1 giây để phần tử biến mất sau khi phần tử đã phai mờ
                             }, 3000); // Hiển thị trong 5 giây (5000 milliseconds)
                         }
-
-                        const successOrder = document.getElementById("successOrder");
-                        if (successOrder) {
-                            var closeButton = document.createElement("button");
-                            closeButton.innerHTML = "Close";
-                            closeButton.style.marginTop = "20px";
-                            closeButton.style.backgroundColor = "#4CAF50";
-                            closeButton.style.color = "white";
-                            closeButton.style.border = "none";
-                            closeButton.style.padding = "7px 17px";
-                            closeButton.style.fontSize = "16px";
-                            closeButton.style.cursor = "pointer";
-                            closeButton.addEventListener('click', function() {
-                                successOrder.style.display = "none";
-                            });
-                            successOrder.appendChild(closeButton);
-                        }
-
-                        const successOrderREG = document.getElementById("successOrderREG");
-                        if (successOrderREG) {
-                            var closeButton = document.createElement("button");
-                            closeButton.innerHTML = "Close";
-                            closeButton.style.marginTop = "20px";
-                            closeButton.style.backgroundColor = "#4CAF50";
-                            closeButton.style.color = "white";
-                            closeButton.style.border = "none";
-                            closeButton.style.padding = "7px 17px";
-                            closeButton.style.fontSize = "16px";
-                            closeButton.style.cursor = "pointer";
-                            closeButton.addEventListener('click', function() {
-                                successOrderREG.style.display = "none";
-                            });
-                            successOrderREG.appendChild(closeButton);
-                        }
-
                     </script>
                 </div>
             </div>
