@@ -168,9 +168,7 @@
         }
     </script>
 
-    <h4 class="font-weight-bold py-3 mb-4">
-        My Profile
-    </h4>
+    <h4 class="font-weight-bold py-3 mb-4">My Account</h4>
 
 
     <div class="card overflow-hidden">
@@ -197,25 +195,19 @@
                         <div class="card-body">
                             <div class="form-group">
 
-                                <label class="form-label" th:text="'Full Name: ' + ${user.Fullname}" th:field="${user.Fullname}"></label>
+                                <label class="form-label" style='font-weight: bold' th:text="'Full Name: ' + ${user.Fullname}" th:field="${user.Fullname}"></label>
 
                             </div>
                             <div class="form-group">
 
-                                <label class="form-label" th:text="'Phone Number: ' + ${user.Phonenumber}" th:field="${user.Phonenumber}"></label>
+                                <label class="form-label" style='font-weight: bold' th:text="'Phone Number: ' + ${user.Phonenumber}" th:field="${user.Phonenumber}"></label>
 
                             </div>
                             <div class="form-group">
 
-                                <label style="word-wrap: break-word;" class="form-label" th:text="'Default Address: ' + ${user.addresses.get(0)}" th:field="${user.addresses.get(0)}"></label>
+                                <label style="word-wrap: break-word; font-weight: bold" class="form-label" th:text="'Default Address: ' + ${user.addresses.get(0)}" th:field="${user.addresses.get(0)}"></label>
 
                             </div>
-                            <div class="form-group">
-
-                                <label class="form-label" th:text="'Point earned: ' + ${user.Userpoint}" th:field="${user.Userpoint}"></label>
-
-                            </div>
-
 
                         </div>
                     </div>
@@ -253,16 +245,16 @@
                             <hr class="border-light m-0">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label class="form-label">Full Name</label>
+                                    <label class="form-label" style='font-weight: bold'>Full Name</label>
                                     <input th:field = "${user.Fullname}" class="form-control" required="" type="text">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Phone number</label>
+                                    <label class="form-label" style='font-weight: bold'>Phone number</label>
                                     <input th:field = "${user.Phonenumber}" class="form-control" required="" type="text">
                                 </div>
 
-                                <label class="form-label">Choose default address:</label>
+                                <label class="form-label" style='font-weight: bold'>Choose default address:</label>
                                 <ul style="list-style-type: none;">
                                     <li th:each="address : ${user.addresses}">
                                         <label>
