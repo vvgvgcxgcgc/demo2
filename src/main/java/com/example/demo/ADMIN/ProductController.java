@@ -97,7 +97,11 @@ public class ProductController {
                               @RequestParam("imageProduct") MultipartFile imageProduct,
                               RedirectAttributes redirectAttributes){
         try {
-            System.out.println(product.getId());
+           // System.out.println(product.getId());
+            if(productService.getProductById(product.getId())!=null) {
+                redirectAttributes.addFlashAttribute("error", "ID has existed!");
+                return "redirect:/admin-products";
+            }
             productService.save(imageProduct, product);
             redirectAttributes.addFlashAttribute("success", "Add new product successfully!");
         } catch (Exception e) {
