@@ -207,33 +207,61 @@
       </div>
     </li>
 
-<!--    <button type="button" style="display: block" id="autoclick" onclick=playSoundNoti(event)></button>-->
-<!--    <audio controls style="display: block" id="audioPlayer">-->
-<!--      <source src="src/main/resources/noti.mp3" type="audio/mpeg">-->
-<!--    </audio>-->
-
     <script>
 
       let newOrderNumm = parseInt(document.getElementById("newOrderNum").value);
-      // console.log("New order num: " + newOrderNum);
       let notiTime = document.getElementById("notiTime").value;
-
       let notiList = JSON.parse(localStorage.getItem('notiList')) || [];
-      // notiList = [];
+      let unreadNotis = JSON.parse(localStorage.getItem('unreadNotis')) || [];
 
+      function resetNotiList() {
+        localStorage.setItem('notiList', JSON.stringify([]));
+      }
+      function checkResetTime() {
+        var now = new Date();
+        var resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0); // Đặt giờ 0:00:00
+        if (now >= resetTime) {
+          resetNotiList();
+        }
+      }
+      // Kiểm tra và đặt lại giá trị của notiList khi đến 0 giờ hàng ngày
+      setInterval(checkResetTime, 60 * 1000); // Kiểm tra mỗi phút (hoặc tần suất mong muốn)
+      // Khởi tạo giá trị ban đầu cho notiList nếu chưa có trong localStorage
+      if (!localStorage.getItem('notiList')) {
+        resetNotiList();
+      }
+
+      //////////////////////////////////////////////////////////////////////////////////////////////
+
+      // notiList = [];
+      // let newNoti1 = {
+      //   newOrder_num: 1,
+      //   noti_time: 123,
+      //   read: 0
+      // };
+      // let newNoti2 = {
+      //   newOrder_num: 2,
+      //   noti_time: 456,
+      //   read: 0
+      // };
+      // notiList.push(newNoti1, newNoti2);
       // localStorage.setItem("notiList", JSON.stringify(notiList));
 
-      document.getElementById("notiNum").textContent = String(notiList.length);
+      // document.getElementById("notiNum").textContent = String(notiList.length);
 
       if (newOrderNumm) {
         let newNoti = {
           newOrder_num: newOrderNumm,
-          noti_time: notiTime
+          noti_time: notiTime,
+          read: 0
         };
 
         notiList.push(newNoti);
+        window.location.reload();
         localStorage.setItem("notiList", JSON.stringify(notiList));
       }
+
+      ///////////////////////////////////////////////////////
 
       let notiScroll = document.getElementById('scroll-container');
 
@@ -249,11 +277,43 @@
           </div>
           <div>
             <div class="small text-gray-500">${noti.noti_time}</div>
-            <span>You have ${noti.newOrder_num} new orders pending for approval!</span>
+            <span id="span_${noti.noti_time}">You have ${noti.newOrder_num} new orders pending for approval!</span>
           </div>
         `;
+
+        setTimeout(function() {
+          var span = document.getElementById(`span_${noti.noti_time}`);
+
+          if (span) {
+            if (noti.read === 0) {
+              span.className = "font-weight-bold";
+            } else {
+              span.className = "font-weight-light";
+            }
+          }
+        }, 0);
+
+        a.addEventListener("click", function (event) {
+          noti.read = 1;
+          localStorage.setItem("notiList", JSON.stringify(notiList));
+        })
+
         notiScroll.appendChild(a);
       })
+
+      notiList.forEach(function (noti) {
+        console.log("read " + noti.noti_time + ": " +noti.read);
+      })
+
+      ////////////////////////////////////////////////////
+
+      unreadNotis = [];
+      notiList.forEach(function (noti) {
+        if (noti.read === 0) {
+          unreadNotis.push(noti);
+        }
+      })
+      document.getElementById("notiNum").textContent = String(unreadNotis.length);
 
     </script>
 

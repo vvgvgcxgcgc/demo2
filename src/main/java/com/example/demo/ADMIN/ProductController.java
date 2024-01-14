@@ -4,8 +4,10 @@ import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Service.ProductService;
+import com.example.demo.dto.BlackListPhoneNumber;
 import com.example.demo.dto.Orderdt;
 import com.example.demo.dto.Productdt;
+import com.example.demo.dto.Top3Userdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ public class ProductController {
         Long cancelRate = Math.round(orderService.getWeekRevenue().getCancelOrderRate());
         List<User> newMembers = orderService.getMonthRevenue().getNewusers();
         List<Integer> ordersInAnHour = orderService.getWeekRevenue().getOrderThroughHour();
+        List<Top3Userdt> top3Users = orderService.getMonthRevenue().getTop3Userdts();
+        List<BlackListPhoneNumber> blackList = orderService.getBlackList();
 
         model.addAttribute("earningToday",earningToday);
         model.addAttribute("earningThisMonth",earningThisMonth);
@@ -45,6 +49,8 @@ public class ProductController {
         model.addAttribute("cancelRate",cancelRate);
         model.addAttribute("newMembers",newMembers.size());
         model.addAttribute("ordersInAnHour", ordersInAnHour);
+        model.addAttribute("top3Users", top3Users);
+        model.addAttribute("blackList", blackList);
 
         if(Orderdt.countOrder>0){
             model.addAttribute("newOrderNum", Orderdt.countOrder);
@@ -98,7 +104,7 @@ public class ProductController {
                               RedirectAttributes redirectAttributes){
         try {
            // System.out.println(product.getId());
-            if(productService.getProductById(product.getId())!=null) {
+            if(productService.checkID(product.getId())) {
                 redirectAttributes.addFlashAttribute("error", "ID has existed!");
                 return "redirect:/admin-products";
             }

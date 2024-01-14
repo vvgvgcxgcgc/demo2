@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepos extends JpaRepository<Product,String> {
+    @Query("SELECT p FROM Product p WHERE p.id = :id")
+    Optional<Product> findById(String id);
     @Query("SELECT p.Image FROM Product p WHERE p.id = :id")
     String findProductImageById(String id);
 
@@ -20,5 +23,6 @@ public interface ProductRepos extends JpaRepository<Product,String> {
 
     @Query(value = "SELECT P.Name FROM Product P WHERE  P.deleted = false ")
     List<String> findAllProductName();
+
 
 }

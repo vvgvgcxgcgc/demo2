@@ -50,9 +50,17 @@
                                 <!-- Các sản phẩm sẽ được thêm vào đây -->
                             </tbody>
                         </table>
+                        <label id="noProductInCart" style="display: none; color: red; margin-top: 5px; font-size: large">  No product in cart!</label>
                     </div>
 
+                    <input id="delProductsId" type="hidden" th:value="${delProductsId}">
+
                     <script>
+
+                        let delProductsId = document.getElementById("delProductsId").value;
+
+                        console.log("`````````````````````"+ delProductsId);
+
                         // Lấy danh sách sản phẩm từ localStorage
                         let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
                         // Lấy thẻ tbody trong bảng
@@ -62,6 +70,9 @@
                         productsInCart.forEach(function(product, index) {
                               // Tạo các phần tử HTML tương ứng với thông tin sản phẩm
                               let tr = document.createElement('tr');
+                              tr.style.paddingTop = "0px";
+                              tr.style.paddingBottom = "0px";
+                              tr.style.height = "50px";
                               tr.innerHTML = `
                                     <td class="shoping__cart__item">
                                         <img src="${product.image}" alt="" width='80px' height='80px'>
@@ -82,8 +93,20 @@
                                     </td>
                                 `;
 
-                              // Thêm phần tử vào thẻ tbody
-                              cartItems.appendChild(tr);
+                            if (delProductsId.includes(product.id)) {
+                                var warn = document.createElement("label");
+                                warn.style.display = "block";
+                                warn.style.color = "red";
+                                warn.style.marginTop = "5px";
+                                warn.style.marginLeft = "0px";
+                                warn.style.marginBottom = "0px";
+                                warn.style.fontSize = "large";
+                                warn.style.textAlign = "left";
+                                warn.textContent = "This product is no longer available, please remove it from your cart!";
+                                cartItems.appendChild(warn);
+                            }
+
+                            cartItems.appendChild(tr);
 
                             let decButton = tr.querySelector('.dec');
                             let incButton = tr.querySelector('.inc');
@@ -162,28 +185,39 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="shoping__checkout">
-                        <h5>Cart Total</h5>
-                        <ul>
-                            <li>Total <span id="totalPrice"></span></li>
-                        </ul>
-<!--                        <a th:href="@{/checkout}">-->
-                        <div th:if="${displayElement}">
-                            <!-- Phần tử này sẽ hiển thị nếu displayElement là true -->
-                            <a th:href="@{/checkoutREG}"  class="primary-btn">PROCEED TO CHECKOUT</a>
-                        </div>
+                        <form th:action="@{/checkExistProductInCart}" method="post">
+                            <h5>Cart Total</h5>
+                            <ul>
+                                <li>Total <span id="totalPrice"></span></li>
+                            </ul>
+    <!--                        <a th:href="@{/checkout}">-->
+                            <div>
+                                <!-- Phần tử này sẽ hiển thị nếu displayElement là true -->
+                                <button type="submit" class="primary-btn" onclick="clickProceed(event)">PROCEED TO CHECKOUT</button>
+                            </div>
 
-                        <div th:unless="${displayElement}">
-                            <!-- Phần tử này sẽ hiển thị nếu displayElement là false -->
-                            <a th:href="@{/checkout}"  class="primary-btn">PROCEED TO CHECKOUT</a>
-                        </div>
+                            <input type="hidden" name="productsId" id="productsId">
 
-<!--                        </a>-->
+                        </form>
+
                     </div>
                 </div>
 
-<!--                <input type="hidden" id="userAddresses" name="userAddresses" th:field="*{user.addresses}" />-->
-
                 <script>
+
+                    function clickProceed(event) {
+                        if (productsInCart.length === 0) {
+                            event.preventDefault();
+                            document.getElementById("noProductInCart").style.display = "block";
+                        } else {
+                            var idList = [];
+                            productsInCart.forEach(function (prod) {
+                                idList.push(prod.id);
+                            })
+                            document.getElementById("productsId").value = idList;
+                        }
+                    }
+
                     // Lấy danh sách sản phẩm từ localStorage
                     // let userAddrs = JSON.parse(localStorage.getItem('userAddrs')) || [];
 
