@@ -209,7 +209,7 @@
                         </ul>
                     </div>
                     <div class="featured__item__text">
-                        <h6 class="product-name" th:text="${product.name}"></h6>
+                        <h6 class="product-name" style="font-weight: bold; font-size: larger;" th:text="${product.name}"></h6>
                         <h6 th:text="${product.info}"></h6>
                         <h5 class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></h5>
                         <div class="contein" style="position: relative; width: 130px; margin-left: auto; margin-right: auto;">

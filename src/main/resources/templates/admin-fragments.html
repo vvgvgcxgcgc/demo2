@@ -61,21 +61,6 @@
     Interface
   </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
-<!--  <li class="nav-item active">-->
-<!--    <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"-->
-<!--       aria-controls="collapseTwo">-->
-<!--      <i class="fas fa-fw fa-cog"></i>-->
-<!--      <span>Components</span>-->
-<!--    </a>-->
-<!--    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"-->
-<!--         data-parent="#accordionSidebar">-->
-<!--      <div class="bg-white py-2 collapse-inner rounded">-->
-<!--        <h6 class="collapse-header" th:href="@{/admin-products}">Manage Products</h6>-->
-<!--&lt;!&ndash;        <a class="collapse-item" th:href = "@{/admin-products}">Manage Product</a>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </li>-->
   <li class="nav-item">
     <a class="nav-link" th:href = "@{/admin-products}">
       <i class="fas fa-fw fa-wrench"></i>
@@ -210,26 +195,23 @@
     <script>
 
       let newOrderNumm = parseInt(document.getElementById("newOrderNum").value);
-      let notiTime = document.getElementById("notiTime").value;
+
+      let notiTim = document.getElementById("notiTime").value;
+      var datetime = new Date(notiTim);
+      var year = datetime.getFullYear();
+      var month = String(datetime.getMonth() + 1).padStart(2, '0');
+      var day = String(datetime.getDate()).padStart(2, '0');
+      var hour = String(datetime.getHours()).padStart(2, '0');
+      var minute = String(datetime.getMinutes()).padStart(2, '0');
+      var second = String(datetime.getSeconds()).padStart(2, '0');
+
+      var notiTime = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+
+      console.log(newOrderNumm);
+      console.log(notiTime)
+
       let notiList = JSON.parse(localStorage.getItem('notiList')) || [];
       let unreadNotis = JSON.parse(localStorage.getItem('unreadNotis')) || [];
-
-      function resetNotiList() {
-        localStorage.setItem('notiList', JSON.stringify([]));
-      }
-      function checkResetTime() {
-        var now = new Date();
-        var resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0); // Đặt giờ 0:00:00
-        if (now >= resetTime) {
-          resetNotiList();
-        }
-      }
-      // Kiểm tra và đặt lại giá trị của notiList khi đến 0 giờ hàng ngày
-      setInterval(checkResetTime, 60 * 1000); // Kiểm tra mỗi phút (hoặc tần suất mong muốn)
-      // Khởi tạo giá trị ban đầu cho notiList nếu chưa có trong localStorage
-      if (!localStorage.getItem('notiList')) {
-        resetNotiList();
-      }
 
       //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -263,9 +245,15 @@
 
       ///////////////////////////////////////////////////////
 
-      let notiScroll = document.getElementById('scroll-container');
+      // localStorage.setItem("notiList", JSON.stringify([]));
 
-      notiList.forEach(function(noti) {
+      let notiScroll = document.getElementById('scroll-container');
+      console.log(notiList);
+      // notiList.reverse();
+      var notiListReverse = [...notiList].reverse();
+      console.log(notiListReverse);
+
+      notiListReverse.forEach(function(noti) {
         let a = document.createElement("a");
         a.className = "dropdown-item d-flex align-items-center";
         a.href = "/admin-orders-pending";
@@ -292,17 +280,12 @@
             }
           }
         }, 0);
-
         a.addEventListener("click", function (event) {
           noti.read = 1;
           localStorage.setItem("notiList", JSON.stringify(notiList));
         })
 
         notiScroll.appendChild(a);
-      })
-
-      notiList.forEach(function (noti) {
-        console.log("read " + noti.noti_time + ": " +noti.read);
       })
 
       ////////////////////////////////////////////////////
