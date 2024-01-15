@@ -366,29 +366,6 @@
 
                                     </tbody>
 
-<!--                                    <script>-->
-<!--                                        function sortOrdersByDate() {-->
-<!--                                            var orderGroups = document.querySelectorAll('.order-group');-->
-
-<!--                                            orderGroups.forEach(function(group) {-->
-<!--                                                var orders = Array.from(group.parentNode.children);-->
-<!--                                                var sortedOrders = orders.slice(1).sort(function(a, b) {-->
-<!--                                                    var dateA = new Date(a.querySelector('p').textContent);-->
-<!--                                                    var dateB = new Date(b.querySelector('p').textContent);-->
-<!--                                                    return dateA - dateB;-->
-<!--                                                });-->
-
-<!--                                                sortedOrders.forEach(function(order) {-->
-<!--                                                    group.parentNode.appendChild(order);-->
-<!--                                                });-->
-<!--                                            });-->
-<!--                                        }-->
-
-<!--                                        document.addEventListener("DOMContentLoaded", function() {-->
-<!--                                            sortOrdersByDate();-->
-<!--                                        });-->
-<!--                                    </script>-->
-
                                 </table>
 
                                 </thead>
@@ -405,11 +382,6 @@
 <!-- Footer Section-->
 <div th:replace='~{user-fragments::footer}'></div>
 
-
-<!--<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
-<!--<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--<script type="text/javascript"></script>-->
 
 <!-- Js Plugins -->
 <div th:replace='~{user-fragments::JS-import}'></div>

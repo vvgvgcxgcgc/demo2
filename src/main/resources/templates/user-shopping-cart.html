@@ -142,12 +142,6 @@
                             localStorage.setItem('productsInCart', JSON.stringify(productsInCart)); // Cập nhật lại localStorage
                         }
 
-                        // List để lưu map: id-quantity
-                        // let id_quantity = {};
-                        // productsInCart.forEach(function(product) {
-                        //     id_quantity[product.id] = product.quantity;
-                        // });
-
                         // Xóa sản phẩm khỏi danh sách
                         function removeProduct(index) {
                             productsInCart.splice(index, 1); // Xóa sản phẩm tại vị trí index trong mảng productList
@@ -155,13 +149,6 @@
                             location.reload(); // Tải lại trang để cập nhật giao diện
                         }
                     </script>
-
-<!--                    <script>-->
-<!--                        // In danh sách ID sản phẩm-->
-<!--                        Object.entries(id_quantity).forEach(function([productId, quantity]) {-->
-<!--                            console.log(`Product ID: ${productId}, Quantity: ${quantity}`);-->
-<!--                        });-->
-<!--                    </script>-->
 
                 </div>
             </div>
@@ -175,11 +162,6 @@
                 <div class="col-lg-6">
                     <div class="shoping__continue">
                         <div class="shoping__discount">
-<!--                            <h5>Discount Codes</h5>-->
-<!--                            <form action="#">-->
-<!--                                <input type="text" placeholder="Enter your coupon code">-->
-<!--                                <button type="submit" class="site-btn">APPLY COUPON</button>-->
-<!--                            </form>-->
                         </div>
                     </div>
                 </div>
@@ -218,9 +200,6 @@
                         }
                     }
 
-                    // Lấy danh sách sản phẩm từ localStorage
-                    // let userAddrs = JSON.parse(localStorage.getItem('userAddrs')) || [];
-
                     // Tính tổng giá trị sản phẩm
                     let total = (0);
                     productsInCart.forEach(function(product) {
@@ -229,25 +208,11 @@
                         total += parseFloat(priceWithoutCommas)*parseInt(product.quantity);
                     });
 
-                    // // Lấy phần tử span dựa trên id
-                    // let totalPriceElement = document.getElementById('totalPrice');
-                    //
-                    // // Cập nhật nội dung của thẻ span với tổng giá trị
-                    // totalPriceElement.textContent = total + 'đ';
                     // Lấy phần tử span dựa trên id
                     let totalPriceElement = document.getElementById('totalPrice');
 
                     // Cập nhật nội dung của thẻ span với tổng giá trị
                     totalPriceElement.textContent = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-
-                    // localStorage.setItem('subtotal', totalPriceElement.textContent);
-                    //console.log(total)
-
-                    // let id_quantity = {};
-                    // productsInCart.forEach(function(product) {
-                    //     id_quantity[product.id] = product.quantity;
-                    // });
-
 
                 </script>
 
