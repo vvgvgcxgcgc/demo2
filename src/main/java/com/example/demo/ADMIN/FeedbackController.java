@@ -7,6 +7,7 @@ import com.example.demo.Domain.Feedback;
 import com.example.demo.Service.FeedbackService;
 import com.example.demo.dto.Feedbackdt;
 
+import com.example.demo.dto.Voucherdt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
@@ -55,7 +56,8 @@ public class FeedbackController {
     }
 
     @PostMapping("/addNewVoucher")
-    public String addNewVoucher(RedirectAttributes redirectAttributes) {
+    public String addNewVoucher(@ModelAttribute("voucherDt") Voucherdt voucherdt,
+            RedirectAttributes redirectAttributes) {
 
 
 

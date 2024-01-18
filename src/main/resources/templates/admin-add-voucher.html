@@ -27,7 +27,7 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <form class="form-horizontal" th:action="@{/addNewVoucher}" method="post"
+                <form class="form-horizontal" th:action="@{/addNewVoucher}" method="post" th:object="voucherDt"
                       enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
@@ -37,7 +37,7 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-4 control-label" for="description">DESCRIPTION</label>
                                 <div class="col-md-8">
-                                    <textarea th:field="*{voucher.description}" id="description"  name="description" class="form-control input-md"
+                                    <textarea th:field="*{description}" id="description"  name="description" class="form-control input-md"
                                               required="required" type="text" placeholder="Less than 60 characters..."></textarea>
                                 </div>
                             </div>
@@ -46,7 +46,15 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-4 control-label" for="description">DISCOUNT VALUE</label>
                                 <div class="col-md-8">
-                                    <input id="vall" th:field="*{voucher.value}" class="form-control input-md"
+                                    <input id="vall" th:field="*{value}" class="form-control input-md"
+                                           required="required" type="number">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-left: 50px;">
+                                <label class="col-md-4 control-label" for="description">POINT COST</label>
+                                <div class="col-md-8">
+                                    <input id="sub" th:field="*{subtractPoint}" class="form-control input-md"
                                            required="required" type="number">
                                 </div>
                             </div>
@@ -54,14 +62,14 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-6 control-label" for="description">MINIMUM ORDER'S PRICE</label>
                                 <div class="col-md-8">
-                                    <input th:field="*{voucher.description}" class="form-control input-md"
+                                    <input th:field="*{min_ordervalue}" class="form-control input-md"
                                            required="required" type="number">
                                 </div>
                             </div>
 
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-12 control-label" for="description">TARGETED CUSTOMER'S POINT RANGE</label>
-                                <select th:field="*{voucher.range}" class="col-md-8 form-control input-md" style="margin-left: 12px;" required="required">
+                                <select th:field="*{check_range}" class="col-md-8 form-control input-md" style="margin-left: 12px;" required="required">
                                     <option value="1">0 - 50</option>
                                     <option value="2">50 - 200</option>
                                     <option value="3">200 - 1000</option>
@@ -73,37 +81,20 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-4 control-label">EXPIRE DATE</label>
                                 <div class="col-md-8">
-                                    <input th:field="*{voucher.expireDate}" class="form-control input-md" required="required"
+                                    <input th:field="*{expired_date}" class="form-control input-md" required="required"
                                            type="date">
                                 </div>
                             </div>
                             <!-- Add other fields here -->
-                            <button type="submit" class="btn btn-primary" onclick="saveForm()" style="margin-left: 60px;">Save</button>
+                            <button type="submit" class="btn btn-primary" onclick="saveForm(event)" style="margin-left: 60px;">Save</button>
                             <a class="btn btn-danger" th:href="admin-customers">Cancel</a>
 
                             <script>
-                                let clickSaved = false;
 
-                                function isFormDirty() {
-                                    let inputElements = document.querySelectorAll('input[type="text"], input[type="number"]');
-                                    for (let i = 0; i < inputElements.length; i++) {
-                                        if (inputElements[i].value !== '') {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
+                                function saveForm(event){
+
                                 }
 
-                                function saveForm() {
-                                    clickSaved = true;
-                                }
-
-                                window.onbeforeunload = function() {
-                                    if (isFormDirty() && !clickSaved) {
-                                        return "Bạn có chắc chắn muốn rời khỏi trang này? Thông tin bạn đã nhập sẽ không được lưu.";
-                                    }
-                                }
-                                isSaved = false;
                             </script>
                         </div>
                     </div>
