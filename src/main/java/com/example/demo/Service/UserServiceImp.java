@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
 import com.example.demo.Respositories.UserRepo;
 import com.example.demo.Utils.ImageUpload;
@@ -9,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -128,5 +132,36 @@ public class UserServiceImp implements UserService {
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userRepo.findAll();
+    }
+
+    @Override
+    public List<User> getUserInRange(int down, int top, int min_point) {
+        List<User> users = userRepo.findUserInRange(down,top,min_point);
+
+        if(users.size()>0){
+
+            return users;
+        }
+        return null;
+    }
+
+    @Override
+    public User updateVoucher(User user) {
+        user.getVoucherList().removeIf(element -> element.getExpireDate().isBefore(LocalDate.now()));
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User deleteVoucherUser(User user, Long VC_id) {
+        user.getVoucherList().removeIf(element -> element.getId()== VC_id);
+        return userRepo.save(user);
+
+    }
+
+    @Override
+    public User updateUserPoint(User user, int point) {
+
+        user.setUserpoint(user.getUserpoint()+point);
+        return userRepo.save(user);
     }
 }

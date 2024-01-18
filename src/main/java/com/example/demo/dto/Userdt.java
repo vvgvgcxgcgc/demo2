@@ -33,6 +33,7 @@ public class Userdt {
     private List<Order> orders;
     private int productTimeOrder;
     private  int canceledOrderTime;
+    private List<Voucher> vouchers;
 
 
 

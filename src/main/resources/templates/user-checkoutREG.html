@@ -288,19 +288,11 @@
         var vouchers = /*[[${user.vouchers}]]*/ [];
         var userRange = 0;
 
-        if ((user.Userpoint >= 0) && (user.Userpoint <= 50)) {
-            userRange = 1;
-        } else if ((user.Userpoint >= 51) && (user.Userpoint <= 200)) {
-            userRange = 2;
-        } else if ((user.Userpoint >= 201) && (user.Userpoint <= 1000)){
-            userRange = 3;
-        } else if (user.Userpoint > 1000) {
-            userRange = 4;
-        }
+
 
         var usableVouchers = [];
         vouchers.forEach(function (voucher) {
-            if ((voucher.check_range === userRange) && (voucher.min_ordervalue < total) && (voucher.subtractPoint < user.Userpoint))
+            if (voucher.min_ordervalue < total)
                 usableVouchers.push(voucher);
         })
 
@@ -316,7 +308,7 @@
         }
 
         if (usableVouchers.length === 0) {
-            document.getElementById("voucherID").value = null;
+            document.getElementById("voucherID").value = 0;
             document.getElementById("voucher").value = "-" + (0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
             document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         } else {

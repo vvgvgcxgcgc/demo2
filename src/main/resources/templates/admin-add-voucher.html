@@ -27,7 +27,10 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-                <form class="form-horizontal" th:action="@{/addNewVoucher}" method="post" th:object="voucherDt"
+                <div th:if="${Error}" id="err">
+                    <p class="alert alert-danger" th:text="${Error}"></p>
+                </div>
+                <form class="form-horizontal" th:action="@{/addNewVoucher}" method="post" th:object="${voucherDt}"
                       enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">

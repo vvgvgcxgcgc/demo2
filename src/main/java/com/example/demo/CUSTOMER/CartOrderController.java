@@ -40,6 +40,7 @@ public class CartOrderController {
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
         User user = userService.findByUsername(principal.getName());
+        user = userService.updateVoucher(user);
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);
@@ -52,6 +53,7 @@ public class CartOrderController {
                 .id(user.getId())
                 .Userpoint(user.getUserpoint())
                 .Phonenumber(user.getPhonenumber())
+                .vouchers(user.getVoucherList())
                 .build();
 
         model.addAttribute("user", customer);
@@ -128,13 +130,17 @@ public class CartOrderController {
     @PostMapping("/place-orderREG")
     public String placeOrderREG(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                                 RedirectAttributes redirectAttributes,
-                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal){
+                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal,@RequestParam("voucherID") Long check){
 
         Order order = orderService.save1(orderdt,principal.getName());
         for (int i = 0; i < productlist.size(); i++) {
             orderService.save_productOrder(order.getId(), productlist.get(i), quantitylist.get(i));
         }
         User user = userService.updateAddress(principal.getName(),orderdt.getAddress());
+        if(check>0)
+             user = userService.deleteVoucherUser(user,check);
+        int point = orderdt.getTotalPrice()/1000;
+        user = userService.updateUserPoint(user,point);
         Orderdt.countOrder++;
 
         redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");

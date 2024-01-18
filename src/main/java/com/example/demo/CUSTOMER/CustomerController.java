@@ -168,6 +168,7 @@ public class CustomerController {
         System.out.println(orderService.getDayRevenue());
 
         User user = userService.findByUsername(principal.getName());
+        user =  userService.updateVoucher(user);
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);
@@ -181,6 +182,7 @@ public class CustomerController {
                 .Userpoint(user.getUserpoint())
                 .Phonenumber(user.getPhonenumber())
                 .orders(user.getOrders())
+                .vouchers(user.getVoucherList())
                 .build();
         model.addAttribute("user", customer);
         return "user-my-account";

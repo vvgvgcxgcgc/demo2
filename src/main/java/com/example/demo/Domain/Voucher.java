@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class Voucher {
     @Column(name = "VoucherId")
     private Long id;
     private Long value;
-
-    private LocalDateTime expireDate;
+    private LocalDate expireDate;
+    private Long min_ordervalue;
+    private  int subtractPoint;
+    private String description;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
