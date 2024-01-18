@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 
 import com.example.demo.Domain.Feedback;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,10 +15,10 @@ import java.util.List;
 
 public class Productdt {
     private String id;
-
-    private String Name;
-    private Long Price;
-    private String Info;
-    private String Image;
-    private  List<Feedback> fb;
+    private String name;
+    private Long price;
+    private Boolean deleted;
+    private String info;
+    private  String image;
+    private List<Feedback> feedBackList;
 }

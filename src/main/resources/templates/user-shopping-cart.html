@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head>
+    <title>Cơm Anh Bảy</title>
+    <div th:replace='~{user-fragments::head}'></div>
+
+
+</head>
+
+<body>
+    <!-- Header section-->
+    <div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin},var3 = ${userFullname})}'></div>
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Shopping Cart</h2>
+                        <div class="breadcrumb__option">
+                            <a href='user-homepage.html'>Home</a>
+                            <span>Shopping Cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Products</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id='cartItems'>
+                                <!-- Các sản phẩm sẽ được thêm vào đây -->
+                            </tbody>
+                        </table>
+                        <label id="noProductInCart" style="display: none; color: red; margin-top: 5px; font-size: large">  No product in cart!</label>
+                    </div>
+
+                    <input id="delProductsId" type="hidden" th:value="${delProductsId}">
+
+                    <script>
+
+                        let delProductsId = document.getElementById("delProductsId").value;
+
+                        console.log("`````````````````````"+ delProductsId);
+
+                        // Lấy danh sách sản phẩm từ localStorage
+                        let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
+                        // Lấy thẻ tbody trong bảng
+                        let cartItems = document.getElementById('cartItems');
+
+                        // Hiển thị danh sách sản phẩm
+                        productsInCart.forEach(function(product, index) {
+                              // Tạo các phần tử HTML tương ứng với thông tin sản phẩm
+                              let tr = document.createElement('tr');
+                              tr.style.paddingTop = "0px";
+                              tr.style.paddingBottom = "0px";
+                              tr.style.height = "50px";
+                              tr.innerHTML = `
+                                    <td class="shoping__cart__item">
+                                        <img src="${product.image}" alt="" width='80px' height='80px'>
+                                        <h5>${product.name}</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">${product.price}</td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <span class="dec qtybtn">-</span>
+                                                <input type="text" id="quantity_${index}" value="${product.quantity}">
+                                                <span class="inc qtybtn">+</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <button class="site-btn-remove" onclick="removeProduct(${index})">Remove</button>
+                                    </td>
+                                `;
+
+                            if (delProductsId.includes(product.id)) {
+                                var warn = document.createElement("label");
+                                warn.style.display = "block";
+                                warn.style.color = "red";
+                                warn.style.marginTop = "5px";
+                                warn.style.marginLeft = "0px";
+                                warn.style.marginBottom = "0px";
+                                warn.style.fontSize = "large";
+                                warn.style.textAlign = "left";
+                                warn.textContent = "This product is no longer available, please remove it from your cart!";
+                                cartItems.appendChild(warn);
+                            }
+
+                            cartItems.appendChild(tr);
+
+                            let decButton = tr.querySelector('.dec');
+                            let incButton = tr.querySelector('.inc');
+
+                            decButton.addEventListener('click', function() {
+                                let input = tr.querySelector('input');
+                                let currentValue = parseInt(input.value);
+                                if (currentValue > 1) {
+                                    input.value = String(currentValue - 1);
+                                    updateQuantity(index, input.value);
+                                }
+                            });
+
+                            incButton.addEventListener('click', function() {
+                                let input = tr.querySelector('input');
+                                let currentValue = parseInt(input.value);
+                                input.value = String(currentValue + 1);
+                                updateQuantity(index, input.value);
+                            });
+
+                            // Thêm listener cho trường input
+                            let quantityInput = document.getElementById(`quantity_${index}`);
+                            quantityInput.addEventListener('change', function(event) {
+                                let newValue = event.target.value;
+                                updateQuantity(index, newValue);
+                            });
+
+                        });
+
+                        // Cập nhật số lượng sản phẩm khi người dùng thay đổi giá trị trong trường input
+                        function updateQuantity(index, value) {
+                            productsInCart[index].quantity = value; // Cập nhật giá trị số lượng trong mảng productsInCart
+                            localStorage.setItem('productsInCart', JSON.stringify(productsInCart)); // Cập nhật lại localStorage
+                        }
+
+                        // Xóa sản phẩm khỏi danh sách
+                        function removeProduct(index) {
+                            productsInCart.splice(index, 1); // Xóa sản phẩm tại vị trí index trong mảng productList
+                            localStorage.setItem('productsInCart', JSON.stringify(productsInCart)); // Cập nhật lại localStorage
+                            location.reload(); // Tải lại trang để cập nhật giao diện
+                        }
+                    </script>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a th:href="@{/homepage}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                        <a th:href="@{/shoping-cart}" class="primary-btn cart-btn cart-btn-right"><span class="fa fa-rotate-180"></span>Update Cart</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+                        <div class="shoping__discount">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <form th:action="@{/checkExistProductInCart}" method="post">
+                            <h5>Cart Total</h5>
+                            <ul>
+                                <li>Total <span id="totalPrice"></span></li>
+                            </ul>
+    <!--                        <a th:href="@{/checkout}">-->
+                            <div>
+                                <!-- Phần tử này sẽ hiển thị nếu displayElement là true -->
+                                <button type="submit" class="primary-btn" onclick="clickProceed(event)">PROCEED TO CHECKOUT</button>
+                            </div>
+
+                            <input type="hidden" name="productsId" id="productsId">
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <script>
+
+                    function clickProceed(event) {
+                        if (productsInCart.length === 0) {
+                            event.preventDefault();
+                            document.getElementById("noProductInCart").style.display = "block";
+                        } else {
+                            var idList = [];
+                            productsInCart.forEach(function (prod) {
+                                idList.push(prod.id);
+                            })
+                            document.getElementById("productsId").value = idList;
+                        }
+                    }
+
+                    // Tính tổng giá trị sản phẩm
+                    let total = (0);
+                    productsInCart.forEach(function(product) {
+                        let priceWithoutCommas = product.price.replace(/,/g, ''); // Loại bỏ dấu phẩy trong giá trị
+
+                        total += parseFloat(priceWithoutCommas)*parseInt(product.quantity);
+                    });
+
+                    // Lấy phần tử span dựa trên id
+                    let totalPriceElement = document.getElementById('totalPrice');
+
+                    // Cập nhật nội dung của thẻ span với tổng giá trị
+                    totalPriceElement.textContent = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+
+                </script>
+
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+
+    <!-- Footer Section-->
+    <div th:replace='~{user-fragments::footer}'></div>
+
+    <!-- Js Plugins -->
+    <div th:replace='~{user-fragments::JS-import}'></div>
+
+</body>
+
+</html>

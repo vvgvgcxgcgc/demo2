@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>Cơm Anh Bảy</title>
+    <div th:replace='~{user-fragments::head}'></div>
+</head>
+
+<body>
+    <!-- Header section-->
+    <div th:replace='~{user-fragments::header(var1=${display}, var2= ${checkadmin}, var3 = ${userFullname})}'></div>
+
+<!--    &lt;!&ndash; Hero section &ndash;&gt;-->
+<!--    <div th:replace="~{fragments::hero}"></div>-->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Contact Us</h2>
+                        <div class="breadcrumb__option">
+                            <a href='user-homepage.html'>Home</a>
+                            <span>Contact Us</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <i class='fa fa-phone'></i>
+                        <h4>Phone</h4>
+                        <p>+84 355 064 809</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <i class='fa fa-map-marker'></i>
+                        <h4>Address</h4>
+                        <p>1 Dai Co Viet, Hai Ba Trung, HN</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <i class='fa fa-clock'></i>
+                        <h4>Open time</h4>
+                        <p>8:00 to 23:00</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <i class='fa fa-envelope'></i>
+                        <h4>Email</h4>
+                        <p>nhom7@cnpm.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Map Begin -->
+    <div class="map">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6041598958564!2d105.84861567509519!3d21.008498788474537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab8a923b2add%3A0xf87c3c9efbb0d962!2zMSDEkOG6oWkgQ-G7kyBWaeG7h3QsIEPhuqd1IEThu4FuLCBIYWkgQsOgIFRyxrBuZywgSMOgIE7hu5lpLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1703361044073!5m2!1sen!2s"
+            height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        <div class="map-inside">
+            <i class="fa fa-map-pin"></i>
+            <div class="inside-widget">
+                <h4>Ha Noi</h4>
+                <ul>
+                    <li>Phone: +84 355 064 809</li>
+                    <li>Add: 1 Dai Co Viet, Hai Ba Trung, HN</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Map End -->
+
+    <!-- Contact Form Begin -->
+    <div class="contact-form spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="contact__form__title">
+                        <h2>Leave Message</h2>
+                    </div>
+                </div>
+            </div>
+            <form action="#">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <input type="text" placeholder="Your name">
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <input type="text" placeholder="Your Email">
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <textarea placeholder="Your message"></textarea>
+                        <button type="submit" class="site-btn">SEND MESSAGE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Contact Form End -->
+
+    <!-- Footer Section-->
+    <div th:replace='~{user-fragments::footer}'></div>
+
+    <!-- Js Plugins -->
+    <div th:replace='~{user-fragments::JS-import}'></div>
+
+</body>
+
+</html>
