@@ -60,7 +60,7 @@ public class UserConfig {
                 .authorizeHttpRequests( author ->
                             author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                   .requestMatchers("/img/**").permitAll()
-                                  .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed","/admin-feedbacks").hasAuthority("ADMIN")
+                                  .requestMatchers("/admin-update-product/","/admin-products","/admin-dashboard","/admin-add-product", "/admin-orders-pending", "/admin-orders-completed","/admin-feedbacks", "/admin-customers", "/admin-add-voucher").hasAuthority("ADMIN")
                                   .requestMatchers("/my-account", "/checkoutREG").hasAuthority("CUSTOMER")
                                   .requestMatchers("/homepage", "/register", "/register-new","/shoping-cart", "/checkout","/checkoutdata","/place-order", "/contact", "/forgot-password", "/reset-password","/forgotPass", "/checkForgotPass","/login?error","/do-login", "/updatePass", "/searchProduct", "/checkExistProductInCart").permitAll()
 

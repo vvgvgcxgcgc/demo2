@@ -124,4 +124,9 @@ public class UserServiceImp implements UserService {
         user.setPassword(password);
         return userRepo.save(user);
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) userRepo.findAll();
+    }
 }

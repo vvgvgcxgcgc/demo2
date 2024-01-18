@@ -1,5 +1,8 @@
 package com.example.demo.ADMIN;
 
+import com.example.demo.Domain.User;
+import com.example.demo.Service.UserService;
+import com.example.demo.dto.Userdt;
 import com.example.demo.Domain.Feedback;
 import com.example.demo.Service.FeedbackService;
 import com.example.demo.dto.Feedbackdt;
@@ -9,6 +12,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ import java.util.List;
 @Log
 public class FeedbackController {
     private final FeedbackService feedbackService;
+    private final UserService userService;
 
     @GetMapping("/admin-feedbacks")
     public String viewFeedback(Model model){
@@ -40,4 +45,30 @@ public class FeedbackController {
         feedbackService.deleteFB(id);
         return "redirect:/admin-feedbacks";
     }
+
+    @GetMapping("/admin-add-voucher")
+    public String addVoucher(Model model) {
+
+
+
+        return "/admin-add-voucher";
+    }
+
+    @PostMapping("/addNewVoucher")
+    public String addNewVoucher(RedirectAttributes redirectAttributes) {
+
+
+
+        return "redirect:/admin-customers";
+    }
+
+    @GetMapping("/admin-customers")
+    public String viewCustomers(Model model) {
+
+        List<User> users = userService.getAllUsers();
+
+        model.addAttribute("users", users);
+        return "/admin-customers";
+    }
+
 }

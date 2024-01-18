@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,6 +22,9 @@ public class Voucher {
     @Column(name = "VoucherId")
     private Long id;
     private Long value;
+
+    private LocalDateTime expireDate;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "User_Voucher",
