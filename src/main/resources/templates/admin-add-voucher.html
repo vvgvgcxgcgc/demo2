@@ -37,8 +37,8 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-4 control-label" for="description">DESCRIPTION</label>
                                 <div class="col-md-8">
-                                    <textarea id="description"  name="description" class="form-control input-md"
-                                              required="" type="text" placeholder="Less than 60 characters..."></textarea>
+                                    <textarea th:field="*{voucher.description}" id="description"  name="description" class="form-control input-md"
+                                              required="required" type="text" placeholder="Less than 60 characters..."></textarea>
                                 </div>
                             </div>
 
@@ -46,34 +46,34 @@
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-4 control-label" for="description">DISCOUNT VALUE</label>
                                 <div class="col-md-8">
-                                    <input id="val"  name="description" class="form-control input-md"
-                                           required="" type="number">
+                                    <input id="vall" th:field="*{voucher.value}" class="form-control input-md"
+                                           required="required" type="number">
                                 </div>
                             </div>
 
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-6 control-label" for="description">MINIMUM ORDER'S PRICE</label>
                                 <div class="col-md-8">
-                                    <input id="val"  name="description" class="form-control input-md"
-                                           required="" type="number">
+                                    <input th:field="*{voucher.description}" class="form-control input-md"
+                                           required="required" type="number">
                                 </div>
                             </div>
 
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-12 control-label" for="description">TARGETED CUSTOMER'S POINT RANGE</label>
-                                <select class="col-md-8" style="margin-left: 12px;">
-                                    <option>0 - 50</option>
-                                    <option>50 - 200</option>
-                                    <option>200 - 1000</option>
-                                    <option>Above 1000</option>
+                                <select th:field="*{voucher.range}" class="col-md-8 form-control input-md" style="margin-left: 12px;" required="required">
+                                    <option value="1">0 - 50</option>
+                                    <option value="2">50 - 200</option>
+                                    <option value="3">200 - 1000</option>
+                                    <option value="4">Above 1000</option>
                                 </select>
                             </div>
 
                             <!-- Text input-->
                             <div class="form-group" style="margin-left: 50px;">
-                                <label class="col-md-4 control-label" for="price">EXPIRE DATE</label>
+                                <label class="col-md-4 control-label">EXPIRE DATE</label>
                                 <div class="col-md-8">
-                                    <input id="price" name="price"  class="form-control input-md" required=""
+                                    <input th:field="*{voucher.expireDate}" class="form-control input-md" required="required"
                                            type="date">
                                 </div>
                             </div>
