@@ -42,7 +42,6 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Phone number</th>
                         <th scope="col">Point</th>
@@ -50,7 +49,6 @@
                     </thead>
                     <tbody>
                     <tr th:each = "u : ${users}">
-                        <th scope="row" th:text = "${u.id}"></th>
                         <th scope="row" th:text = "${u.Fullname}"></th>
                         <th scope="row" th:text = "${u.Phonenumber}"></th>
                         <th scope="row" th:text = "${u.Userpoint}"></th>
