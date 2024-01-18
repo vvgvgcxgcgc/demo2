@@ -37,6 +37,9 @@
 <!--                <form action="#">-->
                 <form id="yourForm" th:action="@{/place-orderREG}" method="post" enctype="multipart/form-data">
                     <div class="row">
+
+                        <input type="hidden" name="voucherID" id="voucherID">
+
                         <div class="col-lg-6 col-md-6">
                             <div class="row">
                                 <div class="col-lg-6">
@@ -192,6 +195,9 @@
                                 <div class="checkout__order__xsubtotal" style="padding-bottom: 10px;">Shipping Fee
                                     <span id="shipping fee" style="float: right"></span>
                                 </div>
+                                <div class="checkout__order__vvouch" style="padding-bottom: 10px;">Voucher discount
+                                    <span id="voucher" style="float: right"></span>
+                                </div>
                                 <div class="checkout__order__total">Total <span id="total"></span></div>
 
                                 <div class="checkout__input__checkbox">
@@ -211,6 +217,7 @@
     </section>
     <!-- Checkout Section End -->
     <script>
+
 
         // Lấy danh sách sản phẩm từ localStorage
         let productsInCart = JSON.parse(localStorage.getItem('productsInCart')) || [];
@@ -242,7 +249,7 @@
         // document.getElementById('total').textContent = total;
         // document.getElementById('subtotal').textContent = total;
         // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
-        document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        // document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("input_totalPrice").value = total1 + 15000;
@@ -274,6 +281,49 @@
             localStorage.setItem('productsInCart', JSON.stringify([]));
 
         });
+
+    </script>
+
+    <script>
+        var vouchers = /*[[${user.vouchers}]]*/ [];
+        var userRange = 0;
+
+        if ((user.Userpoint >= 0) && (user.Userpoint <= 50)) {
+            userRange = 1;
+        } else if ((user.Userpoint >= 51) && (user.Userpoint <= 200)) {
+            userRange = 2;
+        } else if ((user.Userpoint >= 201) && (user.Userpoint <= 1000)){
+            userRange = 3;
+        } else if (user.Userpoint > 1000) {
+            userRange = 4;
+        }
+
+        var usableVouchers = [];
+        vouchers.forEach(function (voucher) {
+            if ((voucher.check_range === userRange) && (voucher.min_ordervalue < total) && (voucher.subtractPoint < user.Userpoint))
+                usableVouchers.push(voucher);
+        })
+
+        var bestVoucher = null;
+        var maxValue = -Infinity;
+
+        for (var i = 0; i < vouchers.length; i++) {
+            var currentVoucher = vouchers[i];
+            if (currentVoucher.value > maxValue) {
+                maxValue = currentVoucher.value;
+                bestVoucher = currentVoucher;
+            }
+        }
+
+        if (usableVouchers.length === 0) {
+            document.getElementById("voucherID").value = null;
+            document.getElementById("voucher").value = "-" + (0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+            document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        } else {
+            document.getElementById("voucherID").value = bestVoucher.id;
+            document.getElementById("voucher").value = "-" + (bestVoucher.value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+            document.getElementById('total').textContent = (total1 + 15000 - bestVoucher.value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        }
 
     </script>
 

@@ -178,6 +178,7 @@
                     <a class="list-group-item list-group-item-action active" data-toggle="list" href="#acc-info">Personal Information</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#acc-change">Set Profile</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#view-orders">View Orders</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#view-vouchers">View Vouchers</a>
                 </div>
             </div>
 
@@ -372,6 +373,42 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="tab-pane fade" id="view-vouchers">
+                        <div class="card-body pb-2">
+                            <label class="form-label">Your Orders</label>
+                            <table class="table table-bordered">
+                                <thead>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Discount amount</th>
+                                        <th>Expire Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="order-group" th:each="voucher : ${user.vouchers}">
+                                        <td style="width: 300px;">
+                                            <p th:text="${voucher.description}"></p>
+                                        </td>
+                                        <td>
+                                            <p style="color: red" th:text="${#numbers.formatDecimal(voucher.value, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></p>
+                                        </td>
+                                        <td>
+                                            <p th:text="${#temporals.format(voucher.expireDate, 'yyyy-MM-dd')}"></p>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
