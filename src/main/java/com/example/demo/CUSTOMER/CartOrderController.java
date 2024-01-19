@@ -53,7 +53,6 @@ public class CartOrderController {
                 .id(user.getId())
                 .Userpoint(user.getUserpoint())
                 .Phonenumber(user.getPhonenumber())
-                .vouchers(user.getVoucherList())
                 .build();
 
         List<Voucher> vouchersL = customer.getVouchers();
@@ -66,6 +65,11 @@ public class CartOrderController {
         model.addAttribute("vouchers", vouchersL);
         model.addAttribute("user", customer);
         model.addAttribute("order",new Orderdt());
+        List<String> values = new ArrayList<>();
+        for(Voucher voucher: user.getVoucherList()){
+            values.add(voucher.getValue().toString());
+        }
+        model.addAttribute("vouchers",values);
         return "user-checkoutREG";
     }
 
@@ -138,7 +142,7 @@ public class CartOrderController {
     @PostMapping("/place-orderREG")
     public String placeOrderREG(@ModelAttribute("order") Orderdt orderdt, @RequestParam("input_id") List<String> productlist,
                                 RedirectAttributes redirectAttributes,
-                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal,@RequestParam("voucherID") Long check){
+                                @RequestParam("input_quantity")List<Integer> quantitylist,Principal principal,@RequestParam("voucherID") int check){
 
         Order order = orderService.save1(orderdt,principal.getName());
         for (int i = 0; i < productlist.size(); i++) {
@@ -149,6 +153,7 @@ public class CartOrderController {
              user = userService.deleteVoucherUser(user,check);
         int point = orderdt.getTotalPrice()/1000;
         user = userService.updateUserPoint(user,point);
+
         Orderdt.countOrder++;
 
         redirectAttributes.addFlashAttribute("successOrderREG", "Order placed successfully!");

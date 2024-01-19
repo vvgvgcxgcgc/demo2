@@ -24,7 +24,8 @@ public interface UserService {
      public List<User> getUserInRange(int down, int top, int min_point);
 
      public User updateVoucher(User user);
-     public User deleteVoucherUser(User user, Long VC_id);
-     public User updateUserPoint(User user, int point);
+     public User deleteVoucherUser(User user, int value);
+
+    public User updateUserPoint(User user, int point);
 
 }

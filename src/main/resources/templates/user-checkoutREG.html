@@ -195,7 +195,7 @@
                                 <div class="checkout__order__xsubtotal" style="padding-bottom: 10px;">Shipping Fee
                                     <span id="shipping fee" style="float: right"></span>
                                 </div>
-                                <div class="checkout__order__vvouch" style="padding-bottom: 10px;">Voucher discount
+                                <div class="checkout__order__vouch" style="padding-bottom: 10px;">Voucher discount
                                     <span id="voucher" style="float: right"></span>
                                 </div>
                                 <div class="checkout__order__total">Total <span id="total"></span></div>
@@ -249,10 +249,10 @@
         // document.getElementById('total').textContent = total;
         // document.getElementById('subtotal').textContent = total;
         // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
-        document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        // document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-        document.getElementById("input_totalPrice").value = total1 + 15000;
+        // document.getElementById("input_totalPrice").value = total1 + 15000;
         document.getElementById("input_id").value = inputID;
         document.getElementById("input_quantity").value = inputQuan;
 
@@ -284,6 +284,48 @@
 
     </script>
 
+    <script th:inline="javascript">
+
+           var vouchers = /*[[${vouchers}]]*/ [];
+           var voucherList = vouchers.map(function(str) {
+               return parseInt(str); // hoặc parseFloat(str) nếu là số thập phân
+           });
+
+
+
+
+
+
+            var usableVouchers = [];
+           voucherList.forEach(function (value) {
+                if (value < total)
+                    usableVouchers.push(value);
+            })
+
+
+            var maxValue = -Infinity;
+
+            for (var i = 0; i < usableVouchers.length; i++) {
+                var currentVoucher = usableVouchers[i];
+                if (currentVoucher > maxValue) {
+                    maxValue = currentVoucher;
+                }
+            }
+
+            if (usableVouchers.length === 0) {
+                document.getElementById('voucherID').value = 0;
+                document.getElementById('voucher').textContent =  (0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+                document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+                document.getElementById("input_totalPrice").value = total1 + 15000;
+            } else {
+                document.getElementById('voucherID').value = maxValue;
+                document.getElementById('voucher').textContent = (maxValue).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+                document.getElementById('total').textContent = (total1 + 15000 - maxValue).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+                document.getElementById("input_totalPrice").value = total1 + 15000 - maxValue
+            }
+
+
+    </script>
 
     <!-- Footer Section-->
     <div th:replace='~{user-fragments::footer}'></div>

@@ -11,6 +11,7 @@ import java.util.List;
 public interface VoucherService {
     public Voucher save(Voucherdt voucherdt, User user);
     public Voucher update(Voucher voucher , User user);
-
+    public  Voucher deleteUser(Long Vid, Long Uid);
     List<Voucher> getAllVouchers();
+
 }

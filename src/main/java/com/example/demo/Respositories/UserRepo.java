@@ -25,4 +25,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     public List<User> findNewUsers(LocalDateTime startDate, LocalDateTime endDate);
     @Query(value = " SELECT U FROM User U WHERE U.Checkuser = 1 AND U.Userpoint <= :top AND U.Userpoint>=:min_point AND U.Userpoint>= :down")
     List<User> findUserInRange(int down, int top, int min_point);
+    @Query(value = "DELETE FROM user_voucher UV WHERE UV.voucher_id = :vid AND UV.userid = :uid ", nativeQuery = true)
+    Void deleteVoucher(Long vid, Long uid);
 }

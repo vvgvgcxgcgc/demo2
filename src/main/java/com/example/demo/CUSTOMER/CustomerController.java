@@ -168,6 +168,7 @@ public class CustomerController {
         System.out.println(orderService.getDayRevenue());
 
         User user = userService.findByUsername(principal.getName());
+        System.out.println(user.getVoucherList().size());
         user =  userService.updateVoucher(user);
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);

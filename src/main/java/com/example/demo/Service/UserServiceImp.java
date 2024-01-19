@@ -1,31 +1,33 @@
 package com.example.demo.Service;
 
-import com.example.demo.Domain.Product;
 import com.example.demo.Domain.User;
+import com.example.demo.Domain.Voucher;
 import com.example.demo.Respositories.UserRepo;
 import com.example.demo.Utils.ImageUpload;
 import com.example.demo.dto.Userdt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 
 public class UserServiceImp implements UserService {
     private final UserRepo userRepo;
     private final ImageUpload imageUpload;
+    private final VoucherService voucherService;
     @Autowired
-    public UserServiceImp(UserRepo userRepo, ImageUpload imageUpload) {
+    public UserServiceImp(UserRepo userRepo, ImageUpload imageUpload, VoucherService voucherService) {
         this.userRepo = userRepo;
         this.imageUpload = imageUpload;
+        this.voucherService = voucherService;
     }
 
     @Override
@@ -152,9 +154,24 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User deleteVoucherUser(User user, Long VC_id) {
-        user.getVoucherList().removeIf(element -> element.getId()== VC_id);
-        return userRepo.save(user);
+    @Transactional
+    public User deleteVoucherUser(User user, int value) {
+        long id = 0;
+        Long MIN = Long.MAX_VALUE;
+
+        for(Voucher voucher : user.getVoucherList()){
+            if(voucher.getValue()==value){
+                System.out.println("JHHJHJHJ");
+                Long time = voucher.getExpireDate().toEpochDay();
+                if(time<MIN) {
+                    MIN = time; id = voucher.getId();
+                }
+            }
+        }
+        long Id = id;
+        voucherService.deleteUser(id,user.getId());
+
+        return userRepo.findByUsername(user.getUsername());
 
     }
 

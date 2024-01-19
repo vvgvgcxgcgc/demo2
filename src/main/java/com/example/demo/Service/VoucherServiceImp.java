@@ -40,4 +40,11 @@ public class VoucherServiceImp implements VoucherService{
     public List<Voucher> getAllVouchers() {
         return voucherRepos.findAll();
     }
+
+    @Override
+    public Voucher deleteUser(Long Vid, Long Uid) {
+        Voucher voucher = voucherRepos.getReferenceById(Vid);
+        voucher.getUserList().removeIf(e ->e.getId() == Uid);
+        return voucherRepos.save(voucher);
+    }
 }

@@ -29,13 +29,15 @@ public class Voucher {
     private  int subtractPoint;
     private String description;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_Voucher",
             joinColumns = { @JoinColumn(name = "VoucherId",referencedColumnName = "VoucherId") },
             inverseJoinColumns = { @JoinColumn(name = "UserId",referencedColumnName = "UserId") }
     )
     private List<User> userList;
+
+
 
 
 }
