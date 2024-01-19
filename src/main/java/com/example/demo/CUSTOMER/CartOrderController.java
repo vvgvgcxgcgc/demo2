@@ -55,14 +55,8 @@ public class CartOrderController {
                 .Phonenumber(user.getPhonenumber())
                 .build();
 
-        List<Voucher> vouchersL = customer.getVouchers();
-        System.out.println("===========================================Vouchers Des=================================================");
-        for (Voucher voucher : vouchersL) {
-            System.out.println(voucher.getDescription());
-        }
-        System.out.println("===========================================Vouchers Des=================================================");
 
-        model.addAttribute("vouchers", vouchersL);
+
         model.addAttribute("user", customer);
         model.addAttribute("order",new Orderdt());
         List<String> values = new ArrayList<>();
