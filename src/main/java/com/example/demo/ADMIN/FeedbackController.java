@@ -69,6 +69,10 @@ public class FeedbackController {
             model.addAttribute("Error", "Value of voucher exceeds 50.000 VND. Change it!");
             return "/admin-add-voucher";
         }
+        else if(voucherdt.getValue()<= 0){
+            model.addAttribute("Error", "Value of voucher must be more than 0 VND. Change it!");
+            return "/admin-add-voucher";
+        }
         else{
             if(voucherdt.getExpired_date().isBefore(LocalDate.now())){
                 model.addAttribute("Error", "The datetime is in the past. Change it!");
