@@ -7,6 +7,7 @@ import com.example.demo.dto.Voucherdt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,16 @@ public class VoucherServiceImp implements VoucherService{
     @Override
     public List<Voucher> getAllVouchers() {
         return voucherRepos.findAll();
+    }
+
+    @Override
+    public void deleteExpiredVoucher() {
+        List<Voucher> vouchers = voucherRepos.findAll();
+        for(Voucher voucher : vouchers){
+            if(voucher.getExpireDate().isBefore(LocalDate.now())){
+                voucherRepos.delete(voucher);
+            }
+        }
     }
 
     @Override

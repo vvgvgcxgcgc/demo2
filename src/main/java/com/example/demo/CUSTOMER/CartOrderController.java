@@ -24,6 +24,7 @@ public class CartOrderController {
     private final UserService userService;
     private final OrderService orderService;
     private final ProductService productService;
+    private final VoucherService voucherService;
     @GetMapping("/checkout")
     public String showCheckout(Model model, Principal principal){
         if(principal== null) model.addAttribute("display",true);
@@ -40,7 +41,8 @@ public class CartOrderController {
     @GetMapping("/checkoutREG")
     public String showCheckOut(Model model, Principal principal, RedirectAttributes redirectAttributes) {
         User user = userService.findByUsername(principal.getName());
-        user = userService.updateVoucher(user);
+        voucherService.deleteExpiredVoucher();
+
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);

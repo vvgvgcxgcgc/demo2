@@ -28,11 +28,12 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
-                <p th:if="${size == 0} ">No Voucher</p>
                 <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
                     <p th:text = "${success}"></p>
                 </div>
+
+                <p th:if="${size == 0} ">No Voucher</p>
+
                 <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
                     <p th:text = "${error}"></p>
                 </div>

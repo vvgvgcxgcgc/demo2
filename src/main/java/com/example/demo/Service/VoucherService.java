@@ -13,5 +13,6 @@ public interface VoucherService {
     public Voucher update(Voucher voucher , User user);
     public  Voucher deleteUser(Long Vid, Long Uid);
     List<Voucher> getAllVouchers();
+    void deleteExpiredVoucher();
 
 }

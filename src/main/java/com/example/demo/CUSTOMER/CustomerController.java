@@ -29,6 +29,8 @@ public class CustomerController {
     private final OrderService orderService;
     private final FeedbackService feedbackService;
     private final DefaultAddressService defaultAddressService;
+    private final VoucherService voucherService;
+
 
     @GetMapping("/contact")
     public String showContact(Model model, Principal principal){
@@ -168,8 +170,8 @@ public class CustomerController {
         System.out.println(orderService.getDayRevenue());
 
         User user = userService.findByUsername(principal.getName());
-        System.out.println(user.getVoucherList().size());
-        user =  userService.updateVoucher(user);
+        //System.out.println(user.getVoucherList().size());
+        voucherService.deleteExpiredVoucher();
         model.addAttribute("userFullname", user.getFullname());
         model.addAttribute("display",false);
         model.addAttribute("checkadmin",false);

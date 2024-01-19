@@ -94,7 +94,8 @@ public class FeedbackController {
                         User user = users.get(i);
                         user = userService.updateUserPoint(user, -voucherdt.getSubtractPoint());
                         voucherService.update(voucher,user);
-                        redirectAttributes.addFlashAttribute("success", "Added voucher successfully");
+
+
                     }
 
                 }
@@ -102,8 +103,10 @@ public class FeedbackController {
             }
 
         }
-
+        redirectAttributes.addFlashAttribute("success", "Added voucher successfully");
         return "redirect:/admin-vouchers";
+
+
     }
 
     @GetMapping("/admin-customers")
@@ -117,6 +120,7 @@ public class FeedbackController {
 
     @GetMapping("/admin-vouchers")
     public String viewVouchers(Model model) {
+        voucherService.deleteExpiredVoucher();
 
         List<Voucher> vouchers = voucherService.getAllVouchers();
 
