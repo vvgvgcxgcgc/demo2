@@ -249,7 +249,7 @@
         // document.getElementById('total').textContent = total;
         // document.getElementById('subtotal').textContent = total;
         // Cập nhật giá trị subtotal trong thẻ span có id='subtotal'
-        // document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
+        document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById('subtotal').textContent = (total1).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("shipping fee").textContent = (15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
         document.getElementById("input_totalPrice").value = total1 + 15000;
@@ -284,40 +284,6 @@
 
     </script>
 
-    <script>
-        var vouchers = /*[[${user.vouchers}]]*/ [];
-        var userRange = 0;
-
-
-
-        var usableVouchers = [];
-        vouchers.forEach(function (voucher) {
-            if (voucher.min_ordervalue < total)
-                usableVouchers.push(voucher);
-        })
-
-        var bestVoucher = null;
-        var maxValue = -Infinity;
-
-        for (var i = 0; i < vouchers.length; i++) {
-            var currentVoucher = vouchers[i];
-            if (currentVoucher.value > maxValue) {
-                maxValue = currentVoucher.value;
-                bestVoucher = currentVoucher;
-            }
-        }
-
-        if (usableVouchers.length === 0) {
-            document.getElementById("voucherID").value = 0;
-            document.getElementById("voucher").value = "-" + (0).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-            document.getElementById('total').textContent = (total1 + 15000).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-        } else {
-            document.getElementById("voucherID").value = bestVoucher.id;
-            document.getElementById("voucher").value = "-" + (bestVoucher.value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-            document.getElementById('total').textContent = (total1 + 15000 - bestVoucher.value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(/\./g, ',');
-        }
-
-    </script>
 
     <!-- Footer Section-->
     <div th:replace='~{user-fragments::footer}'></div>

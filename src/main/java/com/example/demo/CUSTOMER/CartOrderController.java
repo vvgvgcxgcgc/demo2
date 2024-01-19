@@ -56,6 +56,14 @@ public class CartOrderController {
                 .vouchers(user.getVoucherList())
                 .build();
 
+        List<Voucher> vouchersL = customer.getVouchers();
+        System.out.println("===========================================Vouchers Des=================================================");
+        for (Voucher voucher : vouchersL) {
+            System.out.println(voucher.getDescription());
+        }
+        System.out.println("===========================================Vouchers Des=================================================");
+
+        model.addAttribute("vouchers", vouchersL);
         model.addAttribute("user", customer);
         model.addAttribute("order",new Orderdt());
         return "user-checkoutREG";

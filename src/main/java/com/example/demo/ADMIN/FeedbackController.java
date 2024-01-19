@@ -103,7 +103,7 @@ public class FeedbackController {
 
         }
 
-        return "redirect:/admin-customers";
+        return "redirect:/admin-vouchers";
     }
 
     @GetMapping("/admin-customers")
@@ -113,6 +113,15 @@ public class FeedbackController {
 
         model.addAttribute("users", users);
         return "/admin-customers";
+    }
+
+    @GetMapping("/admin-vouchers")
+    public String viewVouchers(Model model) {
+
+        List<Voucher> vouchers = voucherService.getAllVouchers();
+
+        model.addAttribute("vouchers", vouchers);
+        return "/admin-vouchers";
     }
 
 }

@@ -42,6 +42,7 @@
                                 <div class="col-md-8">
                                     <textarea th:field="*{description}" id="description"  name="description" class="form-control input-md"
                                               required="required" type="text" placeholder="Less than 60 characters..."></textarea>
+                                    <label id="exceeded" style="display: none; color: red; margin-top: 5px;">  Exceeded 60 characters!</label>
                                 </div>
                             </div>
 
@@ -72,7 +73,7 @@
 
                             <div class="form-group" style="margin-left: 50px;">
                                 <label class="col-md-12 control-label" for="description">TARGETED CUSTOMER'S POINT RANGE</label>
-                                <select th:field="*{check_range}" class="col-md-8 form-control input-md" style="margin-left: 12px;" required="required">
+                                <select th:field="*{check_range}" class="col-md-8 form-control input-md" style="margin-left: 12px; width: 62.5%;" required="required">
                                     <option value="1">0 - 50</option>
                                     <option value="2">50 - 200</option>
                                     <option value="3">200 - 1000</option>
@@ -90,12 +91,17 @@
                             </div>
                             <!-- Add other fields here -->
                             <button type="submit" class="btn btn-primary" onclick="saveForm(event)" style="margin-left: 60px;">Save</button>
-                            <a class="btn btn-danger" th:href="admin-customers">Cancel</a>
+                            <a class="btn btn-danger" th:href="admin-vouchers">Cancel</a>
+                            <br><br>
 
                             <script>
 
                                 function saveForm(event){
-
+                                    var text = document.getElementById("description").value;
+                                    if (text.length > 60) {
+                                        event.preventDefault();
+                                        document.getElementById("exceeded").style.display = "block";
+                                    }
                                 }
 
                             </script>

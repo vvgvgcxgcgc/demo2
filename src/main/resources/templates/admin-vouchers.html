@@ -1,10 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
 
+<head th:replace = "~{admin-fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul th:replace = "~{admin-fragments::sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace = "~{admin-fragments::top-navbar}">
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <p th:if="${size == 0} ">No Voucher</p>
+                <div id="successMessage" th:if = "${success}" class = "text-center alert alert-success">
+                    <p th:text = "${success}"></p>
+                </div>
+                <div id="errorMessage" th:if = "${error}" class="text-center alert alert-danger">
+                    <p th:text = "${error}"></p>
+                </div>
+
+                <a th:href="@{/admin-add-voucher}" class = "btn btn-primary" style="margin-bottom: 10px;">Add Voucher</a>
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Discription</th>
+                        <th scope="col">Discount amount</th>
+                        <th scope="col">Point cost</th>
+                        <th scope="col">User's point range</th>
+                        <th scope="col">Minimum order's price</th>
+                        <th scope="col">Expire Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each = "v : ${vouchers}">
+                        <th scope="row" th:text = "${v.description}"></th>
+                        <th scope="row" th:text="${#numbers.formatDecimal(v.value, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></th>
+                        <th scope="row" th:text = "${v.subtractPoint}"></th>
+                        <th scope="row" th:text="${v.check_range == 1 ? '0 - 50' : (v.check_range == 2 ? '51 - 200' : (v.check_range == 3 ? '201 - 1000' : 'Above 1000'))}"></th>
+                        <th scope="row" th:text="${#numbers.formatDecimal(v.min_ordervalue, 0, 'COMMA', 3, 'POINT').replace('.000', '') + '&#8363;'}"></th>
+                        <th scope="row" th:text="${#temporals.format(v.expireDate, 'yyyy-MM-dd')}"></th>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace = "~{admin-fragments::footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace = "~{admin-fragments::scroll}">
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace = "~{admin-fragments::script}"></div>
 </body>
+
 </html>

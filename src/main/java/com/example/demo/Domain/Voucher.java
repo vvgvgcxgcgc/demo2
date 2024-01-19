@@ -24,6 +24,7 @@ public class Voucher {
     private Long id;
     private Long value;
     private LocalDate expireDate;
+    private int check_range;
     private Long min_ordervalue;
     private  int subtractPoint;
     private String description;

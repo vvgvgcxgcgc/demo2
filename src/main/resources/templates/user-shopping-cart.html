@@ -178,6 +178,8 @@
                                 <button type="submit" class="primary-btn" onclick="clickProceed(event)">PROCEED TO CHECKOUT</button>
                             </div>
 
+                            <input type="hidden" name="total" id="tol">
+
                             <input type="hidden" name="productsId" id="productsId">
 
                         </form>
@@ -207,6 +209,8 @@
 
                         total += parseFloat(priceWithoutCommas)*parseInt(product.quantity);
                     });
+
+                    document.getElementById("tol").value = total;
 
                     // Lấy phần tử span dựa trên id
                     let totalPriceElement = document.getElementById('totalPrice');

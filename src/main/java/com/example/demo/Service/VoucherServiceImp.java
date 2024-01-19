@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class VoucherServiceImp implements VoucherService{
@@ -18,6 +20,7 @@ public class VoucherServiceImp implements VoucherService{
         Voucher voucher = Voucher.builder()
                 .value(voucherdt.getValue())
                 .expireDate(voucherdt.getExpired_date())
+                .check_range(voucherdt.getCheck_range())
                 .min_ordervalue(voucherdt.getMin_ordervalue())
                 .subtractPoint(voucherdt.getSubtractPoint())
                 .description(voucherdt.getDescription())
@@ -31,5 +34,10 @@ public class VoucherServiceImp implements VoucherService{
     public Voucher update(Voucher voucher, User user) {
         voucher.getUserList().add(user);
         return voucherRepos.save(voucher);
+    }
+
+    @Override
+    public List<Voucher> getAllVouchers() {
+        return voucherRepos.findAll();
     }
 }
