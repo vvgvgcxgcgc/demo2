@@ -68,32 +68,6 @@
                                 <!-- Add other fields here -->
                                 <button type="submit" class="btn btn-primary" onclick="saveForm()" style="margin-left: 60px;">Save</button>
 
-                                <script>
-                                    let clickSaved = false;
-
-                                    function isFormDirty() {
-                                        let inputElements = document.querySelectorAll('input[type="text"], input[type="number"]');
-                                        for (let i = 0; i < inputElements.length; i++) {
-                                            if (inputElements[i].value !== '') {
-                                                return true;
-                                            }
-                                        }
-                                        return false;
-                                    }
-
-                                    function saveForm() {
-                                        clickSaved = true;
-                                    }
-
-                                    window.onbeforeunload = function() {
-                                        if (isFormDirty() && !clickSaved) {
-                                            return "Bạn có chắc chắn muốn rời khỏi trang này? Thông tin bạn đã nhập sẽ không được lưu.";
-                                        }
-                                    }
-
-                                    isSaved = false;
-
-                                </script>
 
                             </div>
                             <div class="col-md-6">
