@@ -133,7 +133,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return (List<User>) userRepo.findAll();
+        List<User> users = (List<User>) userRepo.findAll();
+        users.removeIf(e -> e.getCheckuser()==2);
+        return  users;
     }
 
     @Override
